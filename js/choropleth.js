@@ -4,14 +4,11 @@
  * @param _data						-- the
  */
 
-Choropleth = function(_parentElement, _data){
+Choropleth = function(_parentElement, _data, topology){
     this.parentElement = _parentElement;
     this.data = _data;
     this.displayData = []; // see data wrangling
-
-    // DEBUG RAW DATA
-    // console.log(this.data);
-
+    this.world = topojson.feature(topology, topology.objects.countries).features;
     this.initVis();
 };
 
@@ -41,6 +38,7 @@ Choropleth.prototype.initVis = function() {
         .scale(110)                       // Zoom-level
         .rotate([0, 0]);                   // Map-rotation
 
+    vis.feature = "Sugar-sweetened beverages_2016";
 
 // Projection-settings for orthographic (alternative)
 
@@ -56,20 +54,13 @@ Choropleth.prototype.initVis = function() {
     vis.path = d3.geoPath()
         .projection(vis.projection);
 
-    // var color = d3.scaleSequential(d3.interpolateBlues)
-    //     .domain([0,
-    //         d3.max(vis.data, function (d) {return d["Sugar-sweetened beverages_2016"]})]);
+    vis.color = d3.scaleSequential(d3.interpolateBlues);
 
+    vis.wrangleData();
+};
 
-// Use queue.js to read the datasets
-    queue()
-        .defer(d3.json, "data/world-110m.json")
-        .await(function (error, topology) {
-            if (!error) {
-                vis.world = topojson.feature(topology, topology.objects.countries).features;
-                vis.updateVis();
-            }
-        });
+Choropleth.prototype.wrangleData = function () {
+    this.updateVis();
 };
 
 Choropleth.prototype.updateVis = function () {
@@ -78,6 +69,17 @@ Choropleth.prototype.updateVis = function () {
     vis.svg.selectAll("path")
         .data(vis.world)
         .enter().append("path")
-        .attr("d", vis.path);
+        .attr("d", vis.path)
+        .attr("fill", function (d) {
+            console.log(d);
+            let id = d["id"];
+            console.log(id);
+            if (isNaN(vis.data[id][vis.feature])){
+                return "#999999";
+            } else {
+                console.log(vis.data[id]["country"]);
+                console.log(vis.data[id][vis.feature]);
+                return vis.color(vis.data[id][vis.feature]);
+            }
+        });
 };
-
