@@ -25,7 +25,7 @@ Choropleth.prototype.initVis = function() {
     vis.margin = {top: 0, right: 0, bottom: 30, left: 60};
 
     vis.width = 800 - vis.margin.left - vis.margin.right,
-        vis.height = 100 - vis.margin.top - vis.margin.bottom;
+        vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -36,9 +36,9 @@ Choropleth.prototype.initVis = function() {
 
 
     // Projection-settings for mercator
-    vis.projection = d3.geo.mercator()
-        .center([0, 50])                 // Where to center the map in degrees
-        .scale(160)                       // Zoom-level
+    vis.projection = d3.geoMercator()
+        .center([90, 50])                 // Where to center the map in degrees
+        .scale(110)                       // Zoom-level
         .rotate([0, 0]);                   // Map-rotation
 
 
@@ -56,23 +56,27 @@ Choropleth.prototype.initVis = function() {
     vis.path = d3.geoPath()
         .projection(vis.projection);
 
+    var color = d3.scaleSequential(d3.interpolateBlues)
+        .domain([0,
+            d3.max(vis.data, function (d) {return d["Sugar-sweetened beverages_2016"]})
+
 
 // Use queue.js to read the two datasets asynchronous
     queue()
         .defer(d3.json, "data/world-110m.json")
-        .defer(d3.json, "data/airports.json")
-        .await(vis.renderMap);
+        .await(function (error, topology) {
+            if (!error) {
+                vis.world = topojson.feature(topology, topology.objects.countries).features;
+                vis.updateVis();
+            }
+        });
 };
 
-Choropleth.prototype.renderMap = function (error, topology, data) {
+Choropleth.prototype.updateVis = function () {
+    // Render the world atlas by using the path generator
+    vis.svg.selectAll("path")
+        .data(world)
+        .enter().append("path")
+        .attr("d", vis.path);
+}
 
-  // Convert TopoJSON to GeoJSON (target object = 'countries')
-  var world = topojson.feature(topology, topology.objects.countries).features;
-
-  // Render the world atlas by using the path generator
-  svg.selectAll("path")
-      .data(world)
-    .enter().append("path")
-      .attr("d", path);
-
-};
