@@ -56,12 +56,12 @@ Choropleth.prototype.initVis = function() {
     vis.path = d3.geoPath()
         .projection(vis.projection);
 
-    var color = d3.scaleSequential(d3.interpolateBlues)
-        .domain([0,
-            d3.max(vis.data, function (d) {return d["Sugar-sweetened beverages_2016"]})
+    // var color = d3.scaleSequential(d3.interpolateBlues)
+    //     .domain([0,
+    //         d3.max(vis.data, function (d) {return d["Sugar-sweetened beverages_2016"]})]);
 
 
-// Use queue.js to read the two datasets asynchronous
+// Use queue.js to read the datasets
     queue()
         .defer(d3.json, "data/world-110m.json")
         .await(function (error, topology) {
@@ -73,10 +73,11 @@ Choropleth.prototype.initVis = function() {
 };
 
 Choropleth.prototype.updateVis = function () {
+    var vis = this;
     // Render the world atlas by using the path generator
     vis.svg.selectAll("path")
-        .data(world)
+        .data(vis.world)
         .enter().append("path")
         .attr("d", vis.path);
-}
+};
 
