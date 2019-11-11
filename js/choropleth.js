@@ -60,26 +60,33 @@ Choropleth.prototype.initVis = function() {
 };
 
 Choropleth.prototype.wrangleData = function () {
-    this.updateVis();
+    let vis = this;
+    this.displayData = {};
+    for (let id in vis.data) {
+       if (!isNaN(vis.data[id][vis.feature])) {
+           this.displayData[id] = vis.data[id][vis.feature];
+       }
+    }
+    vis.updateVis();
 };
 
 Choropleth.prototype.updateVis = function () {
-    var vis = this;
+    let vis = this;
+    vis.color.domain([
+        0,
+        d3.max(Object.values(vis.displayData))
+    ]);
     // Render the world atlas by using the path generator
     vis.svg.selectAll("path")
         .data(vis.world)
         .enter().append("path")
         .attr("d", vis.path)
         .attr("fill", function (d) {
-            console.log(d);
             let id = d["id"];
-            console.log(id);
-            if (isNaN(vis.data[id][vis.feature])){
+            if (isNaN(vis.displayData[id])){
                 return "#999999";
             } else {
-                console.log(vis.data[id]["country"]);
-                console.log(vis.data[id][vis.feature]);
-                return vis.color(vis.data[id][vis.feature]);
+                return vis.color(vis.displayData[id]);
             }
         });
 };
