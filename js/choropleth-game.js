@@ -1,23 +1,28 @@
 /*
- * Choropleth - Object constructor function
+ * ChoroplethGame - Object constructor function
  * @param _parentElement 	-- the HTML element in which to draw the visualization
  * @param _data						-- the
  */
 
-Choropleth = function(_parentElement, _data, topology, feature){
+ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.parentElement = _parentElement;
     this.data = _data;
+    console.log(this.data);
     this.displayData = []; // see data wrangling
     this.world = topojson.feature(topology, topology.objects.countries).features;
     this.feature = feature;
     this.initVis();
+    this.mostCount = 0;
+    this.leastCount = 0;
+    this.state = "";
+    // vis.most =
 };
 
 /*
  * Initialize area chart with brushing component
  */
 
-Choropleth.prototype.initVis = function() {
+ChoroplethGame.prototype.initVis = function() {
     var vis = this; // read about the this
 
     vis.margin = {top: 0, right: 0, bottom: 30, left: 60};
@@ -49,29 +54,34 @@ Choropleth.prototype.initVis = function() {
         .attr("class", "title-text")
         .attr("transform", "translate(" + (vis.width / 4) + ", 15)")
         .attr("fill", "#000000")
-        .text(metadata[vis.feature]);
+        .text("Can you guess the countries that consume the most and least?");
 
-    vis.legendGroup = vis.svg.append("g")
-        .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width - 80) + ", 30)");
-
-    vis.legendSequential = d3.legendColor()
-        .shapeWidth(5)
-        .shapeHeight(15)
-        .cells(10)
-        .ascending(true)
-        .orient("vertical");
+    // Render the world atlas by using the path generator
+    vis.svg.selectAll("path")
+        .data(vis.world)
+        .enter().append("path")
+        .attr("class", "country-path")
+        .attr("d", vis.path)
+        .attr("fill", "#999999")
+        .attr("stroke", "#ffffff")
+        .on("mouseover", function(d) {
+            d3.selectAll(".country-path").attr("opacity", "0.25");
+            d3.select(this).attr("opacity", "1.0");
+        })
+        .on("mouseout", function(d) {
+            d3.selectAll(".country-path").attr("opacity", "1.0");
+        });
 
     vis.wrangleData();
 };
 
-Choropleth.prototype.wrangleData = function () {
+ChoroplethGame.prototype.wrangleData = function () {
     let vis = this;
     this.displayData = {};
     for (let id in vis.data) {
-       if (!isNaN(vis.data[id][vis.feature])) {
-           this.displayData[id] = vis.data[id][vis.feature];
-       }
+        if (!isNaN(vis.data[id][vis.feature])) {
+            this.displayData[id] = vis.data[id][vis.feature];
+        }
     }
 
     if (!isNaN(vis.data[208][vis.feature])) {
@@ -84,34 +94,7 @@ Choropleth.prototype.wrangleData = function () {
     vis.updateVis();
 };
 
-Choropleth.prototype.updateVis = function () {
+
+ChoroplethGame.prototype.updateVis = function () {
     let vis = this;
-    vis.color.domain([
-        0,
-        d3.max(Object.values(vis.displayData))
-    ]);
-    // Render the world atlas by using the path generator
-    vis.svg.selectAll("path")
-        .data(vis.world)
-        .enter().append("path")
-        .attr("class", "country-path")
-        .attr("d", vis.path)
-        .attr("fill", function (d) {
-            let id = d["id"];
-            if (isNaN(vis.displayData[id])){
-                return "#999999";
-            } else {
-                return vis.color(vis.displayData[id]);
-            }
-        })
-        .attr("stroke", "#ffffff")
-        .on("mouseover", function(d) {
-            d3.selectAll(".country-path").attr("opacity", "0.25");
-            d3.select(this).attr("opacity", "1");
-        })
-        .on("mouseout", function(d) {
-            d3.selectAll(".country-path").attr("opacity", "1.0");
-        });
-    vis.legendSequential.scale(vis.color);
-    vis.legendGroup.call(vis.legendSequential);
 };
