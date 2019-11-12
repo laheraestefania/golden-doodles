@@ -9,6 +9,7 @@ Choropleth = function(_parentElement, _data, topology){
     this.data = _data;
     this.displayData = []; // see data wrangling
     this.world = topojson.feature(topology, topology.objects.countries).features;
+    console.log(this.data);
     this.initVis();
 };
 
@@ -67,6 +68,14 @@ Choropleth.prototype.wrangleData = function () {
            this.displayData[id] = vis.data[id][vis.feature];
        }
     }
+
+    if (!isNaN(vis.data[208][vis.feature])) {
+        // Color Greenland as Denmark
+        console.log("coloring Greenland");
+        this.displayData[304] = vis.data[208][vis.feature];
+    }
+
+    console.log(vis.displayData);
     vis.updateVis();
 };
 

@@ -69,7 +69,7 @@
 }, {
   "code": "BO",
   "id": 68,
-  "name": "Bolivia, Plurinational State of"
+  "name": "Bolivia"
 }, {
   "code": "BA",
   "id": 70,
@@ -137,7 +137,7 @@
 }, {
   "code": "CD",
   "id": 180,
-  "name": "Congo, the Democratic Republic of the"
+  "name": "Democratic Republic of the Congo"
 }, {
   "code": "CR",
   "id": 188,
@@ -292,7 +292,7 @@
 }, {
   "code": "IR",
   "id": 364,
-  "name": "Iran, Islamic Republic of"
+  "name": "Iran"
 }, {
   "code": "IQ",
   "id": 368,
@@ -332,11 +332,11 @@
 }, {
   "code": "KP",
   "id": 408,
-  "name": "Korea, Democratic People's Republic of"
+  "name": "Democratic People's Republic of Korea"
 }, {
   "code": "KR",
   "id": 410,
-  "name": "Korea, Republic of"
+  "name": "Republic of Korea"
 }, {
   "code": "KW",
   "id": 414,
@@ -379,7 +379,7 @@
   "name": "Luxembourg"
 }, {
   "id": 807,
-  "name": "Macedonia, the former Yugoslav Republic of"
+  "name": "The former Yugoslav Republic of Macedonia"
 }, {
   "code": "MG",
   "id": 450,
@@ -407,7 +407,7 @@
 }, {
   "code": "MD",
   "id": 498,
-  "name": "Moldova, Republic of"
+  "name": "Republic of Moldova"
 }, {
   "code": "MN",
   "id": 496,
@@ -603,7 +603,7 @@
 }, {
   "code": "TZ",
   "id": 834,
-  "name": "Tanzania, United Republic of"
+  "name": "United Republic of Tanzania"
 }, {
   "code": "TH",
   "id": 764,
@@ -667,7 +667,7 @@
 }, {
   "code": "VE",
   "id": 862,
-  "name": "Venezuela, Bolivarian Republic of"
+  "name": "Venezuela"
 }, {
   "code": "VN",
   "id": 704,
