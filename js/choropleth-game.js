@@ -14,7 +14,10 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.initVis();
     this.mostCount = 0;
     this.leastCount = 0;
-    this.state = "";
+    this.mostColor = "rgb(18,49,103)";
+    this.leastColor = "rgb(227,237,247)";
+    // 0 = most, 1 = least
+    this.state = "most";
     // vis.most =
 };
 
@@ -40,7 +43,7 @@ ChoroplethGame.prototype.initVis = function() {
 
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([50, 50])                 // Where to center the map in degrees
+        .center([50, 60])                 // Where to center the map in degrees
         .scale(110)                       // Zoom-level
         .rotate([0, 0]);                   // Map-rotation
 
@@ -48,13 +51,33 @@ ChoroplethGame.prototype.initVis = function() {
     vis.path = d3.geoPath()
         .projection(vis.projection);
 
-    vis.color = d3.scaleSequential(d3.interpolateBlues);
+    vis.legendGroup = vis.svg.append("g")
+        .attr("class", "legendSequential")
+        .attr("transform", "translate(" + (vis.width - 80) + ", 30)");
+
+    vis.legendSequential = d3.legendColor()
+        .shapeWidth(15)
+        .shapeHeight(15)
+        .cells(2)
+        .ascending(true)
+        .orient("vertical")
+        .scale(d3.scaleOrdinal()
+            .domain(["most", "least"])
+            .range(["rgb(18,49,103)", "rgb(227,237,247)"]));
+
+    vis.legendGroup.call(vis.legendSequential);
 
     vis.svg.append("text")
         .attr("class", "title-text")
-        .attr("transform", "translate(" + (vis.width / 4) + ", 15)")
+        .attr("transform", "translate(" + (vis.width / 3) + ", 15)")
         .attr("fill", "#000000")
-        .text("Can you guess the countries that consume the most and least?");
+        .text(vis.feature);
+
+    vis.prompt = vis.svg.append("text")
+        .attr("class", "title-text prompt")
+        .attr("transform", "translate(" + (vis.width / 4) + ", 35)")
+        .attr("fill", "#000000")
+        .text("Can you guess which 5 countries consume the most?");
 
     // Render the world atlas by using the path generator
     vis.svg.selectAll("path")
@@ -62,7 +85,7 @@ ChoroplethGame.prototype.initVis = function() {
         .enter().append("path")
         .attr("class", "country-path")
         .attr("d", vis.path)
-        .attr("fill", "#999999")
+        .attr("fill", noDataColor)
         .attr("stroke", "#ffffff")
         .on("mouseover", function(d) {
             d3.selectAll(".country-path").attr("opacity", "0.25");
@@ -70,6 +93,33 @@ ChoroplethGame.prototype.initVis = function() {
         })
         .on("mouseout", function(d) {
             d3.selectAll(".country-path").attr("opacity", "1.0");
+        })
+        .on("click", function (d) {
+            if (vis.state === "most") {
+                if (d3.select(this).attr("fill") === noDataColor && vis.mostCount < 5) {
+                    d3.select(this).attr("fill", vis.mostColor);
+                    vis.mostCount += 1;
+                    if (vis.mostCount === 5) {
+                        vis.state = "least";
+                        vis.prompt.transition(2000).text("Can you guess which 5 countries consume the least?");
+                    }
+                } else if (d3.select(this).attr("fill") === vis.mostColor) {
+                    vis.mostCount -= 1;
+                    d3.select(this).attr("fill", noDataColor);
+                }
+                // Otherwise, do nothing
+            } else if (vis.state === "least") { // mode === "least
+                if (d3.select(this).attr("fill") === noDataColor && vis.leastCount < 5) {
+                    d3.select(this).attr("fill", vis.leastColor);
+                    vis.leastCount += 1;
+                    if (vis.leastCount === 5) {
+                        vis.state = "";
+                    }
+                } else if (d3.select(this).attr("fill") === vis.leastColor) {
+                    vis.leastCount -= 1;
+                    d3.select(this).attr("fill", noDataColor);
+                }
+            }
         });
 
     vis.wrangleData();

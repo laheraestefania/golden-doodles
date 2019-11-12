@@ -99,7 +99,7 @@ Choropleth.prototype.updateVis = function () {
         .attr("fill", function (d) {
             let id = d["id"];
             if (isNaN(vis.displayData[id])){
-                return "#999999";
+                return noDataColor;
             } else {
                 return vis.color(vis.displayData[id]);
             }

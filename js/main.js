@@ -7,6 +7,7 @@ var dataByCountry = {};
 var allData = [];
 var topology = [];
 var metadata = {};
+var noDataColor = "#999999";
 var categorical = new Set(["iso3", "country", "region", "subregion",
     "child_overweight_plan", "fbdg", "overweight_adults_adoles_plan", "sugar_tax",
     "sodium_plan", "wasting_plan", "country_class", "adult_fem_diabetes_track", "adult_fem_obesity_track",
