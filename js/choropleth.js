@@ -22,7 +22,7 @@ Choropleth.prototype.initVis = function() {
 
     vis.margin = {top: 0, right: 0, bottom: 30, left: 60};
 
-    vis.width = 800 - vis.margin.left - vis.margin.right,
+    vis.width = 900 - vis.margin.left - vis.margin.right,
         vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
@@ -35,7 +35,7 @@ Choropleth.prototype.initVis = function() {
 
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([90, 50])                 // Where to center the map in degrees
+        .center([50, 50])                 // Where to center the map in degrees
         .scale(110)                       // Zoom-level
         .rotate([0, 0]);                   // Map-rotation
 
@@ -56,6 +56,17 @@ Choropleth.prototype.initVis = function() {
         .projection(vis.projection);
 
     vis.color = d3.scaleSequential(d3.interpolateBlues);
+
+    vis.legendGroup = vis.svg.append("g")
+        .attr("class", "legendSequential")
+        .attr("transform", "translate(" + (vis.width - 80) + ", 30)");
+
+    vis.legendSequential = d3.legendColor()
+        .shapeWidth(5)
+        .shapeHeight(15)
+        .cells(10)
+        .ascending(true)
+        .orient("vertical");
 
     vis.wrangleData();
 };
@@ -79,6 +90,8 @@ Choropleth.prototype.wrangleData = function () {
     vis.updateVis();
 };
 
+// import {legend} from "@d3/color-legend"
+
 Choropleth.prototype.updateVis = function () {
     let vis = this;
     vis.color.domain([
@@ -89,6 +102,7 @@ Choropleth.prototype.updateVis = function () {
     vis.svg.selectAll("path")
         .data(vis.world)
         .enter().append("path")
+        .attr("class", "country-path")
         .attr("d", vis.path)
         .attr("fill", function (d) {
             let id = d["id"];
@@ -97,5 +111,17 @@ Choropleth.prototype.updateVis = function () {
             } else {
                 return vis.color(vis.displayData[id]);
             }
+        })
+        .attr("stroke", "#ffffff")
+        .on("mouseover", function(d) {
+            d3.selectAll(".country-path").attr("opacity", "0.25");
+            d3.select(this).attr("opacity", "1");
+        })
+        .on("mouseout", function(d) {
+            d3.selectAll(".country-path").attr("opacity", "1.0");
         });
+    vis.legendSequential.scale(vis.color);
+    vis.legendGroup.call(vis.legendSequential);
 };
+
+// d3 = require("d3@5")
