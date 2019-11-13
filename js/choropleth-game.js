@@ -8,7 +8,6 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.parentElement = _parentElement;
     this.data = _data;
     console.log(this.data);
-    this.displayData = []; // see data wrangling
     this.world = topojson.feature(topology, topology.objects.countries).features;
     this.feature = feature;
     this.initVis();
@@ -16,9 +15,11 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.leastCount = 0;
     this.mostColor = "rgb(18,49,103)";
     this.leastColor = "rgb(227,237,247)";
-    // 0 = most, 1 = least
     this.state = "most";
-    // vis.most =
+    // store the "answers" -which consume the most and least
+    this.most = {};
+    this.least = {};
+    this.countCorrect =0;
 };
 
 /*
@@ -28,9 +29,9 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
 ChoroplethGame.prototype.initVis = function() {
     var vis = this; // read about the this
 
-    vis.margin = {top: 0, right: 0, bottom: 30, left: 60};
+    vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
 
-    vis.width = 900 - vis.margin.left - vis.margin.right,
+    vis.width = 800 - vis.margin.left - vis.margin.right,
         vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
@@ -44,16 +45,26 @@ ChoroplethGame.prototype.initVis = function() {
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
         .center([50, 60])                 // Where to center the map in degrees
-        .scale(110)                       // Zoom-level
-        .rotate([0, 0]);                   // Map-rotation
+        .rotate([0, 0])                // Map-rotation
+        .scale((vis.width - 10) / 2 / Math.PI);
 
     // D3 geo path generator (maps geodata to SVG paths)
     vis.path = d3.geoPath()
         .projection(vis.projection);
 
-    vis.legendGroup = vis.svg.append("g")
+    vis.zoom = d3.zoom()
+        .scaleExtent([1, 8])
+        .translateExtent([[0, 0], [vis.width, vis.height]])
+        .on('zoom', function () {
+            vis.svg.attr('transform', d3.event.transform);
+        });
+
+    d3.select("svg").call(vis.zoom);
+    // vis.svg.call(vis.zoom);
+
+    vis.legendGroup = d3.select("svg").append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width - 80) + ", 30)");
+        .attr("transform", "translate(" + (vis.width - 80) + ", 10)");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(15)
@@ -67,26 +78,34 @@ ChoroplethGame.prototype.initVis = function() {
 
     vis.legendGroup.call(vis.legendSequential);
 
-    vis.svg.append("text")
-        .attr("class", "title-text")
-        .attr("transform", "translate(" + (vis.width / 3) + ", 15)")
-        .attr("fill", "#000000")
-        .text(vis.feature);
+    // Title and prompt
+    // vis.svgReal.append("text")
+    //     .attr("class", "title-text")
+    //     .attr("transform", "translate(" + (vis.width / 4) + ", 25)")
+    //     .attr("fill", "#000000")
+    //     .text(metadata[vis.feature]);
+    //
+    // vis.prompt = vis.svgReal.append("text")
+    //     .attr("class", "title-text prompt")
+    //     .attr("transform", "translate(" + (vis.width / 4) + ", 50)")
+    //     .attr("fill", "#000000")
+    //     .text("Can you guess which 5 countries consume the most?");
+    $("#map-game-title").html(`<h3>${metadata[vis.feature]} </h3>`);
 
-    vis.prompt = vis.svg.append("text")
-        .attr("class", "title-text prompt")
-        .attr("transform", "translate(" + (vis.width / 4) + ", 35)")
-        .attr("fill", "#000000")
-        .text("Can you guess which 5 countries consume the most?");
+    $("#map-game-instructions").hide()
+        .html("Can you guess which 5 countries consume the MOST?")
+        .fadeIn("slow");
 
     // Render the world atlas by using the path generator
-    vis.svg.selectAll("path")
-        .data(vis.world)
-        .enter().append("path")
+    vis.paths = vis.svg.selectAll("path")
+        .data(vis.world);
+
+    vis.paths.enter().append("path")
         .attr("class", "country-path")
         .attr("d", vis.path)
         .attr("fill", noDataColor)
         .attr("stroke", "#ffffff")
+        .attr("stroke-width", 0.25)
         .on("mouseover", function(d) {
             d3.selectAll(".country-path").attr("opacity", "0.25");
             d3.select(this).attr("opacity", "1.0");
@@ -101,7 +120,9 @@ ChoroplethGame.prototype.initVis = function() {
                     vis.mostCount += 1;
                     if (vis.mostCount === 5) {
                         vis.state = "least";
-                        vis.prompt.transition(2000).text("Can you guess which 5 countries consume the least?");
+                        $("#map-game-instructions").fadeOut("slow", function () {
+                            $(this).html("Can you guess which 5 countries consume the LEAST?")
+                        }).fadeIn("slow");
                     }
                 } else if (d3.select(this).attr("fill") === vis.mostColor) {
                     vis.mostCount -= 1;
@@ -114,6 +135,7 @@ ChoroplethGame.prototype.initVis = function() {
                     vis.leastCount += 1;
                     if (vis.leastCount === 5) {
                         vis.state = "";
+                        vis.wrangleData();
                     }
                 } else if (d3.select(this).attr("fill") === vis.leastColor) {
                     vis.leastCount -= 1;
@@ -121,30 +143,66 @@ ChoroplethGame.prototype.initVis = function() {
                 }
             }
         });
-
-    vis.wrangleData();
 };
 
 ChoroplethGame.prototype.wrangleData = function () {
     let vis = this;
-    this.displayData = {};
+    let sorted = [];
     for (let id in vis.data) {
         if (!isNaN(vis.data[id][vis.feature])) {
-            this.displayData[id] = vis.data[id][vis.feature];
+            sorted.push({"id": id, "val" : vis.data[id][vis.feature]})
         }
     }
 
     if (!isNaN(vis.data[208][vis.feature])) {
-        // Color Greenland as Denmark
-        console.log("coloring Greenland");
-        this.displayData[304] = vis.data[208][vis.feature];
+        // Handle Greenland as Denmark
+        sorted.push({id : 304, "val" : vis.data[208][vis.feature]})
     }
-
-    console.log(vis.displayData);
-    vis.updateVis();
+    sorted.sort(function (a, b) {return a.val - b.val});
+    console.log(sorted);
+    sorted.slice(-5).forEach(function (obj) {
+        vis.most[obj["id"]] = obj["val"];
+        console.log("most " + vis.data[obj["id"]]["country"]);
+    });
+    sorted.slice(0, 5).forEach(function (obj) {
+        vis.least[obj["id"]] = obj["val"];
+        console.log("least " + vis.data[obj["id"]]["country"]);
+    });
+    vis.showResults();
 };
 
-
-ChoroplethGame.prototype.updateVis = function () {
+ChoroplethGame.prototype.showResults = function () {
     let vis = this;
+    console.log("hi updating");
+    d3.selectAll(".country-path")
+        .attr("fill",function (d) {
+            let id = d["id"];
+            let currColor = d3.select(this).attr("fill");
+            if (vis.most[id] !== undefined || vis.least[id] !== undefined) {
+                if (currColor === vis.most[id] || currColor === vis.least[id]) {
+                    vis.countCorrect += 1;
+                }
+                if (vis.most[id] !== undefined) {
+                    return vis.mostColor;
+                } else {
+                    return vis.leastColor;
+                }
+            } else {
+                return noDataColor;
+            }
+        });
+
+    $("#map-game-instructions").fadeOut("slow", function () {
+        console.log("updating");
+        let htmlText = "Results! <br>You guessed " + 5 + " out of 10. <br> The countries that consume the MOST are: <ol>";
+        Object.keys(vis.most).forEach(function (id) {
+            htmlText += "<li> " + vis.data[id]["country"] + "</li>"
+        });
+        htmlText += "</ol> <br> The countries that consume the LEAST are: <ol>";
+        Object.keys(vis.least).forEach(function (id) {
+            htmlText += "<li> " + vis.data[id]["country"] + "</li>"
+        });
+        $(this).html(htmlText + "</ol>");
+    }).fadeIn("slow");
+
 };
