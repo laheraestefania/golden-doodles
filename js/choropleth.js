@@ -106,7 +106,7 @@ Choropleth.prototype.updateVis = function () {
         })
         .attr("stroke", "#ffffff")
         .on("mouseover", function(d) {
-            d3.selectAll(".country-path").attr("opacity", "0.25");
+            d3.selectAll(".country-path").attr("opacity", "0.75");
             d3.select(this).attr("opacity", "1");
         })
         .on("mouseout", function(d) {

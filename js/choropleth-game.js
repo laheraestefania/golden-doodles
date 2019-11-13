@@ -7,7 +7,6 @@
 ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.parentElement = _parentElement;
     this.data = _data;
-    console.log(this.data);
     this.world = topojson.feature(topology, topology.objects.countries).features;
     this.feature = feature;
     this.initVis();
@@ -19,7 +18,9 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     // store the "answers" -which consume the most and least
     this.most = {};
     this.least = {};
-    this.countCorrect =0;
+    this.guessedMost = new Set();
+    this.guessedLeast = new Set();
+    this.countCorrect = 0;
 };
 
 /*
@@ -107,7 +108,7 @@ ChoroplethGame.prototype.initVis = function() {
         .attr("stroke", "#ffffff")
         .attr("stroke-width", 0.25)
         .on("mouseover", function(d) {
-            d3.selectAll(".country-path").attr("opacity", "0.25");
+            d3.selectAll(".country-path").attr("opacity", "0.75");
             d3.select(this).attr("opacity", "1.0");
         })
         .on("mouseout", function(d) {
@@ -118,6 +119,8 @@ ChoroplethGame.prototype.initVis = function() {
                 if (d3.select(this).attr("fill") === noDataColor && vis.mostCount < 5) {
                     d3.select(this).attr("fill", vis.mostColor);
                     vis.mostCount += 1;
+                    vis.guessedMost.add(d["id"]);
+                    console.log("added to vis.guessedMost " + vis.data[d["id"]]["country"]);
                     if (vis.mostCount === 5) {
                         vis.state = "least";
                         $("#map-game-instructions").fadeOut("slow", function () {
@@ -126,6 +129,7 @@ ChoroplethGame.prototype.initVis = function() {
                     }
                 } else if (d3.select(this).attr("fill") === vis.mostColor) {
                     vis.mostCount -= 1;
+                    vis.guessedMost.delete(d["id"]);
                     d3.select(this).attr("fill", noDataColor);
                 }
                 // Otherwise, do nothing
@@ -133,12 +137,17 @@ ChoroplethGame.prototype.initVis = function() {
                 if (d3.select(this).attr("fill") === noDataColor && vis.leastCount < 5) {
                     d3.select(this).attr("fill", vis.leastColor);
                     vis.leastCount += 1;
+                    vis.guessedLeast.add(d["id"]);
+                    console.log("added to vis.guessedLeast " + vis.data[d["id"]]["country"]);
                     if (vis.leastCount === 5) {
                         vis.state = "";
+                        console.log(vis.guessedMost);
+                        console.log(vis.guessedLeast);
                         vis.wrangleData();
                     }
                 } else if (d3.select(this).attr("fill") === vis.leastColor) {
                     vis.leastCount -= 1;
+                    vis.guessedLeast.delete(d["id"]);
                     d3.select(this).attr("fill", noDataColor);
                 }
             }
@@ -173,13 +182,12 @@ ChoroplethGame.prototype.wrangleData = function () {
 
 ChoroplethGame.prototype.showResults = function () {
     let vis = this;
-    console.log("hi updating");
     d3.selectAll(".country-path")
         .attr("fill",function (d) {
             let id = d["id"];
-            let currColor = d3.select(this).attr("fill");
             if (vis.most[id] !== undefined || vis.least[id] !== undefined) {
-                if (currColor === vis.most[id] || currColor === vis.least[id]) {
+                if (vis.guessedMost.has(id) || vis.guessedLeast.has(id)) {
+                    console.log("marking " + vis.data[id]["country"] + " as guessed");
                     vis.countCorrect += 1;
                 }
                 if (vis.most[id] !== undefined) {
@@ -193,8 +201,7 @@ ChoroplethGame.prototype.showResults = function () {
         });
 
     $("#map-game-instructions").fadeOut("slow", function () {
-        console.log("updating");
-        let htmlText = "Results! <br>You guessed " + 5 + " out of 10. <br> The countries that consume the MOST are: <ol>";
+        let htmlText = "Results! <br>You guessed " + vis.countCorrect + " out of 10. <br> The countries that consume the MOST are: <ol>";
         Object.keys(vis.most).forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"] + "</li>"
         });
