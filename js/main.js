@@ -58,6 +58,7 @@ function loadData() {
 function createVis() {
 	// TO-DO: Instantiate visualization objects here
     var game = new ChoroplethGame("game", dataByCountry, topology, "Sugar-sweetened beverages_2016");
-    // var map = new Choropleth("map", dataByCountry, topology, "Sugar-sweetened beverages_2016");
+    // $("#map-row").hide();
+    var map = new Choropleth("map", dataByCountry, topology, "Sugar-sweetened beverages_2016");
 
 }

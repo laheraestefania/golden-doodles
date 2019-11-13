@@ -98,21 +98,21 @@ ChoroplethGame.prototype.initVis = function() {
         .fadeIn("slow");
 
     // Render the world atlas by using the path generator
-    vis.paths = vis.svg.selectAll("path")
+    vis.paths = vis.svg.selectAll(".country-path-game")
         .data(vis.world);
 
     vis.paths.enter().append("path")
-        .attr("class", "country-path")
+        .attr("class", "country-path-game")
         .attr("d", vis.path)
         .attr("fill", noDataColor)
         .attr("stroke", "#ffffff")
         .attr("stroke-width", 0.25)
         .on("mouseover", function(d) {
-            d3.selectAll(".country-path").attr("opacity", "0.75");
+            d3.selectAll(".country-path-game").attr("opacity", "0.75");
             d3.select(this).attr("opacity", "1.0");
         })
         .on("mouseout", function(d) {
-            d3.selectAll(".country-path").attr("opacity", "1.0");
+            d3.selectAll(".country-path-game").attr("opacity", "1.0");
         })
         .on("click", function (d) {
             if (vis.state === "most") {
@@ -182,9 +182,10 @@ ChoroplethGame.prototype.wrangleData = function () {
 
 ChoroplethGame.prototype.showResults = function () {
     let vis = this;
-    d3.selectAll(".country-path")
+    vis.svg.selectAll(".country-path-game")
         .attr("fill",function (d) {
             let id = d["id"];
+            console.log("id is " + id);
             if (vis.most[id] !== undefined || vis.least[id] !== undefined) {
                 if (vis.guessedMost.has(id) || vis.guessedLeast.has(id)) {
                     console.log("marking " + vis.data[id]["country"] + " as guessed");
@@ -211,5 +212,6 @@ ChoroplethGame.prototype.showResults = function () {
         });
         $(this).html(htmlText + "</ol>");
     }).fadeIn("slow");
+    // $("#map-row").fadeIn("slow");
 
 };
