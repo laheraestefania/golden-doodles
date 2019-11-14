@@ -20,7 +20,7 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.least = {};
     this.guessedMost = new Set();
     this.guessedLeast = new Set();
-    this.countCorrect = 0;
+    this.correct = 0;
 };
 
 /*
@@ -37,6 +37,7 @@ ChoroplethGame.prototype.initVis = function() {
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
+        .attr("class", "game-svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
         .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
         .append("g")
@@ -60,7 +61,7 @@ ChoroplethGame.prototype.initVis = function() {
             vis.svg.attr('transform', d3.event.transform);
         });
 
-    d3.select("svg").call(vis.zoom);
+    d3.select(".game-svg").call(vis.zoom);
     // vis.svg.call(vis.zoom);
 
     vis.legendGroup = d3.select("svg").append("g")

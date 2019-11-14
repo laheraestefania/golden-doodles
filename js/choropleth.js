@@ -27,6 +27,7 @@ Choropleth.prototype.initVis = function() {
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
+        .attr("class", "choro-svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
         .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
         .append("g")
@@ -43,13 +44,16 @@ Choropleth.prototype.initVis = function() {
     vis.path = d3.geoPath()
         .projection(vis.projection);
 
-    vis.color = d3.scaleSequential(d3.interpolateBlues);
+    vis.zoom = d3.zoom()
+        .scaleExtent([1, 8])
+        .translateExtent([[0, 0], [vis.width, vis.height]])
+        .on('zoom', function () {
+            vis.svg.attr('transform', d3.event.transform);
+        });
 
-    vis.svg.append("text")
-        .attr("class", "title-text")
-        .attr("transform", "translate(" + (vis.width / 4) + ", 15)")
-        .attr("fill", "#000000")
-        .text(metadata[vis.feature]);
+    d3.select(".choro-svg").call(vis.zoom);
+
+    vis.color = d3.scaleSequential(d3.interpolateBlues);
 
     vis.legendGroup = vis.svg.append("g")
         .attr("class", "legendSequential")
@@ -61,6 +65,44 @@ Choropleth.prototype.initVis = function() {
         .cells(10)
         .ascending(true)
         .orient("vertical");
+
+    vis.legendGroup.append("rect")
+        .attr("x", 0)
+        .attr("y", 180)
+        .attr("height",15)
+        .attr("width", 5)
+        .attr("fill", noDataColor);
+
+    vis.legendGroup.append("text")
+        .attr("x", 10)
+        .attr("y", 190)
+        .attr("class", "label")
+        .text("No Data");
+
+    vis.tool_tip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-2, 0])
+        .html(function(d) {
+            console.log(d);
+            let id = d["id"];
+            if (vis.data[id]) {
+                let s = vis.data[id]["country"] + "<br>"+ vis.feature + " : ";
+                if (vis.displayData[id]) {
+                    s+= vis.displayData[id];
+                }
+                return s;
+            } else {
+                return "No Data";
+            }
+        });
+
+    vis.svg.call(vis.tool_tip);
+
+    vis.svg.append("text")
+        .attr("class", "title-text")
+        .attr("transform", "translate(" + (vis.width / 4) + ", 15)")
+        .attr("fill", "#000000")
+        .text(metadata[vis.feature]);
 
     vis.wrangleData();
 };
@@ -76,11 +118,9 @@ Choropleth.prototype.wrangleData = function () {
 
     if (!isNaN(vis.data[208][vis.feature])) {
         // Color Greenland as Denmark
-        console.log("coloring Greenland");
         this.displayData[304] = vis.data[208][vis.feature];
     }
-
-    console.log(vis.displayData);
+    console.log(vis.data);
     vis.updateVis();
 };
 
@@ -105,13 +145,17 @@ Choropleth.prototype.updateVis = function () {
             }
         })
         .attr("stroke", "#ffffff")
+        .attr("stroke-width", 0.25)
         .on("mouseover", function(d) {
             d3.selectAll(".country-path").attr("opacity", "0.75");
             d3.select(this).attr("opacity", "1");
+            vis.tool_tip.show(d);
         })
         .on("mouseout", function(d) {
             d3.selectAll(".country-path").attr("opacity", "1.0");
+            vis.tool_tip.hide(d);
         });
+
     vis.legendSequential.scale(vis.color);
     vis.legendGroup.call(vis.legendSequential);
 };
