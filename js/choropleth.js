@@ -83,7 +83,6 @@ Choropleth.prototype.initVis = function() {
         .attr("class", "d3-tip")
         .offset([-2, 0])
         .html(function(d) {
-            console.log(d);
             let id = d["id"];
             if (vis.data[id]) {
                 let s = vis.data[id]["country"] + "<br>"+ vis.feature + " : ";
@@ -120,7 +119,6 @@ Choropleth.prototype.wrangleData = function () {
         // Color Greenland as Denmark
         this.displayData[304] = vis.data[208][vis.feature];
     }
-    console.log(vis.data);
     vis.updateVis();
 };
 

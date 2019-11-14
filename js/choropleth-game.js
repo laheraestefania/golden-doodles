@@ -16,11 +16,11 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.leastColor = "rgb(227,237,247)";
     this.state = "most";
     // store the "answers" -which consume the most and least
-    this.most = {};
-    this.least = {};
+    this.most = new Set();
+    this.least = new Set();
     this.guessedMost = new Set();
     this.guessedLeast = new Set();
-    this.correct = 0;
+    this.correct = new Set();
 };
 
 /*
@@ -80,18 +80,6 @@ ChoroplethGame.prototype.initVis = function() {
 
     vis.legendGroup.call(vis.legendSequential);
 
-    // Title and prompt
-    // vis.svgReal.append("text")
-    //     .attr("class", "title-text")
-    //     .attr("transform", "translate(" + (vis.width / 4) + ", 25)")
-    //     .attr("fill", "#000000")
-    //     .text(metadata[vis.feature]);
-    //
-    // vis.prompt = vis.svgReal.append("text")
-    //     .attr("class", "title-text prompt")
-    //     .attr("transform", "translate(" + (vis.width / 4) + ", 50)")
-    //     .attr("fill", "#000000")
-    //     .text("Can you guess which 5 countries consume the most?");
     $("#map-game-title").html(`<h3>${metadata[vis.feature]} </h3>`);
 
     $("#map-game-instructions").hide()
@@ -121,7 +109,7 @@ ChoroplethGame.prototype.initVis = function() {
                     d3.select(this).attr("fill", vis.mostColor);
                     vis.mostCount += 1;
                     vis.guessedMost.add(d["id"]);
-                    console.log("added to vis.guessedMost " + vis.data[d["id"]]["country"]);
+                    // console.log("added to vis.guessedMost " + vis.data[d["id"]]["country"]);
                     if (vis.mostCount === 5) {
                         vis.state = "least";
                         $("#map-game-instructions").fadeOut("slow", function () {
@@ -139,7 +127,7 @@ ChoroplethGame.prototype.initVis = function() {
                     d3.select(this).attr("fill", vis.leastColor);
                     vis.leastCount += 1;
                     vis.guessedLeast.add(d["id"]);
-                    console.log("added to vis.guessedLeast " + vis.data[d["id"]]["country"]);
+                    // console.log("added to vis.guessedLeast " + vis.data[d["id"]]["country"]);
                     if (vis.leastCount === 5) {
                         vis.state = "";
                         console.log(vis.guessedMost);
@@ -169,30 +157,31 @@ ChoroplethGame.prototype.wrangleData = function () {
         sorted.push({id : 304, "val" : vis.data[208][vis.feature]})
     }
     sorted.sort(function (a, b) {return a.val - b.val});
-    console.log(sorted);
+    // console.log(sorted);
     sorted.slice(-5).forEach(function (obj) {
-        vis.most[obj["id"]] = obj["val"];
-        console.log("most " + vis.data[obj["id"]]["country"]);
+        vis.most.add(+obj["id"]);
+        // console.log("most " + vis.data[obj["id"]]["country"]);
     });
     sorted.slice(0, 5).forEach(function (obj) {
-        vis.least[obj["id"]] = obj["val"];
-        console.log("least " + vis.data[obj["id"]]["country"]);
+        vis.least.add(+obj["id"]);
+        // console.log("least " + vis.data[obj["id"]]["country"]);
     });
     vis.showResults();
 };
 
 ChoroplethGame.prototype.showResults = function () {
     let vis = this;
+    console.log(vis.most);
+    console.log(vis.least);
     vis.svg.selectAll(".country-path-game")
         .attr("fill",function (d) {
             let id = d["id"];
-            console.log("id is " + id);
-            if (vis.most[id] !== undefined || vis.least[id] !== undefined) {
+            if (vis.most.has(id) || vis.least.has(id)) {
                 if (vis.guessedMost.has(id) || vis.guessedLeast.has(id)) {
-                    console.log("marking " + vis.data[id]["country"] + " as guessed");
-                    vis.countCorrect += 1;
+                    console.log(id + "guessed correctly");
+                    vis.correct.add(id);
                 }
-                if (vis.most[id] !== undefined) {
+                if (vis.most.has(id)) {
                     return vis.mostColor;
                 } else {
                     return vis.leastColor;
@@ -203,16 +192,23 @@ ChoroplethGame.prototype.showResults = function () {
         });
 
     $("#map-game-instructions").fadeOut("slow", function () {
-        let htmlText = "Results! <br>You guessed " + vis.countCorrect + " out of 10. <br> The countries that consume the MOST are: <ol>";
-        Object.keys(vis.most).forEach(function (id) {
+        console.log(vis.correct);
+        console.log(vis.correct.size);
+        let htmlText = "Results! <br>You guessed " + vis.correct.size + " out of 10. <br> The countries that consume the MOST are: <ol>";
+       vis.most.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"] + "</li>"
         });
         htmlText += "</ol> <br> The countries that consume the LEAST are: <ol>";
-        Object.keys(vis.least).forEach(function (id) {
+        vis.least.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"] + "</li>"
         });
         $(this).html(htmlText + "</ol>");
-    }).fadeIn("slow");
-    // $("#map-row").fadeIn("slow");
+    }).fadeIn("slow", function () {
+        $("#map-row").html("<h3>More Generally...</h3> <div id='map'></div>");
+        let map = new Choropleth("map", dataByCountry, topology, "Sugar-sweetened beverages_2016");
+
+    });
+
+
 
 };
