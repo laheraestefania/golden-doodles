@@ -9,7 +9,6 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.data = _data;
     this.world = topojson.feature(topology, topology.objects.countries).features;
     this.feature = feature;
-    this.initVis();
     this.mostCount = 0;
     this.leastCount = 0;
     this.mostColor = "rgb(18,49,103)";
@@ -21,6 +20,9 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.guessedMost = new Set();
     this.guessedLeast = new Set();
     this.correct = new Set();
+    this.guessLimit = 4;
+
+    this.initVis();
 };
 
 /*
@@ -83,7 +85,7 @@ ChoroplethGame.prototype.initVis = function() {
     $("#map-game-title").html(`<h3>${metadata[vis.feature]} </h3>`);
 
     $("#map-game-instructions").hide()
-        .html("Can you guess which 5 countries consume the MOST?")
+        .html("Can you guess which " + vis.guessLimit + " countries consume the MOST?")
         .fadeIn("slow");
 
     // Render the world atlas by using the path generator
@@ -105,15 +107,15 @@ ChoroplethGame.prototype.initVis = function() {
         })
         .on("click", function (d) {
             if (vis.state === "most") {
-                if (d3.select(this).attr("fill") === noDataColor && vis.mostCount < 5) {
+                if (d3.select(this).attr("fill") === noDataColor && vis.mostCount < vis.guessLimit) {
                     d3.select(this).attr("fill", vis.mostColor);
                     vis.mostCount += 1;
                     vis.guessedMost.add(d["id"]);
                     // console.log("added to vis.guessedMost " + vis.data[d["id"]]["country"]);
-                    if (vis.mostCount === 5) {
+                    if (vis.mostCount === vis.guessLimit) {
                         vis.state = "least";
                         $("#map-game-instructions").fadeOut("slow", function () {
-                            $(this).html("Can you guess which 5 countries consume the LEAST?")
+                            $(this).html("Can you guess which " + vis.guessLimit + " countries consume the LEAST?")
                         }).fadeIn("slow");
                     }
                 } else if (d3.select(this).attr("fill") === vis.mostColor) {
@@ -123,12 +125,12 @@ ChoroplethGame.prototype.initVis = function() {
                 }
                 // Otherwise, do nothing
             } else if (vis.state === "least") { // mode === "least
-                if (d3.select(this).attr("fill") === noDataColor && vis.leastCount < 5) {
+                if (d3.select(this).attr("fill") === noDataColor && vis.leastCount < vis.guessLimit) {
                     d3.select(this).attr("fill", vis.leastColor);
                     vis.leastCount += 1;
                     vis.guessedLeast.add(d["id"]);
                     // console.log("added to vis.guessedLeast " + vis.data[d["id"]]["country"]);
-                    if (vis.leastCount === 5) {
+                    if (vis.leastCount === vis.guessLimit) {
                         vis.state = "";
                         console.log(vis.guessedMost);
                         console.log(vis.guessedLeast);
@@ -161,10 +163,10 @@ ChoroplethGame.prototype.wrangleData = function () {
         sorted.push({id : 304, "val" : vis.data[208][vis.feature]})
     }
     sorted.sort(function (a, b) {return a.val - b.val});
-    sorted.slice(-5).forEach(function (obj) {
+    sorted.slice(-vis.guessLimit).forEach(function (obj) {
         vis.most.add(+obj["id"]);
     });
-    sorted.slice(0, 5).forEach(function (obj) {
+    sorted.slice(0, vis.guessLimit).forEach(function (obj) {
         vis.least.add(+obj["id"]);
     });
     vis.showResults();
@@ -176,7 +178,7 @@ ChoroplethGame.prototype.showResults = function () {
         .attr("fill",function (d) {
             let id = d["id"];
             if (vis.most.has(id) || vis.least.has(id)) {
-                if (vis.guessedMost.has(id) || vis.guessedLeast.has(id)) {
+                if ((vis.guessedMost.has(id) && vis.most.has(id)) || (vis.guessedLeast.has(id) && vis.least.has(id))) {
                     console.log(id + "guessed correctly");
                     vis.correct.add(id);
                 }
@@ -191,9 +193,8 @@ ChoroplethGame.prototype.showResults = function () {
         });
 
     $("#map-game-instructions").fadeOut("slow", function () {
-        console.log(vis.correct);
-        console.log(vis.correct.size);
-        let htmlText = "Results! <br>You guessed " + vis.correct.size + " out of 10. <br> The countries that consume the MOST are: <ol>";
+        let htmlText = "Results! <br>You guessed " + vis.correct.size + " out of "
+            + (2 * vis.guessLimit) + ". <br> The countries that consume the MOST are: <ol>";
        vis.most.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"] + "</li>"
         });
