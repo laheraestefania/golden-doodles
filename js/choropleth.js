@@ -55,9 +55,9 @@ Choropleth.prototype.initVis = function() {
 
     vis.color = d3.scaleSequential(d3.interpolateBlues);
 
-    vis.legendGroup = vis.svg.append("g")
+    vis.legendGroup = d3.select(".choro-svg").append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width - 80) + ", 30)");
+        .attr("transform", "translate(" + (vis.width) + ", 30)");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(5)
@@ -97,7 +97,7 @@ Choropleth.prototype.initVis = function() {
 
     vis.svg.call(vis.tool_tip);
 
-    vis.svg.append("text")
+    d3.select(".choro-svg").append("text")
         .attr("class", "title-text")
         .attr("transform", "translate(" + (vis.width / 4) + ", 15)")
         .attr("fill", "#000000")

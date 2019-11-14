@@ -132,7 +132,10 @@ ChoroplethGame.prototype.initVis = function() {
                         vis.state = "";
                         console.log(vis.guessedMost);
                         console.log(vis.guessedLeast);
-                        vis.wrangleData();
+                        // vis.wrangleData();
+                        setTimeout(function () {
+                            vis.wrangleData();
+                        }, 1000);
                     }
                 } else if (d3.select(this).attr("fill") === vis.leastColor) {
                     vis.leastCount -= 1;
@@ -144,6 +147,7 @@ ChoroplethGame.prototype.initVis = function() {
 };
 
 ChoroplethGame.prototype.wrangleData = function () {
+    console.log("wrangling");
     let vis = this;
     let sorted = [];
     for (let id in vis.data) {
@@ -157,22 +161,17 @@ ChoroplethGame.prototype.wrangleData = function () {
         sorted.push({id : 304, "val" : vis.data[208][vis.feature]})
     }
     sorted.sort(function (a, b) {return a.val - b.val});
-    // console.log(sorted);
     sorted.slice(-5).forEach(function (obj) {
         vis.most.add(+obj["id"]);
-        // console.log("most " + vis.data[obj["id"]]["country"]);
     });
     sorted.slice(0, 5).forEach(function (obj) {
         vis.least.add(+obj["id"]);
-        // console.log("least " + vis.data[obj["id"]]["country"]);
     });
     vis.showResults();
 };
 
 ChoroplethGame.prototype.showResults = function () {
     let vis = this;
-    console.log(vis.most);
-    console.log(vis.least);
     vis.svg.selectAll(".country-path-game")
         .attr("fill",function (d) {
             let id = d["id"];
