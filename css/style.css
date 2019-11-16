@@ -11,3 +11,22 @@
     font-size: 10px;
     text-align: center;
 }
+
+/* Tree */
+
+.node circle {
+    fill: #fff;
+    stroke: #bd0026;
+    stroke-width: 3px;
+}
+
+.node text {
+    font: 10px serif;
+    fill: black;
+}
+
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+}
