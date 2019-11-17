@@ -12,38 +12,74 @@
 	<!-- CSS libraries -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/fontawesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/fullpage.css" />
 
 	<!-- Custom CSS code -->
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-	<div class="container-fluid">
-
-		<div class="row">
-			<div class="col-md-12">
-				
-				<h1>Global Nutrition</h1>
-			
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-9">
-				<div id="game"></div>
-			</div>
-			<div class="col-md-3">
-				<div id="map-game-title"></div>
-				<br>
-				<div id="map-game-instructions">
-
+	<div id="fullpage">
+		<div class = "section">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Investigating Health Determinants by Country</h1>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12" id="map-row">
+		<div class = "section">
+			<div class="row">
+				<h1>Global Nutrition</h1>
+				<div class="col-md-3">
+					<div id="map-game-title"></div>
+					<br>
+					<div id="map-game-instructions">
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div id="game"></div>
+				</div>
+
 			</div>
 		</div>
-
+		<div class = "section">
+			<div class="row">
+				<div class="col-md-12" id="map-row">
+				</div>
+			</div>
+		</div>
+		<div class = "section">
+			<h3>How do different countries compare?</h3>
+			<h4> [paragraph] influence of money/funding on nutrition</h4>
+		</div>
+		<div class = "section">
+			<div class = "row">
+				<div class = "col-md-12" id = "scatterplot">
+					<h2>Visualization: Animated Scatterplot</h2>
+				</div>
+			</div>
+		</div>
+		<div class = "section">
+			<div class = "row">
+				<div class = "col-md-12" id = "treemap">
+					<h2>Visualization: Treemap</h2>
+				</div>
+			</div>
+		</div>
+		<div class = "section">
+			<h3>What kind of policies work?</h3>
+			<h4> (maybe a quiz/multiple choice question) </h4>
+		</div>
+		<div class = "section">
+			<div class = "row">
+				<div class = "col-md-12" id = "histogram">
+					<h2>Visualization: Histogram (Nutrition Policy)</h2>
+				</div>
+			</div>
+		</div>
+		<div class = "section">
+			<h3>What can we do to help?</h3>
+			<h4> [List] Resources, Nonprofits, Policies </h4>
+		</div>
 	</div>
 
 	<!-- Load JS libraries -->
@@ -56,6 +92,7 @@
 	<script src="js/d3-scale-chromatic.v1.min.js"></script>
 	<script src="js/d3-tip.js"></script>
 	<script src="js/d3-legend.min.js"></script>
+	<script type="text/javascript" src="js/fullpage.js"></script>
 
 	<!-- Visualization objects -->
 	<script src="js/stackedAreaChart.js"></script>
@@ -66,5 +103,14 @@
 
 	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>
+	<script>
+		new fullpage('#fullpage', {
+			//options here
+			autoScrolling:true,
+			sectionsColor: ['#f2f2f2','whitesmoke', '#4BBFC3', '#7BAABE', 'whitesmoke', '#ccddff']
+		});
+
+	</script>
+
 </body>
 </html>
