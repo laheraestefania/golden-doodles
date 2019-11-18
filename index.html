@@ -19,31 +19,45 @@
 </head>
 <body>
 	<div id="fullpage">
+		<!-- intro -->
 		<div class = "section">
-			<div class="row">
-				<div class="col-md-12">
-					<h1>Investigating Health Determinants by Country</h1>
-				</div>
-			</div>
+			<h1>Investigating Health Determinants by Country</h1>
 		</div>
+
+		<!-- overview, generally malnutrition -->
 		<div class = "section">
-			<div class="row">
-				<h1>Global Nutrition</h1>
-				<div class="col-md-3">
-					<div id="map-game-title"></div>
-					<br>
-					<div id="map-game-instructions">
+			<div class="container-fluid">
+				<div class = "row">
+					<div class = "col-md-12" id = "malnutrition-overview-map">
 					</div>
 				</div>
-				<div class="col-md-9">
-					<div id="game"></div>
-				</div>
-
 			</div>
 		</div>
+
 		<div class = "section">
-			<div class="row">
-				<div class="col-md-12" id="map-row">
+			<div class="container-fluid">
+				<div class="row">
+					<h1>Global Nutrition</h1>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<div id="map-game-title"></div>
+						<br>
+						<div id="map-game-instructions">
+						</div>
+					</div>
+					<div class="col-md-9">
+						<div id="game"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class = "section">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12" id="map-row">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -52,9 +66,11 @@
 			<h4> [paragraph] influence of money/funding on nutrition</h4>
 		</div>
 		<div class = "section">
-			<div class = "row">
-				<div class = "col-md-12" id = "scatterplot">
-					<h2>Visualization: Animated Scatterplot</h2>
+			<div class="container-fluid">
+				<div class = "row">
+					<div class = "col-md-12" id = "scatterplot">
+						<h2>Visualization: Animated Scatterplot</h2>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -70,10 +86,11 @@
 			<h4> (maybe a quiz/multiple choice question) </h4>
 		</div>
 		<div class = "section">
-			<div class = "row">
-				<div class = "col-md-12" >
-					<h2>Visualization: Histogram (Nutrition Policy)</h2>
-					<div id = "histogram"></div>
+			<div class="container-fluid">
+				<div class = "row">
+					<div class = "col-md-12" id = "histogram">
+						<h2>Visualization: Histogram (Nutrition Policy)</h2>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -102,6 +119,7 @@
 	<script src="js/choropleth-game.js"></script>
 	<script src="js/scatterplot.js"></script>
 	<script src="js/histogram.js"></script>
+	<script src="js/choropleth-categorical.js"></script>
 
 	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>
