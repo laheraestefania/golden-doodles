@@ -40,25 +40,18 @@ Histogram.prototype.initVis = function(){
 
     // Scales and axes
     vis.x = d3.scaleLinear()
-        .range([0, vis.width]);
+        .range([0, 400])
+        .domain(d3.extent(vis.data.map(function(d){ return d.Sugar_sweetened_beverages_2016; })));
 
     vis.y = d3.scaleLinear()
-        .range([vis.height, 0]);
+        .range([vis.height, 0])
+        .domain([0, 100]);
 
     vis.xAxis = d3.axisBottom()
         .scale(vis.x);
 
     vis.yAxis = d3.axisLeft()
         .scale(vis.y);
-
-
-    // Set domains
-    var minMaxY= [0, d3.max(vis.data.map(function(d){ return d.count; }))];
-    vis.y.domain(minMaxY);
-
-    var minMaxX = d3.extent(vis.data.map(function(d){ return d.time; }));
-    vis.x.domain(minMaxX);
-
 
     vis.svg.append("g")
         .attr("class", "x-axis axis")
@@ -71,29 +64,22 @@ Histogram.prototype.initVis = function(){
     vis.svg.append("text")
         .attr("x", -50)
         .attr("y", -8)
-        .text("Votes");
+        .text("Sugar Intake Via Sweetened Beverages");
 
 
-    // var bars = vis.svg.selectAll(".bar")
-    //     .data(this.displayData);
-    //
-    // bars.enter().append("rect")
+    // var bars = vis.svg.selectAll("rect")
+    //     .data(vis.countsForBars)
+    //     .enter()
+    //     .append("rect")
     //     .attr("class", "bar")
-    //
-    //     .merge(bars)
-    //     .transition()
-    //     .attr("width", vis.x.bandwidth())
-    //     .attr("height", function(d){
-    //         return vis.height - vis.y(d);
-    //     })
+    //     .attr("width", 70)
+    //     .attr("height", 70)
     //     .attr("x", function(d, index){
     //         return vis.x(index);
     //     })
     //     .attr("y", function(d){
     //         return vis.y(d);
-    //     })
-
-    // bars.exit().remove();
+    //     });
 
 
     // Initialize brushing component
@@ -130,9 +116,35 @@ Histogram.prototype.initVis = function(){
 Histogram.prototype.wrangleData = function(){
     var vis = this;
 
-    vis.displayData = vis.data.map(function(d, i) {
+    vis.displayData = this.data.map(function(d, i) {
         return d.Sugar_sweetened_beverages_2016;
     });
+
+    var firstFifth = 0;
+    var secondFifth = 0;
+    var thirdFifth = 0;
+    var fourthFifth = 0;
+    var fifthFifth = 0;
+
+    vis.displayData.forEach(function(d,i) {
+
+        if (d <= 70 && d >= 0) {
+            firstFifth++ ;
+        } else if (d <= 140 && d >= 71) {
+            secondFifth++;
+        } else if (d <= 210 && d >= 141) {
+            thirdFifth++;
+        } else if (d <= 280 && d >= 211) {
+            fourthFifth++;
+        } else if (d <= 350 && d >= 281) {
+            fifthFifth++;
+        }
+
+    });
+
+    vis.countsForBars = [firstFifth, secondFifth, thirdFifth, fourthFifth, fifthFifth];
+
+    console.log(vis.countsForBars);
 
     console.log(vis.displayData);
 
@@ -149,14 +161,6 @@ Histogram.prototype.updateVis = function(){
 
     // Call brush component here
     vis.brushGroup.call(vis.brush, vis.currentBrushRegion);
-
-    // Call the area function and update the path
-    // D3 uses each data point and passes it to the area function.
-    // The area function translates the data into positions on the path in the SVG.
-    // vis.timePath
-    //     .datum(vis.displayData)
-    //     .attr("d", vis.area)
-    //     .attr("clip-path", "url(#clip)");
 
 
     // Call axis functions with the new domain
