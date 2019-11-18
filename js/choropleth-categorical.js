@@ -26,7 +26,7 @@ var catColorDomain = {"country_class":[
         "experiencing three forms of malnutrition"]}
 
 ChoroplethCategorical.prototype.initVis = function() {
-    var vis = this; // read about the this
+    var vis = this;
 
     vis.margin = {top: 0, right: 120, bottom: 30, left: 60};
 
@@ -118,21 +118,11 @@ ChoroplethCategorical.prototype.wrangleData = function () {
     let vis = this;
     this.displayData = {};
     for (let id in vis.data) {
-       // if (!isNaN(vis.data[id][vis.feature])) {
-       //     this.displayData[id] = vis.data[id][vis.feature];
-       // }
         this.displayData[id] = vis.data[id][vis.feature];
         if (this.displayData[id] === "") {
             this.displayData[id] = "None";
         }
     }
-
-    // if (!isNaN(vis.data[208][vis.feature])) {
-    //     // Color Greenland as Denmark
-    //     this.displayData[304] = vis.data[208][vis.feature];
-    // }
-    // console.log(dataByCountry);
-    // console.log(vis.displayData);
     vis.updateVis();
 };
 

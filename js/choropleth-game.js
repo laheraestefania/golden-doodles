@@ -22,6 +22,8 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.correct = new Set();
     this.guessLimit = 4;
 
+    console.log(_data);
+    console.log(this.data);
     this.initVis();
 };
 
@@ -30,7 +32,7 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
  */
 
 ChoroplethGame.prototype.initVis = function() {
-    var vis = this; // read about the this
+    var vis = this;
 
     vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
 
@@ -38,7 +40,8 @@ ChoroplethGame.prototype.initVis = function() {
         vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
-    vis.svg = d3.select("#" + vis.parentElement).append("svg")
+    vis.parentElt = d3.select("#" + vis.parentElement);
+    vis.svg = vis.parentElt.append("svg")
         .attr("class", "game-svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
         .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
@@ -63,10 +66,10 @@ ChoroplethGame.prototype.initVis = function() {
             vis.svg.attr('transform', d3.event.transform);
         });
 
-    d3.select(".game-svg").call(vis.zoom);
+    vis.parentElt.select(".game-svg").call(vis.zoom);
     // vis.svg.call(vis.zoom);
 
-    vis.legendGroup = d3.select("svg").append("g")
+    vis.legendGroup = vis.parentElt.select("svg").append("g")
         .attr("class", "legendSequential")
         .attr("transform", "translate(" + (vis.width - 80) + ", 10)");
 
@@ -99,11 +102,11 @@ ChoroplethGame.prototype.initVis = function() {
         .attr("stroke", "#ffffff")
         .attr("stroke-width", 0.25)
         .on("mouseover", function(d) {
-            d3.selectAll(".country-path-game").attr("opacity", "0.75");
+            vis.parentElt.selectAll(".country-path-game").attr("opacity", "0.75");
             d3.select(this).attr("opacity", "1.0");
         })
         .on("mouseout", function(d) {
-            d3.selectAll(".country-path-game").attr("opacity", "1.0");
+            vis.parentElt.selectAll(".country-path-game").attr("opacity", "1.0");
         })
         .on("click", function (d) {
             if (vis.state === "most") {
@@ -149,18 +152,16 @@ ChoroplethGame.prototype.initVis = function() {
 };
 
 ChoroplethGame.prototype.wrangleData = function () {
-    console.log("wrangling");
     let vis = this;
+    console.log("wrangling");
+    console.log(vis.data);
+
     let sorted = [];
     for (let id in vis.data) {
+        console.log(vis.data[id][vis.feature]);
         if (!isNaN(vis.data[id][vis.feature])) {
             sorted.push({"id": id, "val" : vis.data[id][vis.feature]})
         }
-    }
-
-    if (!isNaN(vis.data[208][vis.feature])) {
-        // Handle Greenland as Denmark
-        sorted.push({id : 304, "val" : vis.data[208][vis.feature]})
     }
     sorted.sort(function (a, b) {return a.val - b.val});
     sorted.slice(-vis.guessLimit).forEach(function (obj) {
@@ -174,6 +175,11 @@ ChoroplethGame.prototype.wrangleData = function () {
 
 ChoroplethGame.prototype.showResults = function () {
     let vis = this;
+    console.log("result");
+
+    console.log(vis.most);
+    console.log(vis.least);
+
     vis.svg.selectAll(".country-path-game")
         .attr("fill",function (d) {
             let id = d["id"];

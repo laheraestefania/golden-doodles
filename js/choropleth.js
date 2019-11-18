@@ -18,7 +18,7 @@ Choropleth = function(_parentElement, _data, topology, feature){
  */
 
 Choropleth.prototype.initVis = function() {
-    var vis = this; // read about the this
+    var vis = this;
 
     vis.margin = {top: 0, right: 0, bottom: 30, left: 60};
 
@@ -113,11 +113,6 @@ Choropleth.prototype.wrangleData = function () {
        if (!isNaN(vis.data[id][vis.feature])) {
            this.displayData[id] = vis.data[id][vis.feature];
        }
-    }
-
-    if (!isNaN(vis.data[208][vis.feature])) {
-        // Color Greenland as Denmark
-        this.displayData[304] = vis.data[208][vis.feature];
     }
     vis.updateVis();
 };

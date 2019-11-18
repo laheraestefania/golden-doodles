@@ -49,6 +49,8 @@ function loadData() {
 
             allData = nutritionData;
             topology = topology_;
+
+            console.log(allData);
             createVis();
         }
     });
