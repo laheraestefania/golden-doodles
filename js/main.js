@@ -58,5 +58,5 @@ function loadData() {
 function createVis() {
 	// TO-DO: Instantiate visualization objects here
     var game = new ChoroplethGame("game", dataByCountry, topology, "Sugar-sweetened beverages_2016");
-
+    var scatterplot = new Scatterplot("scatterplot", dataByCountry);
 }

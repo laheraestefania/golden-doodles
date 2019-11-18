@@ -23,10 +23,10 @@ Scatterplot = function(_parentElement, _data, _config){
 Scatterplot.prototype.initVis = function(){
     var vis = this;
 
-    vis.margin = { top: 40, right: 50, bottom: 60, left: 150 };
+    vis.margin = { top: 40, right: 40, bottom: 60, left: 60 };
 
-    vis.width = 500 - vis.margin.left - vis.margin.right,
-        vis.height = 300 - vis.margin.top - vis.margin.bottom;
+    vis.width = 700 - vis.margin.left - vis.margin.right,
+        vis.height = 700 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -35,26 +35,28 @@ Scatterplot.prototype.initVis = function(){
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
-    // // Scales and axes
-    // vis.x = d3.scaleLinear()
-    //     .range([0, vis.width]);
-    //
-    // vis.y = d3.scaleBand()
-    //     .range([0, vis.height]);
-    //
-    // vis.yAxis = d3.axisLeft()
-    //     .scale(vis.y);
-    //
-    // vis.svg.append("g")
-    //     .attr("class", "y-axis axis");
-    //
-    // vis.svg.append("g").attr("class", "label");
-    //
-    // vis.svg.append("text").attr("class", "title");
-    //
+    // Scales and axes
+    // x-axis == GDP
+    vis.x = d3.scaleLinear()
+        .range([0, vis.width]);
+
+    // y-axis == Fruit and Veg availability
+    vis.y = d3.scaleLinear()
+        .range([vis.height, 0]);
+
+    vis.yAxis = d3.axisLeft()
+        .scale(vis.y);
+
+    vis.svg.append("g")
+        .attr("class", "y-axis axis");
+
+    vis.svg.append("g").attr("class", "label");
+
+    vis.svg.append("text").attr("class", "title");
+
     // // * TO-DO *
 
-
+    console.log(vis.data);
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 }
@@ -68,6 +70,18 @@ Scatterplot.prototype.wrangleData = function(){
     var vis = this;
 
     // // * TO-DO *
+    vis.displayData = {};
+
+    // Create a sequence from 0 - 14 (priorities: 1-15; array length: 15), initialize values to (0,0)
+    var fruitVegVersusGDP = d3.range(0, 15).map(function(){
+        return [0, 0];
+    });
+
+    for (let id in vis.data) {
+        if (!isNaN(vis.data[id][vis.feature])) {
+            this.displayData[id] = vis.data[id][vis.feature];
+        }
+    }
 
     // Update the visualization
     vis.updateVis();
