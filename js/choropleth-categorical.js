@@ -4,7 +4,7 @@
  * @param _data						-- the
  */
 
-Choropleth = function(_parentElement, _data, topology, feature){
+ChoroplethCategorical = function(_parentElement, _data, topology, feature){
     this.parentElement = _parentElement;
     this.data = _data;
     this.displayData = []; // see data wrangling
@@ -17,17 +17,26 @@ Choropleth = function(_parentElement, _data, topology, feature){
  * Initialize area chart with brushing component
  */
 
-Choropleth.prototype.initVis = function() {
+var catColorScale = {"country_class": ["#999999", "#a3cd61", "#f5bdbc", "#ed5f59", "#971c13"]};
+var catColorDomain = {"country_class":[
+        "No data",
+        "None",
+        "experiencing one form of malnutrition",
+        "experiencing two forms of malnutrition",
+        "experiencing three forms of malnutrition"]}
+
+ChoroplethCategorical.prototype.initVis = function() {
     var vis = this;
 
-    vis.margin = {top: 0, right: 0, bottom: 30, left: 60};
+    vis.margin = {top: 0, right: 120, bottom: 30, left: 60};
 
-    vis.width = 900 - vis.margin.left - vis.margin.right,
+    vis.width = 1000 - vis.margin.left - vis.margin.right,
         vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
-    vis.svg = d3.select("#" + vis.parentElement).append("svg")
-        .attr("class", "choro-svg")
+    vis.parentElt = d3.select("#" + vis.parentElement);
+    vis.svg = vis.parentElt.append("svg")
+        .attr("class", "choro-cat-svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
         .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
         .append("g")
@@ -51,33 +60,28 @@ Choropleth.prototype.initVis = function() {
             vis.svg.attr('transform', d3.event.transform);
         });
 
-    d3.select(".choro-svg").call(vis.zoom);
+    vis.parentElt.select(".choro-cat-svg").call(vis.zoom);
 
-    vis.color = d3.scaleSequential(d3.interpolateBlues);
+    vis.color = d3.scaleOrdinal()
+        .range(["#999999", "#a3cd61", "#f5bdbc", "#ed5f59", "#971c13"])
+        .domain([
+            "No data",
+            "None",
+            "experiencing one form of malnutrition",
+            "experiencing two forms of malnutrition",
+            "experiencing three forms of malnutrition"]);
+        // .domain(catColorDomain[vis.feature])
+        // .range(catColorScale[vis.feature]);
 
-    vis.legendGroup = d3.select(".choro-svg").append("g")
+    vis.legendGroup = vis.parentElt.select(".choro-cat-svg").append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width) + ", 30)");
+        .attr("transform", "translate(" + (vis.width - 20) + ", 30)");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(5)
         .shapeHeight(15)
-        .cells(10)
-        .ascending(true)
-        .orient("vertical");
-
-    vis.legendGroup.append("rect")
-        .attr("x", 0)
-        .attr("y", 180)
-        .attr("height",15)
-        .attr("width", 5)
-        .attr("fill", noDataColor);
-
-    vis.legendGroup.append("text")
-        .attr("x", 10)
-        .attr("y", 190)
-        .attr("class", "label")
-        .text("No Data");
+        .orient("vertical")
+        .scale(vis.color);
 
     vis.tool_tip = d3.tip()
         .attr("class", "d3-tip")
@@ -85,9 +89,12 @@ Choropleth.prototype.initVis = function() {
         .html(function(d) {
             let id = d["id"];
             if (vis.data[id]) {
-                let s = vis.data[id]["country"] + "<br>"+ vis.feature + " : ";
+                let s = vis.data[id]["country"] + "<br>Malnutrition status:";
                 if (vis.displayData[id]) {
                     s+= vis.displayData[id];
+                }
+                if (vis.data[id]["burden_text"]) {
+                    s += "<br>" + vis.data[id]["burden_text"];
                 }
                 return s;
             } else {
@@ -97,32 +104,31 @@ Choropleth.prototype.initVis = function() {
 
     vis.svg.call(vis.tool_tip);
 
-    d3.select(".choro-svg").append("text")
+    vis.parentElt.select(".choro-cat-svg").append("text")
         .attr("class", "title-text")
-        .attr("transform", "translate(" + (vis.width / 4) + ", 15)")
+        .attr("transform", "translate(" + (vis.width / 3) + ", 15)")
         .attr("fill", "#000000")
-        .text(metadata[vis.feature]);
+        .attr("font-size", 20)
+        .text("An Overview of Malnutrition");
 
     vis.wrangleData();
 };
 
-Choropleth.prototype.wrangleData = function () {
+ChoroplethCategorical.prototype.wrangleData = function () {
     let vis = this;
     this.displayData = {};
     for (let id in vis.data) {
-       if (!isNaN(vis.data[id][vis.feature])) {
-           this.displayData[id] = vis.data[id][vis.feature];
-       }
+        this.displayData[id] = vis.data[id][vis.feature];
+        if (this.displayData[id] === "") {
+            this.displayData[id] = "None";
+        }
     }
     vis.updateVis();
 };
 
-Choropleth.prototype.updateVis = function () {
+ChoroplethCategorical.prototype.updateVis = function () {
     let vis = this;
-    vis.color.domain([
-        0,
-        d3.max(Object.values(vis.displayData))
-    ]);
+
     // Render the world atlas by using the path generator
     vis.svg.selectAll("path")
         .data(vis.world)
@@ -131,11 +137,12 @@ Choropleth.prototype.updateVis = function () {
         .attr("d", vis.path)
         .attr("fill", function (d) {
             let id = d["id"];
-            if (isNaN(vis.displayData[id])){
-                return noDataColor;
-            } else {
+            if (vis.displayData[id]) {
                 return vis.color(vis.displayData[id]);
+            } else {
+                return noDataColor;
             }
+
         })
         .attr("stroke", "#ffffff")
         .attr("stroke-width", 0.25)
@@ -148,7 +155,5 @@ Choropleth.prototype.updateVis = function () {
             d3.selectAll(".country-path").attr("opacity", "1.0");
             vis.tool_tip.hide(d);
         });
-
-    vis.legendSequential.scale(vis.color);
     vis.legendGroup.call(vis.legendSequential);
 };

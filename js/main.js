@@ -11,7 +11,7 @@ var noDataColor = "#999999";
 var categorical = new Set(["iso3", "country", "region", "subregion",
     "child_overweight_plan", "fbdg", "overweight_adults_adoles_plan", "sugar_tax",
     "sodium_plan", "wasting_plan", "country_class", "adult_fem_diabetes_track", "adult_fem_obesity_track",
-    "adult_mal_diabetes_track", "adult_mal_obesity_track"]);
+    "adult_mal_diabetes_track", "adult_mal_obesity_track", "burden_text"]);
 
 function loadData() {
     queue()
@@ -49,6 +49,8 @@ function loadData() {
 
             allData = nutritionData;
             topology = topology_;
+
+            console.log(allData);
             createVis();
         }
     });
@@ -58,5 +60,7 @@ function loadData() {
 function createVis() {
 	// TO-DO: Instantiate visualization objects here
     var game = new ChoroplethGame("game", dataByCountry, topology, "Sugar-sweetened beverages_2016");
-
+    var scatterplot = new Scatterplot("scatterplot", dataByCountry);
+    var histogram = new Histogram("histogram", allData);
+    var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
 }
