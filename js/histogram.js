@@ -66,20 +66,21 @@ Histogram.prototype.initVis = function(){
         .attr("y", -8)
         .text("Sugar Intake Via Sweetened Beverages");
 
-
-    // var bars = vis.svg.selectAll("rect")
+    // vis.svg.selectAll("rect")
     //     .data(vis.countsForBars)
     //     .enter()
     //     .append("rect")
+    //     .attr("fill", "red")
     //     .attr("class", "bar")
     //     .attr("width", 70)
     //     .attr("height", 70)
     //     .attr("x", function(d, index){
-    //         return vis.x(index);
+    //         return index;
     //     })
     //     .attr("y", function(d){
-    //         return vis.y(d);
+    //         return d;
     //     });
+
 
 
     // Initialize brushing component
@@ -108,7 +109,7 @@ Histogram.prototype.initVis = function(){
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
-}
+};
 
 
 /** Data wrangling */
@@ -153,7 +154,7 @@ Histogram.prototype.wrangleData = function(){
 
     // Update the visualization
     vis.updateVis();
-}
+};
 
 
 Histogram.prototype.updateVis = function(){
@@ -173,4 +174,4 @@ Histogram.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
 
 
     vis.wrangleData();
-}
+};
