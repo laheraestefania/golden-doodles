@@ -59,6 +59,7 @@ Histogram.prototype.initVis = function(){
     var minMaxX = d3.extent(vis.data.map(function(d){ return d.time; }));
     vis.x.domain(minMaxX);
 
+
     vis.svg.append("g")
         .attr("class", "x-axis axis")
         .attr("transform", "translate(0," + vis.height + ")");
@@ -129,7 +130,14 @@ Histogram.prototype.initVis = function(){
 Histogram.prototype.wrangleData = function(){
     var vis = this;
 
-    this.displayData = this.data;
+    vis.displayData = vis.data.map(function(d, i) {
+        return d.Sugar_sweetened_beverages_2016;
+    });
+
+    console.log(vis.displayData);
+
+    console.log(d3.max(vis.data.map(function(d){ return d.Sugar_sweetened_beverages_2016; })));
+    console.log(d3.min(vis.data.map(function(d){ return d.Sugar_sweetened_beverages_2016; })));
 
     // Update the visualization
     vis.updateVis();
