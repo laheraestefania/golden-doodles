@@ -13,21 +13,34 @@
 
 <div class="container-fluid">
     <div class="row">
+        <form class="form-inline">
+            <div class="form-group">
+                Is
+                <label for="attribute"></label>
+                <select class="form-control" id="attribute">
+                    <option value="country_class">Current Malnutrition State</option>
+                    <option value="adult_fem_diabetes_track">Adult Female Diabetes Track</option>
+                    <option value="adult_fem_obesity_track">Adult Female Obesity Track</option>
+                    <option value="adult_mal_diabetes_track">Adult Male Diabetes Track</option>
+                    <option value="adult_mal_obesity_track">Adult Male Obesity Track</option>
+                </select>
+                a regional, subregional or country problem?
+            </div>
+        </form>
         <div class="col-md-12">
-        <h3>Is malnutrition a regional, subregional or country problem?</h3>
         </div>
     </div>
     <div class="row" id="tree">
     </div>
 </div>
 
-    <script src="js_chris/jquery.min.js"></script>
-    <script src="js_chris/popper.min.js"></script>
-    <script src="js_chris/bootstrap.min.js"></script>
-    <script src="js_chris/d3.min.js"></script>
-    <script src="js_chris/d3-tip.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/d3-tip.js"></script>
 
     <!-- main -->
-    <script src="js_chris/main.js"></script>
+    <script src="js/treemap.js"></script>
 </body>
 </html>

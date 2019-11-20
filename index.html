@@ -97,7 +97,7 @@
 				<div class = "row">
 					<div class = "col-md-12 centered">
                         <select id="selected-feature">
-                            <option value="Sugar-sweetened beverages_2016">Sugar-sweetened Beverage</option>
+                            <option value="Sugar_sweetened_beverages_2016">Sugar-sweetened Beverage</option>
                             <option value="Red meat_2016">Red Meat</option>
                             <option value="Salt_2016">Salt</option>
                             <option value="Calcium_2016">Calcium</option>
@@ -149,11 +149,32 @@
 				</div>
 			</div>
 		</div>
+		<div class = "section">
+			<div class = "row">
+				<div class = "col-md-12" id = "treemap">
+					<form class="form-inline">
+						<div class="form-group">
+							Is
+							<label for="attribute"></label>
+							<select class="form-control" id="attribute">
+								<option value="country_class">Current Malnutrition State</option>
+								<option value="adult_fem_diabetes_track">Adult Female Diabetes Track</option>
+								<option value="adult_fem_obesity_track">Adult Female Obesity Track</option>
+								<option value="adult_mal_diabetes_track">Adult Male Diabetes Track</option>
+								<option value="adult_mal_obesity_track">Adult Male Obesity Track</option>
+							</select>
+							a regional, subregional or country problem?
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 
 		<div class = "section">
 			<h3>What kind of policies work?</h3>
 			<h4> (maybe a quiz/multiple choice question) </h4>
 		</div>
+
 		<div class = "section">
 			<div class="container-fluid">
 				<div class = "row">
@@ -196,6 +217,7 @@
 	<script src="js/scatterplot.js"></script>
 	<script src="js/histogram.js"></script>
 	<script src="js/choropleth-categorical.js"></script>
+	<script src="js/treemap.js"></script>
 
 	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>
