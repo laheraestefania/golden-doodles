@@ -77,9 +77,23 @@
 		<div class = "section">
 			<div class = "row">
 				<div class = "col-md-12" id = "treemap">
-					<h2>Visualization: Treemap (currently in index_chris.html)</h2>
+					<form class="form-inline">
+						<div class="form-group">
+							Is
+							<label for="attribute"></label>
+							<select class="form-control" id="attribute">
+								<option value="country_class">Current Malnutrition State</option>
+								<option value="adult_fem_diabetes_track">Adult Female Diabetes Track</option>
+								<option value="adult_fem_obesity_track">Adult Female Obesity Track</option>
+								<option value="adult_mal_diabetes_track">Adult Male Diabetes Track</option>
+								<option value="adult_mal_obesity_track">Adult Male Obesity Track</option>
+							</select>
+							a regional, subregional or country problem?
+						</div>
+					</form>
 				</div>
 			</div>
+			<div class="row" id="tree">
 		</div>
 		<div class = "section">
 			<h3>What kind of policies work?</h3>
