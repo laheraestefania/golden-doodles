@@ -15,18 +15,18 @@
 /* Tree */
 
 .node circle {
-    fill: #fff;
     stroke: #bd0026;
-    stroke-width: 3px;
+    stroke-width: 1px;
 }
 
 .node text {
     font: 10px serif;
     fill: black;
+    background-color: #ccc;
 }
 
 .link {
     fill: none;
     stroke: #ccc;
-    stroke-width: 2px;
+    stroke-width: 1px;
 }
