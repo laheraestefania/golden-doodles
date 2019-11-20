@@ -30,8 +30,8 @@ ChoroplethCategorical.prototype.initVis = function() {
 
     vis.margin = {top: 0, right: 120, bottom: 30, left: 60};
 
-    vis.width = 1000 - vis.margin.left - vis.margin.right,
-        vis.height = 600 - vis.margin.top - vis.margin.bottom;
+    vis.width = 900 - vis.margin.left - vis.margin.right,
+        vis.height = 500 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.parentElt = d3.select("#" + vis.parentElement);
@@ -46,7 +46,7 @@ ChoroplethCategorical.prototype.initVis = function() {
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
         .center([50, 50])                 // Where to center the map in degrees
-        .scale(110)                       // Zoom-level
+        .scale(100)                       // Zoom-level
         .rotate([0, 0]);                   // Map-rotation
 
     // D3 geo path generator (maps geodata to SVG paths)
@@ -104,12 +104,12 @@ ChoroplethCategorical.prototype.initVis = function() {
 
     vis.svg.call(vis.tool_tip);
 
-    vis.parentElt.select(".choro-cat-svg").append("text")
-        .attr("class", "title-text")
-        .attr("transform", "translate(" + (vis.width / 3) + ", 15)")
-        .attr("fill", "#000000")
-        .attr("font-size", 20)
-        .text("An Overview of Malnutrition");
+    // vis.parentElt.select(".choro-cat-svg").append("text")
+    //     .attr("class", "title-text")
+    //     .attr("transform", "translate(" + (vis.width / 3) + ", 15)")
+    //     .attr("fill", "#000000")
+    //     .attr("font-size", 20)
+    //     .text("An Overview of Malnutrition");
 
     vis.wrangleData();
 };

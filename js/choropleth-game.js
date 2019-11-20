@@ -22,8 +22,6 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.correct = new Set();
     this.guessLimit = 4;
 
-    console.log(_data);
-    console.log(this.data);
     this.initVis();
 };
 
@@ -135,6 +133,7 @@ ChoroplethGame.prototype.initVis = function() {
                     // console.log("added to vis.guessedLeast " + vis.data[d["id"]]["country"]);
                     if (vis.leastCount === vis.guessLimit) {
                         vis.state = "";
+                        console.log("guesses");
                         console.log(vis.guessedMost);
                         console.log(vis.guessedLeast);
                         // vis.wrangleData();
@@ -154,11 +153,9 @@ ChoroplethGame.prototype.initVis = function() {
 ChoroplethGame.prototype.wrangleData = function () {
     let vis = this;
     console.log("wrangling");
-    console.log(vis.data);
 
     let sorted = [];
     for (let id in vis.data) {
-        console.log(vis.data[id][vis.feature]);
         if (!isNaN(vis.data[id][vis.feature])) {
             sorted.push({"id": id, "val" : vis.data[id][vis.feature]})
         }
@@ -170,12 +167,13 @@ ChoroplethGame.prototype.wrangleData = function () {
     sorted.slice(0, vis.guessLimit).forEach(function (obj) {
         vis.least.add(+obj["id"]);
     });
+
     vis.showResults();
 };
 
 ChoroplethGame.prototype.showResults = function () {
     let vis = this;
-    console.log("result");
+    console.log("most and least");
 
     console.log(vis.most);
     console.log(vis.least);
@@ -185,7 +183,6 @@ ChoroplethGame.prototype.showResults = function () {
             let id = d["id"];
             if (vis.most.has(id) || vis.least.has(id)) {
                 if ((vis.guessedMost.has(id) && vis.most.has(id)) || (vis.guessedLeast.has(id) && vis.least.has(id))) {
-                    console.log(id + "guessed correctly");
                     vis.correct.add(id);
                 }
                 if (vis.most.has(id)) {
@@ -199,8 +196,8 @@ ChoroplethGame.prototype.showResults = function () {
         });
 
     $("#map-game-instructions").fadeOut("slow", function () {
-        let htmlText = "Results! <br>You guessed " + vis.correct.size + " out of "
-            + (2 * vis.guessLimit) + ". <br> The countries that consume the MOST are: <ol>";
+        let htmlText = "Results! <br>You guessed <strong>" + vis.correct.size + " out of "
+            + (2 * vis.guessLimit) + "</strong>. <br> The countries that consume the MOST are: <ol>";
        vis.most.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"] + "</li>"
         });
@@ -209,10 +206,7 @@ ChoroplethGame.prototype.showResults = function () {
             htmlText += "<li> " + vis.data[id]["country"] + "</li>"
         });
         $(this).html(htmlText + "</ol>");
-    }).fadeIn("slow", function () {
-        $("#map-row").html("<h3>More Generally...</h3> <div id='map'></div>");
-        let map = new Choropleth("map", dataByCountry, topology, "Sugar-sweetened beverages_2016");
-
+        $(this).fadeIn("slow");
     });
 
 

@@ -22,13 +22,89 @@
 		<!-- intro -->
 		<div class = "section">
 			<h1>Investigating Health Determinants by Country</h1>
+			<!-- can we change this to something like "Investigating Global Health Phenomena" -->
 		</div>
 
 		<!-- overview, generally malnutrition -->
 		<div class = "section">
+
 			<div class="container-fluid">
+
+				<div class="row">
+					<div class = "col-md-12">
+						<h3>Malnutrition is a Global Problem</h3>
+						Every country is affected by malnutrition whether directly or indirectly. The Global Nutrition
+						Report was first conceived in 2013 to "[track] the commitments made by
+						100 stakeholders spanning governments, aid donors, civil society, the UN and businesses"<sup>[1]</sup>.
+						It classified countries by the different forms of malnutrition they face and tracks their progress.
+					</div>
+				</div>
 				<div class = "row">
 					<div class = "col-md-12" id = "malnutrition-overview-map">
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- tree with progress -->
+		<div class = "section">
+			<div class="container-fluid">
+				<div class="row">
+					<div class = "col-md-12">
+						<h3>Tracking Progress</h3>
+						Two types of malnutrition that the Global Nutrition Report tracks are obesity and diabetes.
+						In the 2018 report, it identifies which countries are on track to reach pre-determined goals,
+						and which are behind.
+						<br>
+						Is obesity or diabetes a regional, sub-regional, or country specific problem? Play around with
+						the tree below to see.
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-md-12" id = "progress-tree">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- selection of underlying determinant -->
+		<div class = "section">
+			<div class="container-fluid">
+				<div class="row">
+					<div class = "col-md-3">
+						<img src="img/got_milk.jpg">
+					</div>
+					<div class = "col-md-6">
+						<h3>Diving Deeper: Dietary Needs</h3>
+						In the United States, we often see news and campaigns that address specific dietary goals,
+						such as the "Got Milk" posters throughout the 2000s and early 2010s found in many
+						public schools across the country, and the various click-baiting articles about sugar consumption.
+						The Global Health Nutrition Report is one of the first efforts to estimate consumption of
+						certain food groups, nutrients, and
+						other dietary components that contribute to malnutrition not just in the United States and
+						Western Europe, but all over the world.
+						<br>
+						The 2018 Global Health Nutrition report estimates daily intake in grams/person of
+						several possibly malnutrition determinants.
+						Let's take a closer look at one of them.
+
+					</div>
+                    <div class = "col-md-3">
+                        <img src="img/sugar_article1.jpg">
+                    </div>
+				</div>
+				<div class = "row">
+					<div class = "col-md-12 centered">
+                        <select id="selected-feature">
+                            <option value="Sugar-sweetened beverages_2016">Sugar-sweetened Beverage</option>
+                            <option value="Red meat_2016">Red Meat</option>
+                            <option value="Salt_2016">Salt</option>
+                            <option value="Calcium_2016">Calcium</option>
+                            <option value="Vegetables_2016">Vegetables</option>
+                            <option value="Fruit_2016">Fruit</option>
+                            <option value="Whole grain_2016">Whole Grains</option>
+                        </select>
 					</div>
 				</div>
 			</div>
@@ -36,9 +112,6 @@
 
 		<div class = "section">
 			<div class="container-fluid">
-				<div class="row">
-					<h1>Global Nutrition</h1>
-				</div>
 				<div class="row">
 					<div class="col-md-3">
 						<div id="map-game-title"></div>
@@ -56,7 +129,9 @@
 		<div class = "section">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-12" id="map-row">
+					<div class="col-md-12">
+						<h3>More Generally...</h3>
+						<div id='map'></div>
 					</div>
 				</div>
 			</div>
@@ -74,15 +149,7 @@
 				</div>
 			</div>
 		</div>
-		<div class = "section">
-			<div class="container-fluid">
-				<div class = "row">
-					<div class = "col-md-12" id = "treemap">
-						<h2>Visualization: Treemap</h2>
-					</div>
-				</div>
-			</div>
-		</div>
+
 		<div class = "section">
 			<h3>What kind of policies work?</h3>
 			<h4> (maybe a quiz/multiple choice question) </h4>
@@ -96,10 +163,17 @@
 				</div>
 			</div>
 		</div>
+
+        <!-- outreach section -->
 		<div class = "section">
 			<h3>What can we do to help?</h3>
 			<h4> [List] Resources, Nonprofits, Policies </h4>
 		</div>
+
+        <div class = "about_us">
+            <h3>About Us</h3>
+            This was our 171 project....
+        </div>
 	</div>
 
 	<!-- Load JS libraries -->

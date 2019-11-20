@@ -30,3 +30,12 @@
     stroke: #ccc;
     stroke-width: 2px;
 }
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.centered {
+    text-align: center;
+}

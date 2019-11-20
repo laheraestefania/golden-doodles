@@ -59,8 +59,22 @@ function loadData() {
 
 function createVis() {
 	// TO-DO: Instantiate visualization objects here
-    var game = new ChoroplethGame("game", dataByCountry, topology, "Sugar-sweetened beverages_2016");
+    var feature = $("#selected-feature").val();
+    console.log(feature);
+    var game = new ChoroplethGame("game", dataByCountry, topology, feature);
+    var map = new Choropleth("map", dataByCountry, topology, feature);
     var scatterplot = new Scatterplot("scatterplot", dataByCountry);
     var histogram = new Histogram("histogram", allData);
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
+
+    $("#selected-feature").on("change", function () {
+        var feature = $("#selected-feature").val();
+        console.log("feature is now " + feature);
+        $("#map").html("");
+        $("#game").html("");
+        var game = new ChoroplethGame("game", dataByCountry, topology, feature);
+        var map = new Choropleth("map", dataByCountry, topology, feature);
+
+
+    });
 }
