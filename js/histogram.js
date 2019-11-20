@@ -21,10 +21,11 @@ Histogram = function(_parentElement, _data, _eventHandler ){
 Histogram.prototype.initVis = function(){
     var vis = this;
 
-    vis.margin = { top: 40, right: 0, bottom: 60, left: 60 };
+    vis.margin = { top: 20, right: 0, bottom: 200, left: 140 };
 
-    vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-        vis.height = 300 - vis.margin.top - vis.margin.bottom;
+    vis.width = 800 - vis.margin.left - vis.margin.right,
+    // vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
+        vis.height = 700 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -45,7 +46,7 @@ Histogram.prototype.initVis = function(){
 
     vis.y = d3.scaleLinear()
         .range([vis.height, 0])
-        .domain([0, 100]);
+        .domain([0, 150]);
 
     // vis.xAxis = d3.axisBottom()
     //     .scale(vis.x);
@@ -65,6 +66,12 @@ Histogram.prototype.initVis = function(){
         .attr("x", -50)
         .attr("y", -8)
         .text("Sugar Intake Via Sweetened Beverages");
+
+    // Axis title
+    vis.svg.append("text")
+        .attr("x", 300)
+        .attr("y", 520)
+        .text("Number of Countries Per Grams of Sugar");
 
     vis.displayData = this.data.map(function(d, i) {
         return d.Sugar_sweetened_beverages_2016;
@@ -104,20 +111,22 @@ Histogram.prototype.initVis = function(){
         .attr("class", "bar")
         .attr("width", 70)
         .attr("height", function(d, index) {
-            return d;
+            return vis.height - vis.y(d);
         })
         .attr("x", function(d, index){
-            return 70 + (index * 70) ;
+            return 20 + (index * 120) ;
         })
         .attr("y", function(d, i){
-            return 70;
+            return vis.y(d);
         });
 
-        vis.bar.append("text")
+
+    //Info regarding the building labels
+    vis.bar.enter().append("text")
         .text(function(d, i) {
             console.log(d);
             if (i == 0) {
-                return "0 - 70 grams";
+                return "0 - 70";
             } else if (i == 1) {
                 return "71 - 140";
             } else if (i == 2) {
@@ -130,11 +139,9 @@ Histogram.prototype.initVis = function(){
         })
             .attr("class", "bar-label")
             .attr("x", function(d, i) {
-                return 75 + (i * 70);
+                return 25 + (i * 120);
             })
-            .attr("y", function(d) {
-                return 200;
-            });
+            .attr("y", 500);
 
 
 
