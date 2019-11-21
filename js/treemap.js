@@ -11,12 +11,7 @@ var area = d3.select("#tree")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var legend = d3.select("#tree-legend")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", 100)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var legendlabels = [];
 
 var i = 0,
     duration = 750,
@@ -32,12 +27,18 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
 
     alldata = csv;
     value = d3.select("#attribute").property("value");
-    // nestdata = d3.nest()
-    //     .key(function(d) { return d.region})
-    //     .key(function(d) { return d.subregion})
-    //     .key(function(d) { return d.country})
-    //     .entries(alldata);
 
+    if (value === "country_class") {
+        legendlabels[0] = "experiencing one form of malnutrition";
+        legendlabels[1] = "experiencing two forms of malnutrition";
+        legendlabels[2] = "experiencing three forms of malnutrition";
+        legendlabels[3] = "No data";
+    } else {
+        legendlabels[0] = "On course";
+        legendlabels[1] = "No progress or worsening";
+        legendlabels[2] = "No data";
+    }
+    
     nestdata = d3.nest()
         .key(function(d) { return d.region})
         .key(function(d) { return d.subregion})
@@ -250,21 +251,7 @@ console.log(nestdata);
             update(d);
         }
     }
-
-    // var legendgroup = legend.selectAll('g.legend')
-    //     .append("g")
-    //     .attr("class", "legend");
-    //     // .attr("transform", function() {
-    //     //     if (value === "country_class") {
-    //
-    //         // }
-    //
-    // if (value === "country_class") {
-    //     for (n = 0; n < 4; n++) {
-    //         legendgroup.append("circle")
-    //             .attr("r", 5)
-    //     }
-    // }
+            // }
 
     d3.select("#attribute").on("change", function() {
         value = d3.select("#attribute").property("value");
@@ -291,8 +278,18 @@ console.log(nestdata);
                 } else {
                     return "#000";
                 }
-            })
+            });
 
+        if (value === "country_class") {
+            legendlabels[0] = "experiencing one form of malnutrition";
+            legendlabels[1] = "experiencing two forms of malnutrition";
+            legendlabels[2] = "experiencing three forms of malnutrition";
+            legendlabels[3] = "No data";
+        } else {
+            legendlabels[0] = "On course";
+            legendlabels[1] = "No progress or worsening";
+            legendlabels[2] = "No data";
+        };
 
     });
 
@@ -314,4 +311,51 @@ console.log(nestdata);
 
 });
 
+//TREE LEGEND
+
+treelegend = function(_parentElement, _data) {
+
+    this.parentElement = _parentElement;
+    this.data = _data;
+
+    this.initVis();
+};
+
+treelegend.prototype.initVis = function() {
+    var vis = this;
+
+    vis.legend = d3.select("#" + vis.parentElement)
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", 100)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    vis.wrangleData();
+};
+
+treelegend.prototype.wrangleData = function() {
+    //
+    var vis = this;
+
+    vis.updateVis();
+};
+
+treelegend.prototype.updateVis = function() {
+    var vis = this;
+
+    var legendcircle = vis.legend.selectAll(".legendcircle")
+        .data(this.data);
+
+    legendcircle.enter().append("circle")
+        .attr("class", "legendcircle")
+        .merge(legendcircle)
+        .attr("cy", 50)
+        .attr("cx", function(d, i) {
+            return i * 15;
+        })
+        .attr("r", 5);
+
+    legendcircle.exit().remove();
+}
 
