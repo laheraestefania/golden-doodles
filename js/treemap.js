@@ -49,13 +49,14 @@ for (let j = 0; j < nestdata.length; j++) {
                 femalediabetes++;
             }
         }
-        console.log(femalediabetes);
         // nestdata[j].values[k].adult_fem_diabetes_track = femalediabetes;
         femalediabetes = 0;
 
         //     nestdata[j].data.adult_fem_diabetes_track += femalediabetes;
         }
     }
+
+console.log(nestdata);
 
     var root = d3.hierarchy({values: nestdata}, function(d) {return d.values;});
 
@@ -141,15 +142,21 @@ for (let j = 0; j < nestdata.length; j++) {
         nodeUpdate.select('circle.node')
             .attr('r', 7)
             .style("fill", function(d) {
-                // console.log(d);
-                // return d._children ? "#f03b20" : "#fff";
                 if (d.children) {
-                    return "#fff"
+                    return "#fff";
                 } else if (d.height === 0) {
-                    switch (d.data.data[0][value]) {
-                        case "On course" : return "#00ff00";
-                        case "No progress or worsening": return "#ff0000";
-                        case "No data" : return "#ccc";
+                    switch(d.data.data[0][value]) {
+                        case "experiencing one form of malnutrition": return "yellow";
+                        case "experiencing two forms of malnutrition": return "orange";
+                        case "experiencing three forms of malnutrition": return "red";
+                        case "On course" :
+                            return "#00ff00";
+                        case "No progress or worsening":
+                            return "#ff0000";
+                        case "No data" :
+                            return "#ccc";
+                        case "No Data" : return "#ccc";
+                        case "": return "#ccc";
                     }
                 } else {
                     return "#000";
@@ -221,7 +228,7 @@ for (let j = 0; j < nestdata.length; j++) {
 
         // Toggle children on click.
         function click(d) {
-            // if clicked node has children, collapse
+                // if clicked node has children, collapse
             if (d.children) {
                 d._children = d.children;
                 d.children = null;
@@ -244,13 +251,20 @@ for (let j = 0; j < nestdata.length; j++) {
             .attr('r', 7)
             .style("fill", function(d) {
                 if (d.children) {
-                    return "#fff"
+                    return "#fff";
                 } else if (d.height === 0) {
-                    switch (d.data.data[0][value]) {
-                        case "On course" : return "#00ff00";
-                        case "No progress or worsening": return "#ff0000";
-                        case "No data" : return "#ccc";
-                        case "No Data" : return "#ccc"; 
+                    switch(d.data.data[0][value]) {
+                        case "experiencing one form of malnutrition": return "yellow";
+                        case "experiencing two forms of malnutrition": return "orange";
+                        case "experiencing three forms of malnutrition": return "red";
+                        case "On course" :
+                            return "#00ff00";
+                        case "No progress or worsening":
+                            return "#ff0000";
+                        case "No data" :
+                            return "#ccc";
+                        case "No Data" : return "#ccc";
+                        case "": return "#ccc";
                     }
                 } else {
                     return "#000";
@@ -258,5 +272,21 @@ for (let j = 0; j < nestdata.length; j++) {
             })
 
     });
+
+    function nodestyle(d) {
+            switch(d.data.data[0][value]) {
+                case "experiencing one form of malnutrition": return "yellow";
+                case "experiencing two forms of malnutrition": return "orange";
+                case "experiencing three forms of malnutrition": return "red";
+                case "On course" :
+                    return "#00ff00";
+                case "No progress or worsening":
+                    return "#ff0000";
+                case "No data" :
+                    return "#ccc";
+                case "No Data" : return "#ccc";
+                case "": return "#ccc";
+            }
+    }
 
 });
