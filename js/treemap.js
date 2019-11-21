@@ -24,12 +24,38 @@ var treemap = d3.tree()
 d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
 
     alldata = csv;
+    value = d3.select("#attribute").property("value");
+    // nestdata = d3.nest()
+    //     .key(function(d) { return d.region})
+    //     .key(function(d) { return d.subregion})
+    //     .key(function(d) { return d.country})
+    //     .entries(alldata);
 
     nestdata = d3.nest()
         .key(function(d) { return d.region})
         .key(function(d) { return d.subregion})
         .key(function(d) { return d.country})
         .entries(alldata);
+
+    var malnutritioncounter = 0,
+        femalediabetes = 0;
+
+for (let j = 0; j < nestdata.length; j++) {
+    for (let k = 0; k < nestdata[j].values.length; k++) {
+        for (let l = 0; l < nestdata[j].values[k].values.length; l++) {
+            nestdata[j].values[k].values[l].data = nestdata[j].values[k].values[l].values;
+            nestdata[j].values[k].values[l].values = null;
+            if (nestdata[j].values[k].values[l].data[0].adult_fem_diabetes_track === "On course") {
+                femalediabetes++;
+            }
+        }
+        console.log(femalediabetes);
+        // nestdata[j].values[k].adult_fem_diabetes_track = femalediabetes;
+        femalediabetes = 0;
+
+        //     nestdata[j].data.adult_fem_diabetes_track += femalediabetes;
+        }
+    }
 
     var root = d3.hierarchy({values: nestdata}, function(d) {return d.values;});
 
@@ -56,8 +82,6 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
     function update(source) {
         // Assigns the x and y position for the nodes
         var treeData = treemap(root);
-
-        console.log(treeData.descendants());
 
         // Compute the new tree layout.
         var nodes = treeData.descendants(),
@@ -95,10 +119,16 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
             .attr("text-anchor", function(d) {
                 return d.children || d._children ? "end" : "start";
             })
-            .text(function(d) { return d.data.key; });
+            .text(function(d) {
+                if(d.id === 1) {
+                    return d.parent;
+                } else {
+                    return d.data.key;
+                }
+            });
 
         // UPDATE
-        var nodeUpdate = nodeEnter.merge(node);
+        nodeUpdate = nodeEnter.merge(node);
 
         // Transition to the proper position for the node
         nodeUpdate.transition()
@@ -111,10 +141,21 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
         nodeUpdate.select('circle.node')
             .attr('r', 7)
             .style("fill", function(d) {
-                return d._children ? "#f03b20" : "#fff";
+                // console.log(d);
+                // return d._children ? "#f03b20" : "#fff";
+                if (d.children) {
+                    return "#fff"
+                } else if (d.height === 0) {
+                    switch (d.data.data[0][value]) {
+                        case "On course" : return "#00ff00";
+                        case "No progress or worsening": return "#ff0000";
+                        case "No data" : return "#ccc";
+                    }
+                } else {
+                    return "#000";
+                }
             })
             .attr('cursor', 'pointer');
-
 
         // Remove any exiting nodes
         var nodeExit = node.exit().transition()
@@ -180,19 +221,42 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
 
         // Toggle children on click.
         function click(d) {
-            // if click on child, collapse
+            // if clicked node has children, collapse
             if (d.children) {
-                console.log(d.children);
                 d._children = d.children;
                 d.children = null;
             } else {
                 // if not, extend
                 d.children = d._children;
-                // console.log(d.children[0].height);
+                if (d.height === 0) {
+                    console.log(d.data.data[0][value]);
+                }
                 d._children = null;
             }
             update(d);
         }
     }
+
+    d3.select("#attribute").on("change", function() {
+        value = d3.select("#attribute").property("value");
+        // update(root);
+        nodeUpdate.select('circle.node')
+            .attr('r', 7)
+            .style("fill", function(d) {
+                if (d.children) {
+                    return "#fff"
+                } else if (d.height === 0) {
+                    switch (d.data.data[0][value]) {
+                        case "On course" : return "#00ff00";
+                        case "No progress or worsening": return "#ff0000";
+                        case "No data" : return "#ccc";
+                        case "No Data" : return "#ccc"; 
+                    }
+                } else {
+                    return "#000";
+                }
+            })
+
+    });
 
 });
