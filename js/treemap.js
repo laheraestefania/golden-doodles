@@ -1,13 +1,20 @@
 
 var margin = {top: 10, right: 0, bottom: 10, left: 200};
 
-var width = 1000 - margin.left - margin.right,
+var width = 800 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
 var area = d3.select("#tree")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var legend = d3.select("#tree-legend")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", 100)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -244,6 +251,21 @@ console.log(nestdata);
         }
     }
 
+    // var legendgroup = legend.selectAll('g.legend')
+    //     .append("g")
+    //     .attr("class", "legend");
+    //     // .attr("transform", function() {
+    //     //     if (value === "country_class") {
+    //
+    //         // }
+    //
+    // if (value === "country_class") {
+    //     for (n = 0; n < 4; n++) {
+    //         legendgroup.append("circle")
+    //             .attr("r", 5)
+    //     }
+    // }
+
     d3.select("#attribute").on("change", function() {
         value = d3.select("#attribute").property("value");
         // update(root);
@@ -271,22 +293,25 @@ console.log(nestdata);
                 }
             })
 
+
     });
 
-    function nodestyle(d) {
-            switch(d.data.data[0][value]) {
-                case "experiencing one form of malnutrition": return "yellow";
-                case "experiencing two forms of malnutrition": return "orange";
-                case "experiencing three forms of malnutrition": return "red";
-                case "On course" :
-                    return "#00ff00";
-                case "No progress or worsening":
-                    return "#ff0000";
-                case "No data" :
-                    return "#ccc";
-                case "No Data" : return "#ccc";
-                case "": return "#ccc";
-            }
-    }
+    // function nodestyle(d) {
+    //         switch(d.data.data[0][value]) {
+    //             case "experiencing one form of malnutrition": return "yellow";
+    //             case "experiencing two forms of malnutrition": return "orange";
+    //             case "experiencing three forms of malnutrition": return "red";
+    //             case "On course" :
+    //                 return "#00ff00";
+    //             case "No progress or worsening":
+    //                 return "#ff0000";
+    //             case "No data" :
+    //                 return "#ccc";
+    //             case "No Data" : return "#ccc";
+    //             case "": return "#ccc";
+    //         }
+    // }
 
 });
+
+
