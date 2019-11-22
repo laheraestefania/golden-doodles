@@ -1,7 +1,7 @@
 
 var margin = {top: 10, right: 0, bottom: 10, left: 200};
 
-var width = 1000 - margin.left - margin.right,
+var width = 800 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
 var area = d3.select("#tree")
@@ -10,6 +10,8 @@ var area = d3.select("#tree")
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var legendlabels = [];
 
 var i = 0,
     duration = 750,
@@ -24,12 +26,45 @@ var treemap = d3.tree()
 d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
 
     alldata = csv;
+    value = d3.select("#attribute").property("value");
 
+    if (value === "country_class") {
+        legendlabels[0] = "experiencing one form of malnutrition";
+        legendlabels[1] = "experiencing two forms of malnutrition";
+        legendlabels[2] = "experiencing three forms of malnutrition";
+        legendlabels[3] = "No data";
+    } else {
+        legendlabels[0] = "On course";
+        legendlabels[1] = "No progress or worsening";
+        legendlabels[2] = "No data";
+    }
+    
     nestdata = d3.nest()
         .key(function(d) { return d.region})
         .key(function(d) { return d.subregion})
         .key(function(d) { return d.country})
         .entries(alldata);
+
+    var malnutritioncounter = 0,
+        femalediabetes = 0;
+
+for (let j = 0; j < nestdata.length; j++) {
+    for (let k = 0; k < nestdata[j].values.length; k++) {
+        for (let l = 0; l < nestdata[j].values[k].values.length; l++) {
+            nestdata[j].values[k].values[l].data = nestdata[j].values[k].values[l].values;
+            nestdata[j].values[k].values[l].values = null;
+            if (nestdata[j].values[k].values[l].data[0].adult_fem_diabetes_track === "On course") {
+                femalediabetes++;
+            }
+        }
+        // nestdata[j].values[k].adult_fem_diabetes_track = femalediabetes;
+        femalediabetes = 0;
+
+        //     nestdata[j].data.adult_fem_diabetes_track += femalediabetes;
+        }
+    }
+
+console.log(nestdata);
 
     var root = d3.hierarchy({values: nestdata}, function(d) {return d.values;});
 
@@ -56,8 +91,6 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
     function update(source) {
         // Assigns the x and y position for the nodes
         var treeData = treemap(root);
-
-        console.log(treeData.descendants());
 
         // Compute the new tree layout.
         var nodes = treeData.descendants(),
@@ -95,10 +128,16 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
             .attr("text-anchor", function(d) {
                 return d.children || d._children ? "end" : "start";
             })
-            .text(function(d) { return d.data.key; });
+            .text(function(d) {
+                if(d.id === 1) {
+                    return d.parent;
+                } else {
+                    return d.data.key;
+                }
+            });
 
         // UPDATE
-        var nodeUpdate = nodeEnter.merge(node);
+        nodeUpdate = nodeEnter.merge(node);
 
         // Transition to the proper position for the node
         nodeUpdate.transition()
@@ -111,10 +150,27 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
         nodeUpdate.select('circle.node')
             .attr('r', 7)
             .style("fill", function(d) {
-                return d._children ? "#f03b20" : "#fff";
+                if (d.children) {
+                    return "#fff";
+                } else if (d.height === 0) {
+                    switch(d.data.data[0][value]) {
+                        case "experiencing one form of malnutrition": return "yellow";
+                        case "experiencing two forms of malnutrition": return "orange";
+                        case "experiencing three forms of malnutrition": return "red";
+                        case "On course" :
+                            return "#00ff00";
+                        case "No progress or worsening":
+                            return "#ff0000";
+                        case "No data" :
+                            return "#ccc";
+                        case "No Data" : return "#ccc";
+                        case "": return "#ccc";
+                    }
+                } else {
+                    return "#000";
+                }
             })
             .attr('cursor', 'pointer');
-
 
         // Remove any exiting nodes
         var nodeExit = node.exit().transition()
@@ -180,229 +236,126 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
 
         // Toggle children on click.
         function click(d) {
+                // if clicked node has children, collapse
             if (d.children) {
                 d._children = d.children;
                 d.children = null;
             } else {
+                // if not, extend
                 d.children = d._children;
+                if (d.height === 0) {
+                    console.log(d.data.data[0][value]);
+                }
                 d._children = null;
             }
             update(d);
         }
     }
+            // }
+
+    d3.select("#attribute").on("change", function() {
+        value = d3.select("#attribute").property("value");
+        // update(root);
+        nodeUpdate.select('circle.node')
+            .attr('r', 7)
+            .style("fill", function(d) {
+                if (d.children) {
+                    return "#fff";
+                } else if (d.height === 0) {
+                    switch(d.data.data[0][value]) {
+                        case "experiencing one form of malnutrition": return "yellow";
+                        case "experiencing two forms of malnutrition": return "orange";
+                        case "experiencing three forms of malnutrition": return "red";
+                        case "On course" :
+                            return "#00ff00";
+                        case "No progress or worsening":
+                            return "#ff0000";
+                        case "No data" :
+                            return "#ccc";
+                        case "No Data" : return "#ccc";
+                        case "": return "#ccc";
+                    }
+                } else {
+                    return "#000";
+                }
+            });
+
+        if (value === "country_class") {
+            legendlabels[0] = "experiencing one form of malnutrition";
+            legendlabels[1] = "experiencing two forms of malnutrition";
+            legendlabels[2] = "experiencing three forms of malnutrition";
+            legendlabels[3] = "No data";
+        } else {
+            legendlabels[0] = "On course";
+            legendlabels[1] = "No progress or worsening";
+            legendlabels[2] = "No data";
+        };
+
+    });
+
+    // function nodestyle(d) {
+    //         switch(d.data.data[0][value]) {
+    //             case "experiencing one form of malnutrition": return "yellow";
+    //             case "experiencing two forms of malnutrition": return "orange";
+    //             case "experiencing three forms of malnutrition": return "red";
+    //             case "On course" :
+    //                 return "#00ff00";
+    //             case "No progress or worsening":
+    //                 return "#ff0000";
+    //             case "No data" :
+    //                 return "#ccc";
+    //             case "No Data" : return "#ccc";
+    //             case "": return "#ccc";
+    //         }
+    // }
 
 });
 
+//TREE LEGEND
 
-// treegraph = function(_parentElement, _data) {
-//     this.parentElement = _parentElement;
-//     this.data = _data;
-//     this.displayData = [];
-//
-//     var vis = this;
-//
-//     // draw SVG area
-//     vis.margin = {top: 10, right: 0, bottom: 10, left: 200};
-//     vis.width = 800 - vis.margin.left - vis.margin.right;
-//     vis.height = 600 - vis.margin.top - vis.margin.bottom;
-//
-//     vis.area = d3.select("#" + vis.parentElement)
-//         .append("svg")
-//         .attr("width", vis.width + vis.margin.left + vis.margin.right)
-//         .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
-//         .append("g")
-//         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
-//
-//     // Define tree
-//     vis.treemap = d3.tree()
-//         .size([vis.height, vis.width]);
-//
-//     vis.displayData = d3.nest()
-//         .key(function (d) {
-//             return d.region
-//         })
-//         .key(function (d) {
-//             return d.subregion
-//         })
-//         .key(function (d) {
-//             return d.country
-//         })
-//         .entries(vis.data);
-//
-//     vis.root = d3.hierarchy({values: vis.displayData}, function (d) {
-//         return d.values;
-//     });
-//
-//     vis.root.x0 = vis.height / 2;
-//     vis.root.y0 = 0;
-//
-//     // Collapse after second level
-//     vis.root.children.forEach(collapse);
-//     vis.root.parent = "World";
-//
-//     // Define function collapse
-//     function collapse(d) {
-//         if (d.children) {
-//             d._children = d.children;
-//             d._children.forEach(collapse);
-//             d.children = null
-//         }
-//     }
-//
-//     update(vis.root);
-//
-//     var i = 0,
-//         duration = 750,
-//         root;
-//
-// // Define function update (template & inspiration from https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd)
-//     function update(source) {
-//         // Assigns the x and y position for the nodes
-//         vis.treeData = vis.treemap(source);
-//
-//         console.log(vis.treeData.descendants()[0].parent);
-//         console.log(vis.treeData.descendants());
-//
-//         // Compute the new tree layout.
-//         vis.nodes = vis.treeData.descendants();
-//         vis.links = vis.treeData.descendants().slice(1);
-//
-//         // Normalize for fixed-depth.
-//         vis.nodes.forEach(function (d) {
-//             d.y = d.depth * 180
-//         });
-//
-//         // Update the nodes...
-//         vis.node = vis.area.selectAll('g.node')
-//             .data(vis.nodes, function (d) {
-//                 return d.id || (d.id = ++i);
-//             });
-//
-//         // Enter any new nodes at the parent's previous position.
-//         vis.nodeEnter = vis.node.enter().append('g')
-//             .attr('class', 'node')
-//             .attr("transform", function (d) {
-//                 return "translate(" + source.y0 + "," + source.x0 + ")";
-//             })
-//             .on('click', click);
-//
-//         // Add Circle for the nodes
-//         vis.nodeEnter.append('circle')
-//             .attr('class', 'node')
-//             .attr('r', 7)
-//             .style("fill", function (d) {
-//                 return d._children ? "#ccc" : "#fff";
-//             });
-//
-//         // Add labels for the nodes
-//         vis.nodeEnter.append('text')
-//             .attr("dy", ".35em")
-//             .attr("x", function (d) {
-//                 return d.children || d._children ? -13 : 13;
-//             })
-//             .attr("text-anchor", function (d) {
-//                 return d.children || d._children ? "end" : "start";
-//             })
-//             .text(function (d) {
-//                 return d.data.key;
-//             });
-//
-//         // UPDATE
-//         vis.nodeUpdate = vis.nodeEnter.merge(vis.node);
-//
-//         // Transition to the proper position for the node
-//         vis.nodeUpdate.transition()
-//             .duration(duration)
-//             .attr("transform", function (d) {
-//                 return "translate(" + d.y + "," + d.x + ")";
-//             });
-//
-//         // Update the node attributes and style
-//         vis.nodeUpdate.select('circle.node')
-//             .attr('r', 7)
-//             .style("fill", function (d) {
-//                 return d._children ? "#f03b20" : "#fff";
-//             })
-//             .attr('cursor', 'pointer');
-//
-//
-//         // Remove any exiting nodes
-//         vis.nodeExit = vis.node.exit().transition()
-//             .duration(duration)
-//             .attr("transform", function (d) {
-//                 return "translate(" + source.y + "," + source.x + ")";
-//             })
-//             .remove();
-//
-//         // On exit reduce the node circles size to 0
-//         vis.nodeExit.select('circle')
-//             .attr('r', 1e-6);
-//
-//         // On exit reduce the opacity of text labels
-//         vis.nodeExit.select('text')
-//             .style('fill-opacity', 1e-6);
-//
-//         // Update the links
-//         vis.link = vis.area.selectAll('path.link')
-//             .data(vis.links, function (d) {
-//                 return d.id;
-//             });
-//
-//         // Enter any new links at the parent's previous position.
-//         vis.linkEnter = vis.link.enter().insert('path', "g")
-//             .attr("class", "link")
-//             .attr('d', function (d) {
-//                 var o = {x: source.x0, y: source.y0}
-//                 return diagonal(o, o)
-//             });
-//
-//         // UPDATE
-//         vis.linkUpdate = vis.linkEnter.merge(vis.link);
-//
-//         // Transition back to the parent element position
-//         vis.linkUpdate.transition()
-//             .duration(duration)
-//             .attr('d', function (d) {
-//                 return diagonal(d, d.parent)
-//             });
-//
-//         // Remove any exiting links
-//         vis.linkExit = vis.link.exit().transition()
-//             .duration(duration)
-//             .attr('d', function (d) {
-//                 var o = {x: source.x, y: source.y};
-//                 return diagonal(o, o)
-//             })
-//             .remove();
-//
-//         // Store the old positions for transition.
-//         vis.nodes.forEach(function (d) {
-//             d.x0 = d.x;
-//             d.y0 = d.y;
-//         });
-//
-//         // Creates a curved (diagonal) path from parent to the child nodes
-//         function diagonal(s, d) {
-//
-//             pathline = `M ${s.y} ${s.x}
-//             C ${(s.y + d.y) / 2} ${s.x},
-//               ${(s.y + d.y) / 2} ${d.x},
-//               ${d.y} ${d.x}`
-//
-//             return pathline
-//         }
-//
-//         // Toggle children on click.
-//         function click(d) {
-//             if (d.children) {
-//                 d._children = d.children;
-//                 d.children = null;
-//             } else {
-//                 d.children = d._children;
-//                 d._children = null;
-//             }
-//             update(d);
-//         }
-//     };
-//
-// };
+treelegend = function(_parentElement, _data) {
+
+    this.parentElement = _parentElement;
+    this.data = _data;
+
+    this.initVis();
+};
+
+treelegend.prototype.initVis = function() {
+    var vis = this;
+
+    vis.legend = d3.select("#" + vis.parentElement)
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", 100)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    vis.wrangleData();
+};
+
+treelegend.prototype.wrangleData = function() {
+    //
+    var vis = this;
+
+    vis.updateVis();
+};
+
+treelegend.prototype.updateVis = function() {
+    var vis = this;
+
+    var legendcircle = vis.legend.selectAll(".legendcircle")
+        .data(this.data);
+
+    legendcircle.enter().append("circle")
+        .attr("class", "legendcircle")
+        .merge(legendcircle)
+        .attr("cy", 50)
+        .attr("cx", function(d, i) {
+            return i * 15;
+        })
+        .attr("r", 5);
+
+    legendcircle.exit().remove();
+}
+
