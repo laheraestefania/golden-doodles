@@ -61,8 +61,30 @@
 						the tree below to see.
 					</div>
 				</div>
-				<div class = "row">
-					<div class = "col-md-12" id = "progress-tree">
+				<div class="row">
+					<div class="col-6">
+<!--						<div id="tree"></div>-->
+<!--						<div id="tree-legend"></div>-->
+					</div>
+					<div class = "col-6">
+						<div class="container-fluid">
+							<div class="row">
+								<div class = "col-md-6">
+									<div id="female-obesity-line-chart"></div>
+								</div>
+								<div class = "col-md-6">
+									<div id="female-diabetes-line-chart"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class = "col-md-6">
+									<div id="male-obesity-line-chart"></div>
+								</div>
+								<div class = "col-md-6">
+									<div id="male-diabetes-line-chart"></div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -183,8 +205,12 @@
 						</div>
 					</form>
 				</div>
-                <div id="tree"></div>
-                <div id="tree-legend"></div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div id="tree"></div>
+					<div id="tree-legend"></div>
+				</div>
 			</div>
 		</div>
 
@@ -237,6 +263,7 @@
 	<script src="js/choropleth-categorical.js"></script>
 	<script src="js/treemap.js"></script>
 	<script src="js/bubble.js"></script>
+	<script src="js/lineChart.js"></script>
 
 	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>
@@ -244,7 +271,7 @@
 		new fullpage('#fullpage', {
 			//options here
 			autoScrolling:true,
-			sectionsColor: ['#f2f2f2','whitesmoke', '#4BBFC3', '#7BAABE', 'whitesmoke', '#ccddff']
+			sectionsColor: ['#a4b9c3', '#7BAABE', '#f2f2f2','whitesmoke', 'whitesmoke', '#ccddff']
 		});
 
 	</script>

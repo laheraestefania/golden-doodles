@@ -1,10 +1,12 @@
 // Dict, keys data by country name
 var dataByCountry = {};
+var dataByCountryName = {};
 // Data in original list form
 var allData = [];
 var topology = [];
 var metadata = {};
 var noDataColor = "#999999";
+var femaleObesity = [], maleObesity = [], femaleDiabetes = [], maleDiabetes = [];
 var categorical = new Set(["iso3", "country", "region", "subregion",
     "child_overweight_plan", "fbdg", "overweight_adults_adoles_plan", "sugar_tax",
     "sodium_plan", "wasting_plan", "country_class", "adult_fem_diabetes_track", "adult_fem_obesity_track",
@@ -18,26 +20,37 @@ function loadData() {
         .defer(d3.csv, "data/cleaned_nutrition_data.csv")
         .defer(d3.json, "data/world-110m.json")
         .defer(d3.json, "data/world-110m-country.json")
+        .defer(d3.csv, "data/female_diabetes.csv")
+        .defer(d3.csv, "data/male_diabetes.csv")
+        .defer(d3.csv, "data/female_obesity.csv")
+        .defer(d3.csv, "data/male_obesity.csv")
         .defer(d3.csv, "data/metadata.csv")
-        .await(function(error, nutritionData, topology_, countryCodes_, metadata_) {
+        .await(function(error,
+                        nutritionData,
+                        topology_,
+                        countryCodes_,
+                        femaleDiabetes_,
+                        maleDiabetes_,
+                        femaleObesity_,
+                        maleObesity_,
+                        metadata_) {
         if(!error){
-            let temp = {};
             // Save nutrition data keyed by country name
             // d is a country object from inside the nutritionData list
             nutritionData.forEach(function (d) {
-                temp[d["country"]] = {};
+                dataByCountryName[d["country"]] = {};
                 Object.keys(d).forEach(function (key) {
                     if (!categorical.has(key)) {
                         d[key] = +d[key];
                     }
-                    temp[d["country"]][key] = d[key];
+                    dataByCountryName[d["country"]][key] = d[key];
                 });
             });
             // go through each country code and save an object for each code
             // transfer data from temp
             countryCodes_.forEach(function (d) {
-                if (temp[d["name"]] !== undefined) {
-                    dataByCountry[d["id"]] = temp[d["name"]];
+                if (dataByCountryName[d["name"]] !== undefined) {
+                    dataByCountry[d["id"]] = dataByCountryName[d["name"]];
                     // Save the id as well
                     dataByCountry[d["id"]]["id"] = d["id"];
                 }
@@ -49,6 +62,20 @@ function loadData() {
 
             allData = nutritionData;
             topology = topology_;
+
+            femaleObesity = clean(femaleObesity_);
+            maleObesity = clean(maleObesity_);
+            femaleDiabetes = clean(femaleDiabetes_);
+            maleDiabetes = clean(maleDiabetes_);
+
+            // console.log("data by country");
+            // console.log(dataByCountry);
+            //
+            // console.log("dataByCountryName");
+            // console.log(dataByCountryName);
+            //
+            console.log("fem obesity");
+            console.log(femaleObesity);
 
             // console.log(allData);
             createVis();
@@ -62,11 +89,17 @@ function createVis() {
     var feature = $("#selected-feature").val();
     var game = new ChoroplethGame("game", dataByCountry, topology, feature);
     var map = new Choropleth("map", dataByCountry, topology, feature);
-    // var scatterplot = new Scatterplot("scatterplot", dataByCountry);
-    // var histogram = new Histogram("histogram", allData);
+    var scatterplot = new Scatterplot("scatterplot", dataByCountry);
+    var histogram = new Histogram("histogram", allData);
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
-
     var bubble = new Bubble("bubble", dataByCountry, feature);
+
+    // line charts
+    var lineChart = new LineChart("female-obesity-line-chart", femaleObesity, dataByCountryName);
+    var lineChart = new LineChart("female-diabetes-line-chart", femaleDiabetes, dataByCountryName, gender="Female", condition="Diabetes");
+    var lineChart = new LineChart("male-obesity-line-chart", maleObesity, dataByCountryName, gender="Male");
+    var lineChart = new LineChart("male-diabetes-line-chart", maleDiabetes, dataByCountryName, gender="Male", condition="Diabetes");
+
     $("#choro-bubble-title").html(metadata[feature]);
     $("#selected-feature").on("change", function () {
         var feature = $("#selected-feature").val();
@@ -79,4 +112,15 @@ function createVis() {
         var bubble = new Bubble("bubble", dataByCountry, feature);
 
     });
+}
+
+function clean(data) {
+    data.forEach(function (obj) {
+        Object.keys(obj).forEach(function (key) {
+            if (!isNaN(+obj[key])) {
+                obj[key] = +obj[key]
+            }
+        })
+    })
+    return data;
 }
