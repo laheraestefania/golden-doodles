@@ -126,11 +126,27 @@
 			</div>
 
 		</div>
+
 		<div class = "section">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h3>More Generally...</h3>
+						<h3 id="choro-bubble-title">More Generally...</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<form>
+							<input type="radio" name="bubble-scope" value="region" checked> region<br>
+							<input type="radio" name="bubble-scope" value="subregion"> subregion<br>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-5">
+						<div id='bubble'></div>
+					</div>
+					<div class="col-md-6">
 						<div id='map'></div>
 					</div>
 				</div>
@@ -207,6 +223,7 @@
 	<script src="js/d3-scale-chromatic.v1.min.js"></script>
 	<script src="js/d3-tip.js"></script>
 	<script src="js/d3-legend.min.js"></script>
+	<script src="js/circle-legend.js"></script>
 	<script type="text/javascript" src="js/fullpage.js"></script>
 
 	<!-- Visualization objects -->
@@ -218,6 +235,7 @@
 	<script src="js/histogram.js"></script>
 	<script src="js/choropleth-categorical.js"></script>
 	<script src="js/treemap.js"></script>
+	<script src="js/bubble.js"></script>
 
 	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>

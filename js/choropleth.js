@@ -12,7 +12,7 @@ Choropleth = function(_parentElement, _data, topology, feature){
     this.feature = feature;
     this.initVis();
 
-    console.log(_data);
+    // console.log(_data);
 };
 
 /*
@@ -22,10 +22,10 @@ Choropleth = function(_parentElement, _data, topology, feature){
 Choropleth.prototype.initVis = function() {
     var vis = this;
 
-    vis.margin = {top: 0, right: 0, bottom: 30, left: 60};
+    vis.margin = {top: 30, right: 0, bottom: 30, left: 30};
 
-    vis.width = 900 - vis.margin.left - vis.margin.right,
-        vis.height = 600 - vis.margin.top - vis.margin.bottom;
+    vis.width = 650 - vis.margin.left - vis.margin.right,
+        vis.height = 400 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -38,8 +38,8 @@ Choropleth.prototype.initVis = function() {
 
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([50, 50])                 // Where to center the map in degrees
-        .scale(110)                       // Zoom-level
+        .center([150, 0])                 // Where to center the map in degrees
+        .scale(80)                       // Zoom-level
         .rotate([0, 0]);                   // Map-rotation
 
     // D3 geo path generator (maps geodata to SVG paths)
@@ -59,7 +59,7 @@ Choropleth.prototype.initVis = function() {
 
     vis.legendGroup = d3.select(".choro-svg").append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width) + ", 30)");
+        .attr("transform", "translate(" + (vis.width - 20) + ", 30)");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(5)
@@ -87,7 +87,7 @@ Choropleth.prototype.initVis = function() {
         .html(function(d) {
             let id = d["id"];
             if (vis.data[id]) {
-                let s = vis.data[id]["country"] + "<br>"+ vis.feature + " : ";
+                let s = vis.data[id]["country"] + "<br>"+ metadata[vis.feature] + " : ";
                 if (vis.displayData[id]) {
                     s+= vis.displayData[id];
                 }
@@ -98,12 +98,6 @@ Choropleth.prototype.initVis = function() {
         });
 
     vis.svg.call(vis.tool_tip);
-
-    d3.select(".choro-svg").append("text")
-        .attr("class", "title-text")
-        .attr("transform", "translate(" + (vis.width / 4) + ", 15)")
-        .attr("fill", "#000000")
-        .text(metadata[vis.feature]);
 
     vis.wrangleData();
 };

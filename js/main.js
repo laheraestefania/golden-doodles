@@ -1,6 +1,3 @@
-// Start application by loading the data
-loadData();
-
 // Dict, keys data by country name
 var dataByCountry = {};
 // Data in original list form
@@ -12,6 +9,9 @@ var categorical = new Set(["iso3", "country", "region", "subregion",
     "child_overweight_plan", "fbdg", "overweight_adults_adoles_plan", "sugar_tax",
     "sodium_plan", "wasting_plan", "country_class", "adult_fem_diabetes_track", "adult_fem_obesity_track",
     "adult_mal_diabetes_track", "adult_mal_obesity_track", "burden_text"]);
+
+// Start application by loading the data
+loadData();
 
 function loadData() {
     queue()
@@ -50,7 +50,7 @@ function loadData() {
             allData = nutritionData;
             topology = topology_;
 
-            console.log(allData);
+            // console.log(allData);
             createVis();
         }
     });
@@ -60,21 +60,23 @@ function loadData() {
 function createVis() {
 	// TO-DO: Instantiate visualization objects here
     var feature = $("#selected-feature").val();
-    console.log(feature);
     var game = new ChoroplethGame("game", dataByCountry, topology, feature);
     var map = new Choropleth("map", dataByCountry, topology, feature);
-    var scatterplot = new Scatterplot("scatterplot", dataByCountry);
-    var histogram = new Histogram("histogram", allData);
+    // var scatterplot = new Scatterplot("scatterplot", dataByCountry);
+    // var histogram = new Histogram("histogram", allData);
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
 
+    var bubble = new Bubble("bubble", dataByCountry, feature);
+    $("#choro-bubble-title").html(metadata[feature]);
     $("#selected-feature").on("change", function () {
         var feature = $("#selected-feature").val();
-        console.log("feature is now " + feature);
         $("#map").html("");
         $("#game").html("");
+        $("#bubble").html("");
+        $("#choro-bubble-title").html(metadata[feature]);
         var game = new ChoroplethGame("game", dataByCountry, topology, feature);
         var map = new Choropleth("map", dataByCountry, topology, feature);
-
+        var bubble = new Bubble("bubble", dataByCountry, feature);
 
     });
 }
