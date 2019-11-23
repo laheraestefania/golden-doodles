@@ -38,7 +38,7 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
         legendlabels[1] = "No progress or worsening";
         legendlabels[2] = "No data";
     }
-    
+
     nestdata = d3.nest()
         .key(function(d) { return d.region})
         .key(function(d) { return d.subregion})
@@ -251,7 +251,8 @@ console.log(nestdata);
             update(d);
         }
     }
-            // }
+
+    legend = new treelegend("tree-legend", legendlabels);
 
     d3.select("#attribute").on("change", function() {
         value = d3.select("#attribute").property("value");
@@ -289,7 +290,10 @@ console.log(nestdata);
             legendlabels[0] = "On course";
             legendlabels[1] = "No progress or worsening";
             legendlabels[2] = "No data";
+            legendlabels[3] = null;
         };
+
+        legend.updateVis();
 
     });
 
@@ -350,12 +354,27 @@ treelegend.prototype.updateVis = function() {
     legendcircle.enter().append("circle")
         .attr("class", "legendcircle")
         .merge(legendcircle)
-        .attr("cy", 50)
-        .attr("cx", function(d, i) {
+        .attr("cx", 10)
+        .attr("cy", function(d, i) {
             return i * 15;
         })
-        .attr("r", 5);
+        .attr("r", 5)
+        .attr("fill", function(d) {
+            switch(d) {
+                case "experiencing one form of malnutrition": return "yellow";
+                case "experiencing two forms of malnutrition": return "orange";
+                case "experiencing three forms of malnutrition": return "red";
+                case "On course" :
+                    return "#00ff00";
+                case "No progress or worsening":
+                    return "#ff0000";
+                case "No data" :
+                    return "#ccc";
+                case null :
+                    return "#fff";
+            }
+        });
 
     legendcircle.exit().remove();
-}
+};
 
