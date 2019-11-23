@@ -64,8 +64,6 @@ for (let j = 0; j < nestdata.length; j++) {
         }
     }
 
-console.log(nestdata);
-
     var root = d3.hierarchy({values: nestdata}, function(d) {return d.values;});
 
     root.x0 = height / 2;
@@ -91,6 +89,8 @@ console.log(nestdata);
     function update(source) {
         // Assigns the x and y position for the nodes
         var treeData = treemap(root);
+
+        console.log(treeData);
 
         // Compute the new tree layout.
         var nodes = treeData.descendants(),
@@ -374,6 +374,21 @@ treelegend.prototype.updateVis = function() {
                     return "#fff";
             }
         });
+
+    var legendlabels = vis.legend.selectAll(".legendlabels")
+        .data(this.data);
+
+    legendlabels.enter().append("text")
+        .attr("class", "legendlabels")
+        .merge(legendlabels)
+        .attr("x", 20)
+        .attr("y", function(d, i) {
+            return (i * 15) + 3;
+        })
+        .text(function(d) {
+            return d;
+        })
+        .attr("font-size", 10);
 
     legendcircle.exit().remove();
 };
