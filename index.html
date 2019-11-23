@@ -61,8 +61,30 @@
 						the tree below to see.
 					</div>
 				</div>
-				<div class = "row">
-					<div class = "col-md-12" id = "progress-tree">
+				<div class="row">
+					<div class="col-6">
+<!--						<div id="tree"></div>-->
+<!--						<div id="tree-legend"></div>-->
+					</div>
+					<div class = "col-6">
+						<div class="container-fluid">
+							<div class="row">
+								<div class = "col-md-6">
+									<div id="female-obesity-line-chart"></div>
+								</div>
+								<div class = "col-md-6">
+									<div id="female-diabetes-line-chart"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class = "col-md-6">
+									<div id="male-obesity-line-chart"></div>
+								</div>
+								<div class = "col-md-6">
+									<div id="male-diabetes-line-chart"></div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -126,11 +148,27 @@
 			</div>
 
 		</div>
+
 		<div class = "section">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<h3>More Generally...</h3>
+						<h3 id="choro-bubble-title">More Generally...</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<form>
+							<input type="radio" name="bubble-scope" value="region" checked> region<br>
+							<input type="radio" name="bubble-scope" value="subregion"> subregion<br>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-5">
+						<div id='bubble'></div>
+					</div>
+					<div class="col-md-6">
 						<div id='map'></div>
 					</div>
 				</div>
@@ -167,8 +205,12 @@
 						</div>
 					</form>
 				</div>
-                <div id="tree"></div>
-                <div id="tree-legend"></div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div id="tree"></div>
+					<div id="tree-legend"></div>
+				</div>
 			</div>
 		</div>
 
@@ -220,6 +262,8 @@
 	<script src="js/histogram.js"></script>
 	<script src="js/choropleth-categorical.js"></script>
 	<script src="js/treemap.js"></script>
+	<script src="js/bubble.js"></script>
+	<script src="js/lineChart.js"></script>
 
 	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>
@@ -227,7 +271,7 @@
 		new fullpage('#fullpage', {
 			//options here
 			autoScrolling:true,
-			sectionsColor: ['#f2f2f2','whitesmoke', '#4BBFC3', '#7BAABE', 'whitesmoke', '#ccddff']
+			sectionsColor: ['#a4b9c3', '#7BAABE', '#f2f2f2','whitesmoke', 'whitesmoke', '#ccddff']
 		});
 
 	</script>
