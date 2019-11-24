@@ -94,6 +94,9 @@ function createVis() {
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
     var bubble = new Bubble("bubble", dataByCountry, feature);
 
+    //Pie charts
+    var piecharts = new PieChart("pieCharts", allData);
+
     // line charts
     var lineChart = new LineChart("female-obesity-line-chart", femaleObesity, dataByCountryName);
     var lineChart = new LineChart("female-diabetes-line-chart", femaleDiabetes, dataByCountryName, gender="Female", condition="Diabetes");
