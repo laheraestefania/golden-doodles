@@ -62,8 +62,7 @@ Scatterplot.prototype.initVis = function(){
         .attr("x", 300)
         .attr("y", vis.margin.top/4)
         .attr("text-anchor", "middle")
-        .style("font-size", "16px")
-        .text("Under 5 Mortality Rate vs GDP of Countries");
+        .style("font-size", "16px");
 
     // x-axis label
     vis.svg.append('text')
@@ -96,33 +95,24 @@ Scatterplot.prototype.initVis = function(){
 Scatterplot.prototype.wrangleData = function(){
     var vis = this;
 
-    // // * TO-DO *
-    // vis.displayData = {};
-
-    // // Create a sequence from 0 - 14 (priorities: 1-15; array length: 15), initialize values to (0,0)
-    // var fruitVegVersusGDP = d3.range(0, 15).map(function(){
-    //     return [0, 0];
-    // });
-    //
-    // for (let id in vis.data) {
-    //     if (!isNaN(vis.data[id][vis.feature])) {
-    //         this.displayData[id] = vis.data[id][vis.feature];
-    //     }
-    // }
     // get parameter for scatterplot
     var my_param = d3.select("#scatterplot-year").property("value");
     vis.x_param = "GDP_capita_PPP_" + my_param;
     // console.log("x param", vis.x_param);
     vis.y_param = "u5mr_" + my_param;
 
+    vis.svg.select('.title')
+        .text("Under 5 Mortality Rate vs GDP of Countries in " + my_param);
+
     // console.log("y param", vis.y_param);
     d3.select("#scatterplot-year").on("change", function() {
         my_param = d3.select("#scatterplot-year").property("value");
         // console.log(my_param);
         vis.x_param = "GDP_capita_PPP_" + my_param;
-        console.log("x param", vis.x_param);
         vis.y_param = "u5mr_" + my_param;
-        console.log("y param", vis.y_param);
+        vis.svg.select('.title')
+            .text("Under 5 Mortality Rate vs GDP of Countries in " + my_param);
+
         vis.displayData.forEach(function(d){
 
             if (isNaN(d[vis.x_param])){
