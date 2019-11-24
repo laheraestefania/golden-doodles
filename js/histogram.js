@@ -40,23 +40,23 @@ Histogram.prototype.initVis = function(){
 
 
     // Scales and axes
-    // vis.x = d3.scaleLinear()
-    //     .range([0, 400])
-    //     .domain(d3.extent(vis.data.map(function(d){ return d.Sugar_sweetened_beverages_2016; })));
+    vis.x = d3.scaleLinear()
+        .range([0, 700])
+        .domain([0, 350]);
 
     vis.y = d3.scaleLinear()
         .range([vis.height, 0])
-        .domain([0, 150]);
+        .domain([0, 45]);
 
-    // vis.xAxis = d3.axisBottom()
-    //     .scale(vis.x);
+    vis.xAxis = d3.axisBottom()
+        .scale(vis.x);
+
+    vis.svg.append("g")
+        .attr("class", "x-axis axis")
+        .attr("transform", "translate(0," + vis.height + ")");
 
     vis.yAxis = d3.axisLeft()
         .scale(vis.y);
-
-    // vis.svg.append("g")
-    //     .attr("class", "x-axis axis")
-    //     .attr("transform", "translate(0," + vis.height + ")");
 
     vis.svg.append("g")
         .attr("class", "y-axis axis");
@@ -73,75 +73,106 @@ Histogram.prototype.initVis = function(){
         .attr("y", 520)
         .text("Number of Countries Per Grams of Sugar");
 
-    vis.displayData = this.data.map(function(d, i) {
+    // vis.countsForBars = vis.data.map(function(d, i) {
+    //     return d.Sugar_sweetened_beverages_2016;
+    // });
+
+    //I got help with d3.histogram on this website :  https://www.d3-graph-gallery.com/graph/histogram_basic.html
+
+    // set the parameters for the histogram
+    var histogram = d3.histogram()
+        .value(function(d) { return d.Sugar_sweetened_beverages_2016; })   // I need to give the vector of value
+        .domain(vis.x.domain())  // then the domain of the graphic
+        .thresholds(vis.x.ticks(70)); // then the numbers of bins
+
+    // And apply this function to data to get the bins
+    var bins = histogram(vis.data, function(d) {
         return d.Sugar_sweetened_beverages_2016;
     });
 
-    var firstFifth = 0;
-    var secondFifth = 0;
-    var thirdFifth = 0;
-    var fourthFifth = 0;
-    var fifthFifth = 0;
-
-    vis.displayData.forEach(function(d,i) {
-
-        if (d <= 70 && d >= 0) {
-            firstFifth++ ;
-        } else if (d <= 140 && d >= 71) {
-            secondFifth++;
-        } else if (d <= 210 && d >= 141) {
-            thirdFifth++;
-        } else if (d <= 280 && d >= 211) {
-            fourthFifth++;
-        } else if (d <= 350 && d >= 281) {
-            fifthFifth++;
-        }
-
-    });
-
-    vis.countsForBars = [firstFifth, secondFifth, thirdFifth, fourthFifth, fifthFifth];
-
-
-    vis.bar = vis.svg.selectAll("rect")
-        .data(vis.countsForBars);
-
-        vis.bar.enter()
+    // append the bar rectangles to the svg element
+    vis.svg.selectAll("rect")
+        .data(bins)
+        .enter()
         .append("rect")
-        .attr("fill", "red")
-        .attr("class", "bar")
-        .attr("width", 70)
-        .attr("height", function(d, index) {
-            return vis.height - vis.y(d);
+        .attr("x", 1)
+        .attr("transform", function(d) { return "translate(" + vis.x(d.x0) + "," + vis.y(d.length) + ")"; })
+        .attr("width", function(d) { return vis.x(d.x1) - vis.x(d.x0) -1 ; })
+        .attr("height", function(d) {
+            console.log(d.length);
+            return vis.height - vis.y(d.length);
         })
-        .attr("x", function(d, index){
-            return 20 + (index * 120) ;
-        })
-        .attr("y", function(d, i){
-            return vis.y(d);
-        });
+        .style("fill", "#69b3a2");
 
 
-    //Info regarding the building labels
-    vis.bar.enter().append("text")
-        .text(function(d, i) {
-            console.log(d);
-            if (i == 0) {
-                return "0 - 70";
-            } else if (i == 1) {
-                return "71 - 140";
-            } else if (i == 2) {
-                return "141 - 210";
-            } else if (i == 3) {
-                return "211 - 280";
-            } else if (i == 4) {
-                return "281 - 350";
-            }
-        })
-            .attr("class", "bar-label")
-            .attr("x", function(d, i) {
-                return 25 + (i * 120);
-            })
-            .attr("y", 500);
+
+    // console.log(data);
+    //
+    // var firstFifth = 0;
+    // var secondFifth = 0;
+    // var thirdFifth = 0;
+    // var fourthFifth = 0;
+    // var fifthFifth = 0;
+    //
+    // vis.countsForBars.forEach(function(d,i) {
+    //
+    //     if (d <= 70 && d >= 0) {
+    //         firstFifth++ ;
+    //     } else if (d <= 140 && d >= 71) {
+    //         secondFifth++;
+    //     } else if (d <= 210 && d >= 141) {
+    //         thirdFifth++;
+    //     } else if (d <= 280 && d >= 211) {
+    //         fourthFifth++;
+    //     } else if (d <= 350 && d >= 281) {
+    //         fifthFifth++;
+    //     }
+    //
+    // });
+    //
+    // vis.countsForBars = [firstFifth, secondFifth, thirdFifth, fourthFifth, fifthFifth];
+    //
+    //
+    // vis.bar = vis.svg.selectAll("rect")
+    //     .data(vis.countsForBars);
+    //
+    //     vis.bar.enter()
+    //     .append("rect")
+    //     .attr("fill", "red")
+    //     .attr("class", "bar")
+    //     .attr("width", 70)
+    //     .attr("height", function(d, index) {
+    //         return vis.height - vis.y(d);
+    //     })
+    //     .attr("x", function(d, index){
+    //         return 20 + (index * 120) ;
+    //     })
+    //     .attr("y", function(d, i){
+    //         return vis.y(d);
+    //     });
+    //
+    //
+    // //Info regarding the building labels
+    // vis.bar.enter().append("text")
+    //     .text(function(d, i) {
+    //         console.log(d);
+    //         if (i == 0) {
+    //             return "0 - 70";
+    //         } else if (i == 1) {
+    //             return "71 - 140";
+    //         } else if (i == 2) {
+    //             return "141 - 210";
+    //         } else if (i == 3) {
+    //             return "211 - 280";
+    //         } else if (i == 4) {
+    //             return "281 - 350";
+    //         }
+    //     })
+    //         .attr("class", "bar-label")
+    //         .attr("x", function(d, i) {
+    //             return 25 + (i * 120);
+    //         })
+    //         .attr("y", 500);
 
 
 
@@ -192,7 +223,7 @@ Histogram.prototype.updateVis = function(){
 
 
     // Call axis functions with the new domain
-    // vis.svg.select(".x-axis").call(vis.xAxis);
+    vis.svg.select(".x-axis").call(vis.xAxis);
     vis.svg.select(".y-axis").call(vis.yAxis);
 };
 
