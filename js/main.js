@@ -95,7 +95,10 @@ function createVis() {
     var bubble = new Bubble("bubble", dataByCountry, feature);
 
     //Pie charts
-    var piecharts = new PieChart("pieCharts", allData);
+    var piecharts = new PieChart("pieChartSugarTax", allData);
+    var piecharts = new PieChart("pieChartSodiumPlan", allData);
+    var piecharts = new PieChart("pieChartWastingPlan", allData);
+    var piecharts = new PieChart("pieChartChildOverweightPlan", allData);
 
     // line charts
     var lineChart = new LineChart("female-obesity-line-chart", femaleObesity, dataByCountryName);
