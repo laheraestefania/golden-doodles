@@ -63,7 +63,7 @@ Scatterplot.prototype.initVis = function(){
         .attr("y", vis.margin.top/4)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
-        .text("Under 5 Mortality Rate vs GDP of Countries (2013)");
+        .text("Under 5 Mortality Rate vs GDP of Countries");
 
     // x-axis label
     vis.svg.append('text')
@@ -109,13 +109,39 @@ Scatterplot.prototype.wrangleData = function(){
     //         this.displayData[id] = vis.data[id][vis.feature];
     //     }
     // }
+    // get parameter for scatterplot
+    var my_param = d3.select("#scatterplot-year").property("value");
+    vis.x_param = "GDP_capita_PPP_" + my_param;
+    // console.log("x param", vis.x_param);
+    vis.y_param = "u5mr_" + my_param;
+
+    // console.log("y param", vis.y_param);
+    d3.select("#scatterplot-year").on("change", function() {
+        my_param = d3.select("#scatterplot-year").property("value");
+        // console.log(my_param);
+        vis.x_param = "GDP_capita_PPP_" + my_param;
+        console.log("x param", vis.x_param);
+        vis.y_param = "u5mr_" + my_param;
+        console.log("y param", vis.y_param);
+        vis.displayData.forEach(function(d){
+
+            if (isNaN(d[vis.x_param])){
+                d[vis.x_param] = 0;
+            }
+            if (isNaN(d[vis.y_param])){
+                d[vis.y_param] = 0;
+            }
+        });
+        vis.updateVis();
+    });
+
     vis.displayData.forEach(function(d){
 
-        if (isNaN(d.GDP_capita_PPP_2013)){
-            d.GDP_capita_PPP_2013 = 0;
+        if (isNaN(d[vis.x_param])){
+            d[vis.x_param] = 0;
         }
-        if (isNaN(d.u5mr_2013)){
-            d.u5mr_2013 = 0;
+        if (isNaN(d[vis.y_param])){
+            d[vis.y_param] = 0;
         }
     });
 
@@ -132,8 +158,9 @@ Scatterplot.prototype.wrangleData = function(){
 Scatterplot.prototype.updateVis = function(){
     var vis = this;
 
-    vis.x.domain([0, d3.max(vis.displayData, function(d) {return d.GDP_capita_PPP_2013; })]);
-    vis.y.domain([0, d3.max(vis.displayData, function(d) {return d.u5mr_2013; })]);
+
+    vis.x.domain([0, d3.max(vis.displayData, function(d) {return d[vis.x_param]; })]);
+    vis.y.domain([0, d3.max(vis.displayData, function(d) {return d[vis.y_param]; })]);
 
     // create tooltip using d3 library
     vis.tooltip = d3.tip()
@@ -141,31 +168,38 @@ Scatterplot.prototype.updateVis = function(){
         .offset([-8, 0])
         .html(function(d){
             return "Country: " + d.country +
-                "</br>  GDP Per Capita: " + d.GDP_capita_PPP_2013 +
-                "</br>  Under 5 Mortality Rate: " + d.u5mr_2013 ; });
+                "</br>  GDP Per Capita: " + d[vis.x_param] +
+                "</br>  Under 5 Mortality Rate: " + d[vis.y_param] ; });
     vis.svg.call(vis.tooltip);
 
     vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
     vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
 
-    vis.svg.selectAll("circle")
-        .data(vis.displayData)
-        .enter()
+    var temp = vis.svg.selectAll(".countries")
+        .data(vis.displayData, function(d){return d.id;});
+
+    temp.enter()
         .append("circle")
+        .attr("class", "countries")
+        .merge(temp)
         .attr("fill", function(d){
             return vis.colorPalette(d.region);
         })
         // add tooltip whenever mouse hovers over
         .on("mouseover", vis.tooltip.show)
         .on("mouseout", vis.tooltip.hide)
+        .attr("r", 2)
         .attr("stroke", "black")
-        .attr("cx", function(d){ return vis.x(d.GDP_capita_PPP_2013); })
-        .attr("cy", function(d){ return vis.y(d.u5mr_2013); })
-        .attr("r", 2);
+        .transition()
+        .duration(800)
+        .attr("cx", function(d){ return vis.x(d[vis.x_param]); })
+        .attr("cy", function(d){ return vis.y(d[vis.y_param]); });
+
+    temp.exit().remove();
 
     // Call axis functions with the new domain
-    vis.svg.select(".x-axis").call(vis.xAxis);
-    vis.svg.select(".y-axis").call(vis.yAxis);
+    vis.svg.select(".x-axis").transition(800).call(vis.xAxis);
+    vis.svg.select(".y-axis").transition(800).call(vis.yAxis);
 
 
 }
