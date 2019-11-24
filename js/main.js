@@ -61,6 +61,27 @@ function loadData() {
             });
 
             allData = nutritionData;
+
+            // console.log(allData);
+
+            var sugarTaxData = allData.map(function(d) {
+                return d.sugar_tax;
+            });
+
+            var sodiumPlanData = allData.map(function(d) {
+                return d.sodium_plan;
+            });
+
+            var childOverweightPlanData = allData.map(function(d) {
+                return d.child_overweight_plan;
+            });
+
+            var wastingPlanData = allData.map(function(d) {
+                return d.wasting_plan;
+            });
+
+            // console.log(wastingPlanData);
+
             topology = topology_;
 
             femaleObesity = clean(femaleObesity_);
