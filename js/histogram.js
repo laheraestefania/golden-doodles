@@ -73,9 +73,12 @@ Histogram.prototype.initVis = function(){
         .attr("y", 520)
         .text("Number of Countries Per Grams of Sugar");
 
-    // vis.countsForBars = vis.data.map(function(d, i) {
-    //     return d.Sugar_sweetened_beverages_2016;
-    // });
+    //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
+
+    // set the color scale
+    var color = d3.scaleOrdinal()
+        .domain(vis.data)
+        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
 
     //I got help with d3.histogram on this website :  https://www.d3-graph-gallery.com/graph/histogram_basic.html
 
@@ -99,81 +102,10 @@ Histogram.prototype.initVis = function(){
         .attr("transform", function(d) { return "translate(" + vis.x(d.x0) + "," + vis.y(d.length) + ")"; })
         .attr("width", function(d) { return vis.x(d.x1) - vis.x(d.x0) -1 ; })
         .attr("height", function(d) {
-            console.log(d.length);
+            // console.log(d.length);
             return vis.height - vis.y(d.length);
         })
         .style("fill", "#69b3a2");
-
-
-
-    // console.log(data);
-    //
-    // var firstFifth = 0;
-    // var secondFifth = 0;
-    // var thirdFifth = 0;
-    // var fourthFifth = 0;
-    // var fifthFifth = 0;
-    //
-    // vis.countsForBars.forEach(function(d,i) {
-    //
-    //     if (d <= 70 && d >= 0) {
-    //         firstFifth++ ;
-    //     } else if (d <= 140 && d >= 71) {
-    //         secondFifth++;
-    //     } else if (d <= 210 && d >= 141) {
-    //         thirdFifth++;
-    //     } else if (d <= 280 && d >= 211) {
-    //         fourthFifth++;
-    //     } else if (d <= 350 && d >= 281) {
-    //         fifthFifth++;
-    //     }
-    //
-    // });
-    //
-    // vis.countsForBars = [firstFifth, secondFifth, thirdFifth, fourthFifth, fifthFifth];
-    //
-    //
-    // vis.bar = vis.svg.selectAll("rect")
-    //     .data(vis.countsForBars);
-    //
-    //     vis.bar.enter()
-    //     .append("rect")
-    //     .attr("fill", "red")
-    //     .attr("class", "bar")
-    //     .attr("width", 70)
-    //     .attr("height", function(d, index) {
-    //         return vis.height - vis.y(d);
-    //     })
-    //     .attr("x", function(d, index){
-    //         return 20 + (index * 120) ;
-    //     })
-    //     .attr("y", function(d, i){
-    //         return vis.y(d);
-    //     });
-    //
-    //
-    // //Info regarding the building labels
-    // vis.bar.enter().append("text")
-    //     .text(function(d, i) {
-    //         console.log(d);
-    //         if (i == 0) {
-    //             return "0 - 70";
-    //         } else if (i == 1) {
-    //             return "71 - 140";
-    //         } else if (i == 2) {
-    //             return "141 - 210";
-    //         } else if (i == 3) {
-    //             return "211 - 280";
-    //         } else if (i == 4) {
-    //             return "281 - 350";
-    //         }
-    //     })
-    //         .attr("class", "bar-label")
-    //         .attr("x", function(d, i) {
-    //             return 25 + (i * 120);
-    //         })
-    //         .attr("y", 500);
-
 
 
     // Initialize brushing component
@@ -198,7 +130,6 @@ Histogram.prototype.initVis = function(){
     vis.brushGroup = vis.svg.append("g")
         .attr("class", "brush")
         .call(vis.brush);
-
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
