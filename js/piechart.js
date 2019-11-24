@@ -77,17 +77,14 @@ PieChart.prototype.wrangleData = function(){
 PieChart.prototype.updateVis = function(){
     var vis = this;
 
-
-    // Call axis functions with the new domain
-    vis.svg.select(".x-axis").call(vis.xAxis);
-    vis.svg.select(".y-axis").call(vis.yAxis);
+    console.log(vis.data);
 };
 
-PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
-    var vis = this;
-
-
-    vis.wrangleData();
-};
+// PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
+//     var vis = this;
+//
+//
+//     vis.wrangleData();
+// };
 
 
