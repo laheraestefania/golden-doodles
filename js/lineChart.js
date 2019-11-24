@@ -7,7 +7,7 @@
 
 LineChart = function(_parentElement, _data, _groupingData, gender="Female", condition="Obesity"){
     var vis = this;
-    vis.timeFormat = d3.timeFormat("%Y");
+    vis.timeFormat = d3.timeFormat("'%y");
     vis.parseDate = d3.timeParse("%Y");
     vis.parentElement = _parentElement;
     vis.data = {};
@@ -42,7 +42,7 @@ LineChart = function(_parentElement, _data, _groupingData, gender="Female", cond
 
 LineChart.prototype.initVis = function(){
     var vis = this;
-    vis.margin = { top: 40, right: 20, bottom: 40, left: 30 };
+    vis.margin = { top: 40, right: 15, bottom: 40, left: 60 };
 
     console.log($("#" + vis.parentElement).width());
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
@@ -65,7 +65,7 @@ LineChart.prototype.initVis = function(){
 
     vis.xAxis = d3.axisBottom()
         .scale(vis.x)
-        .tickFormat(d3.timeFormat("%Y"));
+        .tickFormat(vis.timeFormat);
 
     // Represents percent in current applications
     vis.y = d3.scaleLinear()
@@ -96,10 +96,10 @@ LineChart.prototype.initVis = function(){
         .attr("class", "y-axis axis")
         .call(vis.yAxis)
         .append("text")
-        .attr("x", 20)
+        .attr("x", 0)
         .attr("y", -10)
         .attr("fill", "black")
-        .text("percent");
+        .text("percent (%)");
 
     vis.svg.append("g")
         .attr("class", "x-axis axis")
