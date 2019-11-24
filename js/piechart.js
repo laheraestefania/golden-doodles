@@ -27,7 +27,7 @@ PieChart.prototype.initVis = function(){
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
 
-    //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
+    //Code help from: https://www.d3-graph-gallery.com/graph/pie_basic.html and our D3 book
 
     var sugarTax = [0, 0];
 
@@ -48,14 +48,6 @@ PieChart.prototype.initVis = function(){
 
     // Compute the position of each group on the pie:
     var pie = d3.pie();
-    //     .value(sugarTax, function(d) {
-    //         console.log(d);
-    //         return d;
-    //     });
-    // var data_ready = pie(d3.entries(sugarTax, function(d) {
-    //     console.log(d);
-    //     return d;
-    // }));
 
     var w = 300;
     var h = 300;
@@ -80,21 +72,18 @@ PieChart.prototype.initVis = function(){
         })
         .attr("d", arc);
 
-// Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-//     vis.svg.selectAll("pic-chart")
-//         .data(sugarTax)
-//         .enter()
-//         .append('path')
-//         .attr('d', d3.arc()
-//             .innerRadius(0)
-//             .outerRadius(30)
-//         )
-//         .attr('fill', function(d) {
-//             return color(sugarTax.key);
-//         })
-//         .attr("stroke", "black")
-//         .style("stroke-width", "2px")
-//         .style("opacity", 0.7);
+    arcs.append("text")
+        .attr("transform", function(d) {
+            return "translate(" + arc.centroid(d) + ")";
+        })
+        .attr("text-anchor", "middle")
+        .text(function(d, i) {
+            if (i == 0) {
+                return "Yes";
+            } else if (i == 1) {
+                return "No";
+            }
+        });
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
