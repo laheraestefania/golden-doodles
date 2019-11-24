@@ -63,7 +63,7 @@ Scatterplot.prototype.initVis = function(){
         .attr("y", vis.margin.top/4)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
-        .text("Fruit and Vegetable Availability vs GDP of Countries (2013)");
+        .text("Under 5 Mortality Rate vs GDP of Countries (2013)");
 
     // x-axis label
     vis.svg.append('text')
@@ -75,7 +75,7 @@ Scatterplot.prototype.initVis = function(){
 
     // // y-axis label
     vis.svg.append("text")
-        .text("Fruit and Vegetable Availability")
+        .text("Under 5 Mortality Rate")
         .attr("fill", "black")
         .attr("x", -vis.height/1.5)
         .attr("y", - vis.margin.left/2)
@@ -114,8 +114,8 @@ Scatterplot.prototype.wrangleData = function(){
         if (isNaN(d.GDP_capita_PPP_2013)){
             d.GDP_capita_PPP_2013 = 0;
         }
-        if (isNaN(d.fruit_veg_availability_2013)){
-            d.fruit_veg_availability_2013 = 0;
+        if (isNaN(d.u5mr_2013)){
+            d.u5mr_2013 = 0;
         }
     });
 
@@ -133,7 +133,7 @@ Scatterplot.prototype.updateVis = function(){
     var vis = this;
 
     vis.x.domain([0, d3.max(vis.displayData, function(d) {return d.GDP_capita_PPP_2013; })]);
-    vis.y.domain([0, d3.max(vis.displayData, function(d) {return d.fruit_veg_availability_2013; })]);
+    vis.y.domain([0, d3.max(vis.displayData, function(d) {return d.u5mr_2013; })]);
 
     // create tooltip using d3 library
     vis.tooltip = d3.tip()
@@ -142,7 +142,7 @@ Scatterplot.prototype.updateVis = function(){
         .html(function(d){
             return "Country: " + d.country +
                 "</br>  GDP Per Capita: " + d.GDP_capita_PPP_2013 +
-                "</br>  Food and Vegetable Availability: " + d.fruit_veg_availability_2013 ; });
+                "</br>  Under 5 Mortality Rate: " + d.u5mr_2013 ; });
     vis.svg.call(vis.tooltip);
 
     vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
@@ -160,7 +160,7 @@ Scatterplot.prototype.updateVis = function(){
         .on("mouseout", vis.tooltip.hide)
         .attr("stroke", "black")
         .attr("cx", function(d){ return vis.x(d.GDP_capita_PPP_2013); })
-        .attr("cy", function(d){ return vis.y(d.fruit_veg_availability_2013); })
+        .attr("cy", function(d){ return vis.y(d.u5mr_2013); })
         .attr("r", 2);
 
     // Call axis functions with the new domain
