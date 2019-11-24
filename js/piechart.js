@@ -29,35 +29,72 @@ PieChart.prototype.initVis = function(){
 
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 
+    var sugarTax = [0, 0];
+
+    vis.sugarTaxChart = vis.data.forEach(function(d) {
+        if (d.sugar_tax == "Yes") {
+            sugarTax[0] ++;
+        } else if (d.sugar_tax == "No") {
+            sugarTax[1] ++;
+        }
+    });
+
+    console.log(sugarTax);
+
     // set the color scale
     var color = d3.scaleOrdinal()
-        .domain(vis.data)
-        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
+        .domain(sugarTax)
+        .range(["#98abc5", "#8a89a6"]);
 
     // Compute the position of each group on the pie:
-    var pie = d3.pie()
-        .value(function(d) {
-            console.log(d.value.sugar_tax);
-            return d.value.sugar_tax;
-        });
-    var data_ready = pie(d3.entries(vis.data, function(d) {
-        console.log(d.value.sugar_tax);
-        return d.value.sugar_tax
-    }));
+    var pie = d3.pie();
+    //     .value(sugarTax, function(d) {
+    //         console.log(d);
+    //         return d;
+    //     });
+    // var data_ready = pie(d3.entries(sugarTax, function(d) {
+    //     console.log(d);
+    //     return d;
+    // }));
+
+    var w = 300;
+    var h = 300;
+    var outerRadius = w / 2;
+    var innerRadius = 0;
+    var arc = d3.arc()
+        .innerRadius(innerRadius)
+        .outerRadius(outerRadius);
+
+    //Set up groups
+    var arcs = vis.svg.selectAll("g.arc")
+        .data(pie(sugarTax))
+        .enter()
+        .append("g")
+        .attr("class", "arc")
+        .attr("transform", "translate(" + outerRadius + ", " + outerRadius + ")");
+
+    //Draw arc paths
+    arcs.append("path")
+        .attr("fill", function(d, i) {
+            return color(i);
+        })
+        .attr("d", arc);
 
 // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-    vis.svg.selectAll("pic-chart")
-        .data(data_ready)
-        .enter()
-        .append('path')
-        .attr('d', d3.arc()
-            .innerRadius(0)
-            .outerRadius(7)
-        )
-        .attr('fill', function(d){ return(color(d.data.key)) })
-        .attr("stroke", "black")
-        .style("stroke-width", "2px")
-        .style("opacity", 0.7);
+//     vis.svg.selectAll("pic-chart")
+//         .data(sugarTax)
+//         .enter()
+//         .append('path')
+//         .attr('d', d3.arc()
+//             .innerRadius(0)
+//             .outerRadius(30)
+//         )
+//         .attr('fill', function(d) {
+//             return color(sugarTax.key);
+//         })
+//         .attr("stroke", "black")
+//         .style("stroke-width", "2px")
+//         .style("opacity", 0.7);
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
