@@ -159,7 +159,7 @@ for (let j = 0; j < nestdata.length; j++) {
                         case "No data" :
                             return "#ccc";
                         case "No Data" : return "#ccc";
-                        case "": return "#ccc";
+                        case "": return "green";
                     }
                 } else if (d.height === 1) {
                     switch(subregional[i][value]) {
@@ -284,7 +284,7 @@ for (let j = 0; j < nestdata.length; j++) {
                         case "No data" :
                             return "#ccc";
                         case "No Data" : return "#ccc";
-                        case "": return "#ccc";
+                        case "": return "green";
                     }
                 } else if (d.height === 1) {
                     switch(subregional[i][value]) {
