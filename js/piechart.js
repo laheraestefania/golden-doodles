@@ -29,7 +29,7 @@ PieChart.prototype.initVis = function(){
 
     //Code help from: https://www.d3-graph-gallery.com/graph/pie_basic.html and our D3 book
 
-    console.log(vis.data);
+    // console.log(vis.data);
 
     var organizedData = [0, 0];
 
@@ -41,7 +41,7 @@ PieChart.prototype.initVis = function(){
         }
     });
 
-    console.log(organizedData);
+    // console.log(organizedData);
 
     // set the color scale
     var color = d3.scaleOrdinal()
@@ -110,6 +110,8 @@ PieChart.prototype.updateVis = function(){
 
 // PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
 //     var vis = this;
+//
+//
 //
 //
 //     vis.wrangleData();

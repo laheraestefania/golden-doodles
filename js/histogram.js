@@ -8,7 +8,7 @@
 Histogram = function(_parentElement, _data, _eventHandler ){
     this.parentElement = _parentElement;
     this.data = _data;
-    // this.MyEventHandler = _eventHandler;
+    this.MyEventHandler = _eventHandler;
 
     this.initVis();
 }
@@ -158,9 +158,9 @@ Histogram.prototype.updateVis = function(){
     vis.svg.select(".y-axis").call(vis.yAxis);
 };
 
-Histogram.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
-    var vis = this;
-
-
-    vis.wrangleData();
-};
+// Histogram.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
+//     var vis = this;
+//
+//
+//     vis.wrangleData();
+// };

@@ -65,6 +65,16 @@ function loadData() {
 
             // console.log(allData);
 
+            var dataProcessing = allData;
+
+            // (3) Create event handler
+            var MyEventHandler = {};
+
+            $(MyEventHandler).bind("selectionChanged", function(event, rangeStart, rangeEnd){
+                console.log(rangeStart);
+            });
+
+
             sugarTaxData = allData.map(function(d) {
                 return d.sugar_tax;
             });
@@ -96,8 +106,8 @@ function loadData() {
             // console.log("dataByCountryName");
             // console.log(dataByCountryName);
             //
-            console.log("fem obesity");
-            console.log(femaleObesity);
+            // console.log("fem obesity");
+            // console.log(femaleObesity);
 
             // console.log(allData);
             createVis();
@@ -107,6 +117,7 @@ function loadData() {
 
 
 function createVis() {
+
 	// TO-DO: Instantiate visualization objects here
     var feature = $("#selected-feature").val();
     var game = new ChoroplethGame("game", dataByCountry, topology, feature);
