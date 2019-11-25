@@ -269,11 +269,25 @@ for (let j = 0; j < nestdata.length; j++) {
         // update(root);
         nodeUpdate.select('circle.node')
             .attr('r', 7)
-            .style("fill", function(d) {
+            .style("fill", function(d, i) {
                 if (d.children) {
                     return "#fff";
                 } else if (d.height === 0) {
                     switch(d.data.data[0][value]) {
+                        case "experiencing one form of malnutrition": return "yellow";
+                        case "experiencing two forms of malnutrition": return "orange";
+                        case "experiencing three forms of malnutrition": return "red";
+                        case "On course" :
+                            return "#00ff00";
+                        case "No progress or worsening":
+                            return "#ff0000";
+                        case "No data" :
+                            return "#ccc";
+                        case "No Data" : return "#ccc";
+                        case "": return "#ccc";
+                    }
+                } else if (d.height === 1) {
+                    switch(subregional[i][value]) {
                         case "experiencing one form of malnutrition": return "yellow";
                         case "experiencing two forms of malnutrition": return "orange";
                         case "experiencing three forms of malnutrition": return "red";
