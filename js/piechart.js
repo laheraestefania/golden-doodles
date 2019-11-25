@@ -55,6 +55,8 @@ PieChart.prototype.wrangleData = function(){
         }
     });
 
+    vis.displayData = vis.organizedData;
+
     // console.log(vis.organizedData);
 
     // Update the visualization
@@ -108,8 +110,6 @@ PieChart.prototype.updateVis = function(){
                 return "No";
             }
         });
-
-    // console.log(vis.data);
 };
 
 PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
