@@ -173,7 +173,7 @@ for (let j = 0; j < nestdata.length; j++) {
                         case "No data" :
                             return "#ccc";
                         case "No Data" : return "#ccc";
-                        case "": return "#ccc";
+                        case "": return "green";
                     }
                 }
                  else {
@@ -298,7 +298,7 @@ for (let j = 0; j < nestdata.length; j++) {
                         case "No data" :
                             return "#ccc";
                         case "No Data" : return "#ccc";
-                        case "": return "#ccc";
+                        case "": return "green";
                     }
                 } else {
                     return "#000";
