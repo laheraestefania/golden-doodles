@@ -1,8 +1,8 @@
 
 var margin = {top: 10, right: 0, bottom: 10, left: 50};
 
-var width = 800 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
+var width = 700 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
 var area = d3.select("#tree")
     .append("svg")
@@ -19,7 +19,7 @@ var i = 0,
 
 // Define tree
 var treemap = d3.tree()
-    .size([height, width]);
+    .size([height, width - 200]);
 
 // Data cleaning
 
@@ -383,7 +383,7 @@ treelegend.prototype.updateVis = function() {
         .text(function(d) {
             return d;
         })
-        .attr("font-size", 10);
+        .attr("font-size", 8);
 
     legendcircle.exit().remove();
 };
