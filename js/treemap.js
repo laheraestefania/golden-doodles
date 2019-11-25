@@ -310,11 +310,13 @@ for (let j = 0; j < nestdata.length; j++) {
             legendlabels[1] = "experiencing two forms of malnutrition";
             legendlabels[2] = "experiencing three forms of malnutrition";
             legendlabels[3] = "No data";
+            legendlabels[4] = "";
         } else {
             legendlabels[0] = "On course";
             legendlabels[1] = "No progress or worsening";
             legendlabels[2] = "No data";
             legendlabels[3] = null;
+            legendlabels[4] = null;
         };
 
         legend.updateVis();
@@ -395,7 +397,7 @@ treelegend.prototype.updateVis = function() {
                 case "No data" :
                     return "#ccc";
                 case null :
-                    return "#fff";
+                    return "#ccc";
             }
         });
 
@@ -410,7 +412,10 @@ treelegend.prototype.updateVis = function() {
             return (i * 15) + 3;
         })
         .text(function(d) {
-            return d;
+            if (d === "") {
+                return ("no malnutrition");
+            } else { return d;
+            }
         })
         .attr("font-size", 8);
 
