@@ -22,11 +22,16 @@ var treemap = d3.tree()
     .size([height, width]);
 
 // Data cleaning
-// use other data
-d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
+
+queue()
+    .defer(d3.csv, "data/cleaned_nutrition_data.csv")
+    .defer(d3.csv, "data/subregional_data.csv")
+    .await(function(error, csv, subregional) {
 
     alldata = csv;
     value = d3.select("#attribute").property("value");
+
+    console.log(subregional);
 
     if (value === "country_class") {
         legendlabels[0] = "experiencing one form of malnutrition";
@@ -45,24 +50,14 @@ d3.csv("data/cleaned_nutrition_data.csv", function(error, csv) {
         .key(function(d) { return d.country})
         .entries(alldata);
 
-    var malnutritioncounter = 0,
-        femalediabetes = 0;
-
 for (let j = 0; j < nestdata.length; j++) {
     for (let k = 0; k < nestdata[j].values.length; k++) {
         for (let l = 0; l < nestdata[j].values[k].values.length; l++) {
             nestdata[j].values[k].values[l].data = nestdata[j].values[k].values[l].values;
             nestdata[j].values[k].values[l].values = null;
-            if (nestdata[j].values[k].values[l].data[0].adult_fem_diabetes_track === "On course") {
-                femalediabetes++;
             }
         }
-        // nestdata[j].values[k].adult_fem_diabetes_track = femalediabetes;
-        femalediabetes = 0;
-
-        //     nestdata[j].data.adult_fem_diabetes_track += femalediabetes;
-        }
-    }
+};
 
     var root = d3.hierarchy({values: nestdata}, function(d) {return d.values;});
 
