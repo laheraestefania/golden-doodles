@@ -46,7 +46,7 @@ LineChart.prototype.initVis = function(){
 
     console.log($("#" + vis.parentElement).width());
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
-    vis.height = 250 - vis.margin.top - vis.margin.bottom;
+    vis.height = 220 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")

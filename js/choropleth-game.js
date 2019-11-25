@@ -86,7 +86,7 @@ ChoroplethGame.prototype.initVis = function() {
     $("#map-game-title").html(`<h3>${metadata[vis.feature]} </h3>`);
 
     $("#map-game-instructions").hide()
-        .html("Can you guess which " + vis.guessLimit + " countries consume the MOST?")
+        .html("Let's play a game. Can you guess which " + vis.guessLimit + " countries consume the MOST?")
         .fadeIn("slow");
 
     // Render the world atlas by using the path generator

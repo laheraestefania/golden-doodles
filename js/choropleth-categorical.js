@@ -28,7 +28,7 @@ var catColorDomain = {"country_class":[
 ChoroplethCategorical.prototype.initVis = function() {
     var vis = this;
 
-    vis.margin = {top: 0, right: 120, bottom: 30, left: 60};
+    vis.margin = {top: 0, right: 250, bottom: 30, left: 20};
 
     vis.width = 900 - vis.margin.left - vis.margin.right,
         vis.height = 500 - vis.margin.top - vis.margin.bottom;
@@ -45,8 +45,8 @@ ChoroplethCategorical.prototype.initVis = function() {
 
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([50, 50])                 // Where to center the map in degrees
-        .scale(100)                       // Zoom-level
+        .center([110, 50])                 // Where to center the map in degrees
+        .scale(110)                       // Zoom-level
         .rotate([0, 0]);                   // Map-rotation
 
     // D3 geo path generator (maps geodata to SVG paths)
@@ -75,7 +75,7 @@ ChoroplethCategorical.prototype.initVis = function() {
 
     vis.legendGroup = vis.parentElt.select(".choro-cat-svg").append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width - 20) + ", 30)");
+        .attr("transform", "translate(" + (vis.width + 30) + ", 30)");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(5)

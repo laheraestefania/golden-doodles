@@ -52,3 +52,7 @@ div.tooltip {
     border-radius: 8px;
     pointer-events: none;
 }
+
+#micronutrient-selection-button {
+    margin: 20px;
+}

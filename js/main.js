@@ -112,8 +112,10 @@ function createVis() {
     // (3) Create event handler
     var MyEventHandler = {};
 
+    $('#micronutrient-selection-button').click(function(){
+        fullpage_api.moveSectionDown();
+    });
 
-	// TO-DO: Instantiate visualization objects here
     var feature = $("#selected-feature").val();
     var game = new ChoroplethGame("game", dataByCountry, topology, feature);
     var map = new Choropleth("map", dataByCountry, topology, feature);
