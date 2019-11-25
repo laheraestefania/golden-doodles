@@ -157,7 +157,7 @@ LineChart.prototype.updateVis = function(){
             .attr("class", function () {
                 let region = vis.groupingData[key]["region"];
                 let subregion = vis.groupingData[key]["subregion"];
-                return key + " " + region + " " + subregion;
+                return key.replace(" ", "_") + " " + region + " " + subregion;
             })
             .attr("d", vis.linePath);
     })
