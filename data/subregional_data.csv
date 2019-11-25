@@ -1,23 +1,23 @@
-﻿,country_class,adult_fem_diabetes_track,adult_fem_obesity_track,adult_mal_diabetes_track,adult_mal_obesity_track
-Australia and New Zealand,experiencing one form of malnutrition,On course,No progress or worsening,On course,No progress or worsening
-Caribbean,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Central America,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Central Asia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Eastern Africa,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Eastern Asia,experiencing one form of malnutrition,On course,No progress or worsening,No progress or worsening,No progress or worsening
-Eastern Europe,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Melanesia,experiencing three forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Micronesia,No data,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Middle Africa,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Northern Africa,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Northern America,experiencing one form of malnutrition,On course,No progress or worsening,No progress or worsening,No progress or worsening
-Northern Europe,No data,On course,No progress or worsening,No progress or worsening,No progress or worsening
-Polynesia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-South America,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-South-eastern Asia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No data
-Southern Africa,experiencing three forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Southern Asia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Southern Europe,No data,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Western Africa,experiencing three forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Western Asia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
-Western Europe,No data,On course,,,
+﻿region,subregion,country_class,adult_fem_diabetes_track,adult_fem_obesity_track,adult_mal_diabetes_track,adult_mal_obesity_track
+Africa,Eastern Africa,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Africa,Middle Africa,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Africa,Northern Africa,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Africa,Southern Africa,experiencing three forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Africa,Western Africa,experiencing three forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Asia,Central Asia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Asia,Eastern Asia,experiencing one form of malnutrition,On course,No progress or worsening,No progress or worsening,No progress or worsening
+Asia,South-eastern Asia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No data
+Asia,Southern Asia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Asia,Western Asia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Europe,Eastern Europe,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Europe,Northern Europe,No data,On course,No progress or worsening,No progress or worsening,No progress or worsening
+Europe,Southern Europe,No data,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Europe,Western Europe,No data,On course,,,
+Latin America and the Caribbean,Caribbean,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Latin America and the Caribbean,Central America,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Latin America and the Caribbean,South America,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+N. America,Northern America,experiencing one form of malnutrition,On course,No progress or worsening,No progress or worsening,No progress or worsening
+Oceania,Australia and New Zealand,experiencing one form of malnutrition,On course,No progress or worsening,On course,No progress or worsening
+Oceania,Melanesia,experiencing three forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Oceania,Micronesia,No data,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
+Oceania,Polynesia,experiencing two forms of malnutrition,No progress or worsening,No progress or worsening,No progress or worsening,No progress or worsening
