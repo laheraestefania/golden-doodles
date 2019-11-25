@@ -6,6 +6,7 @@ var allData = [];
 var topology = [];
 var metadata = {};
 var noDataColor = "#999999";
+var sugarTaxData = [], sodiumPlanData = [], childOverweightPlanData = [], wastingPlanData = [];
 var femaleObesity = [], maleObesity = [], femaleDiabetes = [], maleDiabetes = [];
 var categorical = new Set(["iso3", "country", "region", "subregion",
     "child_overweight_plan", "fbdg", "overweight_adults_adoles_plan", "sugar_tax",
@@ -64,19 +65,19 @@ function loadData() {
 
             // console.log(allData);
 
-            var sugarTaxData = allData.map(function(d) {
+            sugarTaxData = allData.map(function(d) {
                 return d.sugar_tax;
             });
 
-            var sodiumPlanData = allData.map(function(d) {
+            sodiumPlanData = allData.map(function(d) {
                 return d.sodium_plan;
             });
 
-            var childOverweightPlanData = allData.map(function(d) {
+            childOverweightPlanData = allData.map(function(d) {
                 return d.child_overweight_plan;
             });
 
-            var wastingPlanData = allData.map(function(d) {
+            wastingPlanData = allData.map(function(d) {
                 return d.wasting_plan;
             });
 
@@ -116,10 +117,10 @@ function createVis() {
     var bubble = new Bubble("bubble", dataByCountry, feature);
 
     //Pie charts
-    var piecharts = new PieChart("pieChartSugarTax", allData);
-    var piecharts = new PieChart("pieChartSodiumPlan", allData);
-    var piecharts = new PieChart("pieChartWastingPlan", allData);
-    var piecharts = new PieChart("pieChartChildOverweightPlan", allData);
+    var piecharts = new PieChart("pieChartSugarTax", sugarTaxData);
+    var piecharts = new PieChart("pieChartSodiumPlan", sodiumPlanData);
+    var piecharts = new PieChart("pieChartWastingPlan", childOverweightPlanData);
+    var piecharts = new PieChart("pieChartChildOverweightPlan", wastingPlanData);
 
     // line charts
     var lineChart = new LineChart("female-obesity-line-chart", femaleObesity, dataByCountryName);

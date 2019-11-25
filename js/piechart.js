@@ -29,21 +29,23 @@ PieChart.prototype.initVis = function(){
 
     //Code help from: https://www.d3-graph-gallery.com/graph/pie_basic.html and our D3 book
 
-    var sugarTax = [0, 0];
+    console.log(vis.data);
 
-    vis.sugarTaxChart = vis.data.forEach(function(d) {
-        if (d.sugar_tax == "Yes") {
-            sugarTax[0] ++;
-        } else if (d.sugar_tax == "No") {
-            sugarTax[1] ++;
+    var organizedData = [0, 0];
+
+    vis.organizedData = vis.data.forEach(function(d) {
+        if (d == "Yes") {
+            organizedData[0] ++;
+        } else if (d == "No") {
+            organizedData[1] ++;
         }
     });
 
-    console.log(sugarTax);
+    console.log(organizedData);
 
     // set the color scale
     var color = d3.scaleOrdinal()
-        .domain(sugarTax)
+        .domain(organizedData)
         .range(["#98abc5", "#8a89a6"]);
 
     // Compute the position of each group on the pie:
@@ -59,7 +61,7 @@ PieChart.prototype.initVis = function(){
 
     //Set up groups
     var arcs = vis.svg.selectAll("g.arc")
-        .data(pie(sugarTax))
+        .data(pie(organizedData))
         .enter()
         .append("g")
         .attr("class", "arc")
