@@ -31,7 +31,7 @@ queue()
     alldata = csv;
     value = d3.select("#attribute").property("value");
 
-    console.log(subregional);
+    console.log(subregional[1][value]);
 
     if (value === "country_class") {
         legendlabels[0] = "experiencing one form of malnutrition";
@@ -57,7 +57,7 @@ for (let j = 0; j < nestdata.length; j++) {
             nestdata[j].values[k].values[l].values = null;
             }
         }
-};
+}
 
     var root = d3.hierarchy({values: nestdata}, function(d) {return d.values;});
 
@@ -144,7 +144,7 @@ for (let j = 0; j < nestdata.length; j++) {
         // Update the node attributes and style
         nodeUpdate.select('circle.node')
             .attr('r', 7)
-            .style("fill", function(d) {
+            .style("fill", function(d, i) {
                 if (d.children) {
                     return "#fff";
                 } else if (d.height === 0) {
@@ -161,7 +161,22 @@ for (let j = 0; j < nestdata.length; j++) {
                         case "No Data" : return "#ccc";
                         case "": return "#ccc";
                     }
-                } else {
+                } else if (d.height === 1) {
+                    switch(subregional[i][value]) {
+                        case "experiencing one form of malnutrition": return "yellow";
+                        case "experiencing two forms of malnutrition": return "orange";
+                        case "experiencing three forms of malnutrition": return "red";
+                        case "On course" :
+                            return "#00ff00";
+                        case "No progress or worsening":
+                            return "#ff0000";
+                        case "No data" :
+                            return "#ccc";
+                        case "No Data" : return "#ccc";
+                        case "": return "#ccc";
+                    }
+                }
+                 else {
                     return "#000";
                 }
             })
