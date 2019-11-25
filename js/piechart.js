@@ -31,61 +31,8 @@ PieChart.prototype.initVis = function(){
 
     // console.log(vis.data);
 
-    var organizedData = [0, 0];
-
-    vis.organizedData = vis.data.forEach(function(d) {
-        if (d == "Yes") {
-            organizedData[0] ++;
-        } else if (d == "No") {
-            organizedData[1] ++;
-        }
-    });
-
     // console.log(organizedData);
 
-    // set the color scale
-    var color = d3.scaleOrdinal()
-        .domain(organizedData)
-        .range(["#98abc5", "#8a89a6"]);
-
-    // Compute the position of each group on the pie:
-    var pie = d3.pie();
-
-    var w = 300;
-    var h = 300;
-    var outerRadius = w / 2;
-    var innerRadius = 0;
-    var arc = d3.arc()
-        .innerRadius(innerRadius)
-        .outerRadius(outerRadius);
-
-    //Set up groups
-    var arcs = vis.svg.selectAll("g.arc")
-        .data(pie(organizedData))
-        .enter()
-        .append("g")
-        .attr("class", "arc")
-        .attr("transform", "translate(" + outerRadius + ", " + outerRadius + ")");
-
-    //Draw arc paths
-    arcs.append("path")
-        .attr("fill", function(d, i) {
-            return color(i);
-        })
-        .attr("d", arc);
-
-    arcs.append("text")
-        .attr("transform", function(d) {
-            return "translate(" + arc.centroid(d) + ")";
-        })
-        .attr("text-anchor", "middle")
-        .text(function(d, i) {
-            if (i == 0) {
-                return "Yes";
-            } else if (i == 1) {
-                return "No";
-            }
-        });
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
@@ -97,6 +44,19 @@ PieChart.prototype.initVis = function(){
 PieChart.prototype.wrangleData = function(){
     var vis = this;
 
+    vis.organizedData = [0, 0];
+
+    vis.data.forEach(function(d) {
+        // console.log(d);
+        if (d.plan == "Yes") {
+            vis.organizedData[0] ++;
+        } else if (d.plan == "No") {
+            vis.organizedData[1] ++;
+        }
+    });
+
+    // console.log(vis.organizedData);
+
     // Update the visualization
     vis.updateVis();
 };
@@ -105,16 +65,61 @@ PieChart.prototype.wrangleData = function(){
 PieChart.prototype.updateVis = function(){
     var vis = this;
 
-    console.log(vis.data);
+    // set the color scale
+    vis.color = d3.scaleOrdinal()
+        .domain(vis.organizedData)
+        .range(["#98abc5", "#8a89a6"]);
+
+    // Compute the position of each group on the pie:
+    vis.pie = d3.pie();
+
+    vis.w = 300;
+    vis.h = 300;
+    vis.outerRadius = vis.w / 2;
+    vis.innerRadius = 0;
+    vis.arc = d3.arc()
+        .innerRadius(vis.innerRadius)
+        .outerRadius(vis.outerRadius);
+
+    //Set up groups
+    vis.arcs = vis.svg.selectAll("g.arc")
+        .data(vis.pie(vis.organizedData))
+        .enter()
+        .append("g")
+        .attr("class", "arc")
+        .attr("transform", "translate(" + vis.outerRadius + ", " + vis.outerRadius + ")");
+
+    //Draw arc paths
+    vis.arcs.append("path")
+        .attr("fill", function(d, i) {
+            return vis.color(i);
+        })
+        .attr("d", vis.arc);
+
+    vis.arcs.append("text")
+        .attr("transform", function(d) {
+            return "translate(" + vis.arc.centroid(d) + ")";
+        })
+        .attr("text-anchor", "middle")
+        .text(function(d, i) {
+            if (i == 0) {
+                return "Yes";
+            } else if (i == 1) {
+                return "No";
+            }
+        });
+
+    // console.log(vis.data);
 };
 
-// PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
-//     var vis = this;
-//
-//
-//
-//
-//     vis.wrangleData();
-// };
+PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
+    var vis = this;
+
+    vis.filteredData = vis.data.filter(function(d){
+        return (d.Sugar_sweetened_beverages_2016 >= selectionStart && d.Sugar_sweetened_beverages_2016 <= selectionEnd);
+    });
+
+    vis.wrangleData();
+};
 
 

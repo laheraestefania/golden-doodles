@@ -65,30 +65,21 @@ function loadData() {
 
             // console.log(allData);
 
-            var dataProcessing = allData;
-
-            // (3) Create event handler
-            var MyEventHandler = {};
-
-            $(MyEventHandler).bind("selectionChanged", function(event, rangeStart, rangeEnd){
-                console.log(rangeStart);
-            });
-
 
             sugarTaxData = allData.map(function(d) {
-                return d.sugar_tax;
+                return {plan: d.sugar_tax, Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016};
             });
 
             sodiumPlanData = allData.map(function(d) {
-                return d.sodium_plan;
+                return {plan: d.sodium_plan, Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016};
             });
 
             childOverweightPlanData = allData.map(function(d) {
-                return d.child_overweight_plan;
+                return {plan: d.child_overweight_plan, Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016};
             });
 
             wastingPlanData = allData.map(function(d) {
-                return d.wasting_plan;
+                return {plan: d.wasting_plan, Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016};
             });
 
             // console.log(wastingPlanData);
@@ -118,26 +109,37 @@ function loadData() {
 
 function createVis() {
 
+    // (3) Create event handler
+    var MyEventHandler = {};
+
+
 	// TO-DO: Instantiate visualization objects here
     var feature = $("#selected-feature").val();
     var game = new ChoroplethGame("game", dataByCountry, topology, feature);
     var map = new Choropleth("map", dataByCountry, topology, feature);
     var scatterplot = new Scatterplot("scatterplot", dataByCountry);
-    var histogram = new Histogram("histogram", allData);
+    var histogram = new Histogram("histogram", allData, MyEventHandler);
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
     var bubble = new Bubble("bubble", dataByCountry, feature);
 
     //Pie charts
-    var piecharts = new PieChart("pieChartSugarTax", sugarTaxData);
-    var piecharts = new PieChart("pieChartSodiumPlan", sodiumPlanData);
-    var piecharts = new PieChart("pieChartWastingPlan", childOverweightPlanData);
-    var piecharts = new PieChart("pieChartChildOverweightPlan", wastingPlanData);
+    var piechartSugarTax = new PieChart("pieChartSugarTax", sugarTaxData);
+    var piechartSodiumPlan = new PieChart("pieChartSodiumPlan", sodiumPlanData);
+    var piechartWastingPlan = new PieChart("pieChartWastingPlan", childOverweightPlanData);
+    var piechartChildOverweightPlan = new PieChart("pieChartChildOverweightPlan", wastingPlanData);
 
     // line charts
     var lineChart = new LineChart("female-obesity-line-chart", femaleObesity, dataByCountryName);
     var lineChart = new LineChart("female-diabetes-line-chart", femaleDiabetes, dataByCountryName, gender="Female", condition="Diabetes");
     var lineChart = new LineChart("male-obesity-line-chart", maleObesity, dataByCountryName, gender="Male");
     var lineChart = new LineChart("male-diabetes-line-chart", maleDiabetes, dataByCountryName, gender="Male", condition="Diabetes");
+
+    $(MyEventHandler).bind("selectionChanged", function(event, rangeStart, rangeEnd){
+        piechartSugarTax.onSelectionChange(rangeStart, rangeEnd);
+        piechartSodiumPlan.onSelectionChange(rangeStart, rangeEnd);
+        piechartWastingPlan.onSelectionChange(rangeStart, rangeEnd);
+        piechartChildOverweightPlan.onSelectionChange(rangeStart, rangeEnd);
+    });
 
     $("#choro-bubble-title").html(metadata[feature]);
     $("#selected-feature").on("change", function () {
