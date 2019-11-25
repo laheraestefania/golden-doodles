@@ -78,8 +78,9 @@ LineChart.prototype.initVis = function(){
     // Add title
     vis.svg.append("text")
         .attr("class", "area-title")
-        .attr("x", vis.width / 3)
+        .attr("x", vis.width / 5)
         .attr("y", -20)
+        .attr("font-size", 12)
         .text(vis.title);
 
     vis.linePath = d3.line()

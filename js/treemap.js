@@ -1,8 +1,8 @@
 
-var margin = {top: 10, right: 0, bottom: 10, left: 50};
+var margin = {top: 10, right: 20, bottom: 10, left: 50};
 
-var width = 800 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
+var width = 700 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
 var area = d3.select("#tree")
     .append("svg")
@@ -19,7 +19,7 @@ var i = 0,
 
 // Define tree
 var treemap = d3.tree()
-    .size([height, width]);
+    .size([height, width/2]);
 
 // Data cleaning
 
@@ -92,7 +92,7 @@ for (let j = 0; j < nestdata.length; j++) {
             links = treeData.descendants().slice(1);
 
         // Normalize for fixed-depth.
-        nodes.forEach(function(d){ d.y = d.depth * 180});
+        nodes.forEach(function(d){ d.y = d.depth * 3 / 4 * 180});
 
         // Update the nodes...
         var node = area.selectAll('g.node')
@@ -398,7 +398,7 @@ treelegend.prototype.updateVis = function() {
         .text(function(d) {
             return d;
         })
-        .attr("font-size", 10);
+        .attr("font-size", 8);
 
     legendcircle.exit().remove();
 };
