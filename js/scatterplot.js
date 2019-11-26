@@ -85,6 +85,11 @@ Scatterplot.prototype.initVis = function(){
     console.log(vis.displayData);
     // (Filter, aggregate, modify data)
     vis.wrangleData();
+
+    // scale function for population circles
+    vis.populationScale = d3.scaleLinear()
+        .domain(d3.extent(vis.displayData, function(d) {return d.population_2017;}))
+        .range([4, 30])
 }
 
 
@@ -96,22 +101,22 @@ Scatterplot.prototype.wrangleData = function(){
     var vis = this;
 
     // get parameter for scatterplot
-    var my_param = d3.select("#scatterplot-year").property("value");
-    vis.x_param = "GDP_capita_PPP_" + my_param;
+    vis.my_param = d3.select("#scatterplot-year").property("value");
+    vis.x_param = "GDP_capita_PPP_" + vis.my_param;
     // console.log("x param", vis.x_param);
-    vis.y_param = "u5mr_" + my_param;
+    vis.y_param = "u5mr_" + vis.my_param;
 
     vis.svg.select('.title')
-        .text("Under 5 Mortality Rate vs GDP of Countries in " + my_param);
+        .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
 
     // console.log("y param", vis.y_param);
     d3.select("#scatterplot-year").on("change", function() {
-        my_param = d3.select("#scatterplot-year").property("value");
+        vis.my_param = d3.select("#scatterplot-year").property("value");
         // console.log(my_param);
-        vis.x_param = "GDP_capita_PPP_" + my_param;
-        vis.y_param = "u5mr_" + my_param;
+        vis.x_param = "GDP_capita_PPP_" + vis.my_param;
+        vis.y_param = "u5mr_" + vis.my_param;
         vis.svg.select('.title')
-            .text("Under 5 Mortality Rate vs GDP of Countries in " + my_param);
+            .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
 
         vis.displayData.forEach(function(d){
 
@@ -178,7 +183,12 @@ Scatterplot.prototype.updateVis = function(){
         // add tooltip whenever mouse hovers over
         .on("mouseover", vis.tooltip.show)
         .on("mouseout", vis.tooltip.hide)
-        .attr("r", 5)
+        .attr("r", function(d){
+            if (vis.my_param == '2017'){
+                return vis.populationScale(d.population_2017);
+            }
+            return 5;
+        })
         .transition()
         .duration(800)
         .attr("cx", function(d){ return vis.x(d[vis.x_param]); })
