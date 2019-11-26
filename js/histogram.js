@@ -70,7 +70,7 @@ Histogram.prototype.initVis = function(){
     vis.svg.append("text")
         .attr("x", 300)
         .attr("y", 235)
-        .text("Number of Countries Per Grams of Sugar");
+        .text("Grams of Sugar");
 
     vis.svg.append("text")
         .text("Number of Countries")
