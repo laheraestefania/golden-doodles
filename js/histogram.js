@@ -38,7 +38,6 @@ Histogram.prototype.initVis = function(){
     // SVG clipping path
     // ***TO-DO***
 
-
     // Scales and axes
     vis.x = d3.scaleLinear()
         .range([0, 700])
@@ -70,8 +69,14 @@ Histogram.prototype.initVis = function(){
     // Axis title
     vis.svg.append("text")
         .attr("x", 300)
-        .attr("y", 520)
+        .attr("y", 235)
         .text("Number of Countries Per Grams of Sugar");
+
+    vis.svg.append("text")
+        .text("Sugar Intake in Grams")
+        .attr("transform", "rotate(270)")
+        .attr("x", -200)
+        .attr("y", -50);
 
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 

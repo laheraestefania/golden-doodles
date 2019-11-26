@@ -21,8 +21,7 @@
 	<div id="fullpage">
 		<!-- intro -->
 		<div class = "section">
-			<h1>Investigating Health Determinants by Country</h1>
-			<!-- can we change this to something like "Investigating Global Health Phenomena" -->
+			<h1>Investigating Global Malnutrition</h1>
 		</div>
 
 		<!-- overview, generally malnutrition -->
@@ -33,14 +32,27 @@
 				<div class="row">
 					<div class = "col-md-12">
 						<h3>Malnutrition is a Global Problem</h3>
-						Every country is affected by malnutrition whether directly or indirectly. The Global Nutrition
+						<p> Every country is affected by malnutrition whether directly or indirectly. The Global Nutrition
 						Report was first conceived in 2013 to "[track] the commitments made by
 						100 stakeholders spanning governments, aid donors, civil society, the UN and businesses"<sup>[1]</sup>.
-						It classified countries by the different forms of malnutrition they face and tracks their progress.
+							It classified countries by the different forms of malnutrition they face and tracks their progress. </p>
+						<br>
 					</div>
 				</div>
 				<div class = "row">
-					<div class = "col-md-12" id = "malnutrition-overview-map">
+					<div class = "col-md-9" id = "malnutrition-overview-map">
+					</div>
+					<div class="col-3">
+						<br>
+						<br>
+						<p>Although we traditionally think of malnutrition as undernutrition (wasting, stunting, underweight),
+						there are actually 3 main categories of malnutrition according to the World Health
+							Organization <sup>[2]</sup>: </p>
+						<ol>
+							<li>undernutrition: wasting, stunting, or underweight</li>
+							<li>micronutrient-related malnutrition: deficiencies or excess micronutrients such as calcium</li>
+							<li>overweight, obesity and diet-related noncommunicable diseases</li>
+						</ol>
 					</div>
 				</div>
 			</div>
@@ -53,12 +65,16 @@
 				<div class="row">
 					<div class = "col-md-12">
 						<h3>Tracking Progress</h3>
-						Two types of malnutrition that the Global Nutrition Report tracks are obesity and diabetes.
+						<p>Two types of malnutrition that the Global Nutrition Report tracks are obesity and diabetes.
 						In the 2018 report, it identifies which countries are on track to reach pre-determined goals,
-						and which are behind.
+							and which are behind, as well as the percent of the male and female population that have these conditions. </p>
 						<br>
-						Are malnutrition, obesity, or diabetes a regional, sub-regional, or country specific problem? Play around with
-						the tree below to see.
+						<br>
+						<p>Is malnutrition in general, obesity, and diabetes a a regional, subregional, or
+						country level problem? Play around with the tree below to see! Select a track and click on nodes
+						to see if the country, the majority of the region, or the majority of the
+							subregion is on track or suffers from malnutrition. </p>
+
 					</div>
 				</div>
 				<div class="row">
@@ -119,18 +135,19 @@
 						<img src="img/got_milk.jpg">
 					</div>
 					<div class = "col-md-6">
-						<h3>Diving Deeper: Dietary Needs</h3>
-						In the United States, we often see news and campaigns that address specific dietary goals,
-						such as the "Got Milk" posters throughout the 2000s and early 2010s found in many
-						public schools across the country, and the various click-baiting articles about sugar consumption.
+						<h3>Diving Deeper: Micronutrients</h3>
+						<p>Another thing Americans often don't realize counts at malnutrition, despite the multitude of
+						advertisements (such as the "Got Milk" posters throughout the 2000s and early 2010s found in many
+						public schools across the country, and the various click-baiting articles about sugar consumption!)
+						is related to micronutrient consumption and dietary needs.
 						The Global Health Nutrition Report is one of the first efforts to estimate consumption of
 						certain food groups, nutrients, and
 						other dietary components that contribute to malnutrition not just in the United States and
-						Western Europe, but all over the world.
+							Western Europe, but all over the world. </p>
 						<br>
-						The 2018 Global Health Nutrition report estimates daily intake in grams/person of
+						<p>The 2018 Global Health Nutrition report estimates daily intake in grams/person of
 						several possibly malnutrition determinants.
-						Let's take a closer look at one of them.
+							Let's take a closer look at one of them! Pick a category below and click next when you're ready. </p>
 
 					</div>
                     <div class = "col-md-3">
@@ -148,6 +165,11 @@
                             <option value="Fruit_2016">Fruit</option>
                             <option value="Whole grain_2016">Whole Grains</option>
                         </select>
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-md-12 centered">
+						<input type="button" id="micronutrient-selection-button" value="Next">
 					</div>
 				</div>
 			</div>
@@ -175,6 +197,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h3 id="choro-bubble-title">More Generally...</h3>
+						We just say the countries that consume the most and least, but what about everything in between?
 					</div>
 				</div>
 				<div class="row">
@@ -196,75 +219,21 @@
 			</div>
 		</div>
 		<div class = "section">
-			<h3>How do different countries compare?</h3>
-			<h4> [paragraph] influence of money/funding on nutrition</h4>
-		</div>
-		<div class = "section">
-			<div class="container-fluid">
-				<div class = "row">
-					<div class = "col-md-12" id = "scatterplot">
-						<h2>Visualization: Animated Scatterplot</h2>
-						<div class = "row">
-							<div class = "col-md-12">
-								Year:
-								<select id="scatterplot-year">
-<!--									<option value="1999" selected = "selected">1999</option><option value="2000">2000</option>-->
-									<option value="2000" selected = "selected">2000</option>
-									<option value="2001">2001</option><option value="2002">2002</option>
-									<option value="2003">2003</option><option value="2004">2004</option>
-									<option value="2005">2005</option><option value="2006">2006</option>
-									<option value="2007">2007</option><option value="2008">2008</option>
-									<option value="2009">2009</option><option value="2010">2010</option>
-									<option value="2011">2011</option><option value="2012">2012</option>
-									<option value="2013">2013</option><option value="2014">2014</option>
-									<option value="2015">2015</option><option value="2016">2016</option>
-									<option value="2017">2017</option>
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- former treemap section -->
-<!--		<div class = "section">-->
-<!--			<div class = "row">-->
-<!--				<div class = "col-md-12" id = "treemap">-->
-<!--					<form class="form-inline">-->
-<!--						<div class="form-group">-->
-<!--							Is-->
-<!--							<label for="attribute"></label>-->
-<!--							<select class="form-control" id="attribute">-->
-<!--								<option value="country_class">Current Malnutrition State</option>-->
-<!--								<option value="adult_fem_diabetes_track">Adult Female Diabetes Track</option>-->
-<!--								<option value="adult_fem_obesity_track">Adult Female Obesity Track</option>-->
-<!--								<option value="adult_mal_diabetes_track">Adult Male Diabetes Track</option>-->
-<!--								<option value="adult_mal_obesity_track">Adult Male Obesity Track</option>-->
-<!--							</select>-->
-<!--							a regional, subregional or country problem?-->
-<!--						</div>-->
-<!--					</form>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--			<div class="row">-->
-<!--				<div class="col-12">-->
-<!--&lt;!&ndash;					<div id="tree"></div>&ndash;&gt;-->
-<!--&lt;!&ndash;					<div id="tree-legend"></div>&ndash;&gt;-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
-
-		<div class = "section">
-			<h3>What kind of policies work?</h3>
-			<h4> (maybe a quiz/multiple choice question) </h4>
+			<h3>Possible Determinants</h3>
+			<h4>Now that we've seen a couple trends in obesity and micronutrient consumption,
+				let's explore possible causes of these phenomena.</h4>
 		</div>
 
 		<div class = "section">
 			<div class="container-fluid">
 				<div class = "row">
 					<div class = "col-md-12" id = "histogram">
-						<h2>Visualization: Histogram with Sweetened Beverage Intake and Nutritional Policies</h2>
+						<h2>Let's Talk Policy</h2>
+						<p>Many countries have policies in place to fight malnutrition. The pie charts below
+						show the percent of countries that have each respective policy or legislation.
+						<br>
+						Brush over the micronutrient or dietary component to see if countries with similar
+							consumption levels have similar policies! </p>
 					</div>
 				</div>
 				<div class="row">
@@ -288,15 +257,71 @@
 			</div>
 		</div>
 
+		<div class = "section">
+			<div class="container-fluid">
+				<div class = "row">
+					<div class = "col-md-12" id = "scatterplot">
+						<h2>What role does money play in malnutrition?</h2>
+						<div class = "row">
+							<div class = "col-md-12">
+								<p>Under 5 mortality rates are another indicator of malnutrition. If we look at the
+								relationship between that and per capita GDP, we are not surprised to see a correlation:
+									richer countries in general have lower under 5 mortality rates. </p>
+							</div>
+						</div>
+						<div class = "row">
+							<div class = "col-md-12">
+								Year:
+								<select id="scatterplot-year">
+<!--									<option value="1999" selected = "selected">1999</option><option value="2000">2000</option>-->
+									<option value="2000" selected = "selected">2000</option>
+									<option value="2001">2001</option><option value="2002">2002</option>
+									<option value="2003">2003</option><option value="2004">2004</option>
+									<option value="2005">2005</option><option value="2006">2006</option>
+									<option value="2007">2007</option><option value="2008">2008</option>
+									<option value="2009">2009</option><option value="2010">2010</option>
+									<option value="2011">2011</option><option value="2012">2012</option>
+									<option value="2013">2013</option><option value="2014">2014</option>
+									<option value="2015">2015</option><option value="2016">2016</option>
+									<option value="2017">2017</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
         <!-- outreach section -->
 		<div class = "section">
-			<h3>What can we do to help?</h3>
-			<h4> [List] Resources, Nonprofits, Policies </h4>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<h3>What can we do to help?</h3>
+						<p>As you've hopefully noticed, malnutrition is much more widespread than we realize. The good news
+							is that there are so many small ways to help both your local and global community! </p>
+						<h4>Resources, Nonprofits, Opportunities </h4>
+					</div>
+				</div>
+			</div>
 		</div>
 
         <div class = "section" id="about">
-            <h3>About Us</h3>
-            This was our 171 project....
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<h3>About Us</h3>
+						this was our 171 project :)
+						<h3>Data</h3>
+						<h3>References</h3>
+						<ol>
+							<li>https://globalnutritionreport.org/about/</li>
+							<li>https://www.who.int/news-room/fact-sheets/detail/malnutrition</li>
+
+						</ol>
+					</div>
+				</div>
+			</div>
         </div>
 	</div>
 
