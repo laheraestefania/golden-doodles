@@ -15,9 +15,9 @@ PieChart.prototype.initVis = function(){
 
     vis.margin = { top: 20, right: 0, bottom: 200, left: 20 };
 
-    vis.width = 300 - vis.margin.left - vis.margin.right,
+    vis.width = 200 - vis.margin.left - vis.margin.right,
         // vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-        vis.height = 300 - vis.margin.top - vis.margin.bottom;
+        vis.height = 200 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -79,7 +79,7 @@ PieChart.prototype.updateVis = function(){
 
     vis.w = 200;
     vis.h = 200;
-    vis.outerRadius = vis.w / 2;
+    vis.outerRadius = vis.w / 3;
     vis.innerRadius = 0;
     vis.arc = d3.arc()
         .innerRadius(vis.innerRadius)
