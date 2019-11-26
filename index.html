@@ -356,19 +356,21 @@
 	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>
 	<script>
-		var sectionColor = [];
+		// var sectionColor = [];
 
 		new fullpage('#fullpage', {
 			//options here
 			autoScrolling:true,
-			sectionsColor: ['#a4b9c3', '#7BAABE', '#f2f2f2','whitesmoke', 'whitesmoke', '#ccddff']
+			sectionsColor: ['rgba(79, 114, 201, 0.16)', 'rgba(79, 114, 201, 0.20)', 'rgba(79, 114, 201, 0.24)', 'rgba(79, 114, 201, 0.28)', 'rgba(79, 114, 201, 0.32)',
+				'rgba(79, 114, 201, 0.36)', 'rgba(79, 114, 201, 0.40)', 'rgba(79, 114, 201, 0.44)', 'rgba(79, 114, 201, 0.48)', 'rgba(79, 114, 201, 0.52)']
+			// sectionsColor: ['#a4b9c3', '#7BAABE', '#f2f2f2','whitesmoke', 'whitesmoke', '#ccddff']
 		});
 
-		var numberofsections = $('.fp-section').length;
+		// var numberofsections = $('.fp-section').length;
 
-		for (let i = 0; i < numberofsections; i++) {
-			sectionColor[i] = 'rgba(79, 114, 201, 0.16)';
-		}
+		// for (let i = 0; i < numberofsections; i++) {
+		// 	sectionColor[i] = 'rgba(79, 114, 201, 0.16)';
+		// }
 
 		// console.log($('.fp-section').length)
 
