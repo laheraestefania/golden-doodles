@@ -110,7 +110,7 @@ Histogram.prototype.initVis = function(){
             // console.log(d.length);
             return vis.height - vis.y(d.length);
         })
-        .style("fill", "#c51b8a");
+        .style("fill", "#de2d26");
 
 
     // Initialize brushing component

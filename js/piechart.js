@@ -72,7 +72,7 @@ PieChart.prototype.updateVis = function(){
     // set the color scale
     vis.color = d3.scaleOrdinal()
         .domain(vis.organizedData)
-        .range(["#fde0dd", "#fa9fb5"]);
+        .range(["#fee0d2", "#fc9272"]);
 
     // Compute the position of each group on the pie:
     vis.pie = d3.pie();
