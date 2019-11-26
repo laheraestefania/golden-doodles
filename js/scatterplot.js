@@ -89,7 +89,8 @@ Scatterplot.prototype.initVis = function(){
     // scale function for population circles
     vis.populationScale = d3.scaleLinear()
         .domain(d3.extent(vis.displayData, function(d) {return d.population_2017;}))
-        .range([4, 30])
+        .range([4, 30]);
+
 }
 
 
@@ -170,6 +171,18 @@ Scatterplot.prototype.updateVis = function(){
     vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
     vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
 
+    // console.log("help me", typeof (vis.colorPalette));
+
+    vis.legendGroup = vis.svg.append("g")
+        .attr("class", "legendSequential")
+        .attr("transform", "translate(" + (vis.width - 50) + ", 30)");
+
+    vis.legendSequential = d3.legendColor()
+        .shapeWidth(5)
+        .shapeHeight(15)
+        .orient("vertical")
+        .scale(vis.colorPalette);
+
     var temp = vis.svg.selectAll(".countries")
         .data(vis.displayData, function(d){return d.id;});
 
@@ -200,6 +213,8 @@ Scatterplot.prototype.updateVis = function(){
     vis.svg.select(".x-axis").transition(800).call(vis.xAxis);
     vis.svg.select(".y-axis").transition(800).call(vis.yAxis);
 
+
+    vis.legendGroup.call(vis.legendSequential);
 
 }
 
