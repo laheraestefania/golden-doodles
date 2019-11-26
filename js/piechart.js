@@ -67,6 +67,8 @@ PieChart.prototype.wrangleData = function(){
 PieChart.prototype.updateVis = function(){
     var vis = this;
 
+    // console.log(vis.organizedData);
+
     // set the color scale
     vis.color = d3.scaleOrdinal()
         .domain(vis.organizedData)
@@ -83,6 +85,10 @@ PieChart.prototype.updateVis = function(){
         .innerRadius(vis.innerRadius)
         .outerRadius(vis.outerRadius);
 
+    console.log(vis.pie(vis.organizedData));
+
+    console.log(vis.svg.selectAll("g.arc"));
+
     //Set up groups
     vis.arcs = vis.svg.selectAll("g.arc")
         .data(vis.pie(vis.organizedData))
@@ -93,10 +99,14 @@ PieChart.prototype.updateVis = function(){
 
     //Draw arc paths
     vis.arcs.append("path")
+        .merge(vis.arcs)
+        .transition()
+        .duration(800)
         .attr("fill", function(d, i) {
             return vis.color(i);
         })
         .attr("d", vis.arc);
+
 
     vis.arcs.append("text")
         .attr("transform", function(d) {
@@ -118,6 +128,8 @@ PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
     vis.filteredData = vis.data.filter(function(d){
         return (d.Sugar_sweetened_beverages_2016 >= selectionStart && d.Sugar_sweetened_beverages_2016 <= selectionEnd);
     });
+
+    // console.log(vis.filteredData);
 
     vis.wrangleData();
 };
