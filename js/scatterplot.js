@@ -178,8 +178,7 @@ Scatterplot.prototype.updateVis = function(){
         // add tooltip whenever mouse hovers over
         .on("mouseover", vis.tooltip.show)
         .on("mouseout", vis.tooltip.hide)
-        .attr("r", 2)
-        .attr("stroke", "black")
+        .attr("r", 5)
         .transition()
         .duration(800)
         .attr("cx", function(d){ return vis.x(d[vis.x_param]); })
