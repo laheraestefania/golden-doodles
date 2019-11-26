@@ -87,7 +87,7 @@ Scatterplot.prototype.initVis = function(){
     vis.wrangleData();
 
     // scale function for population circles
-    vis.populationScale = d3.scaleLinear()
+    vis.populationScale = d3.scaleSqrt()
         .domain(d3.extent(vis.displayData, function(d) {return d.population_2017;}))
         .range([4, 30]);
 

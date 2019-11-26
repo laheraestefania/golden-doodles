@@ -68,8 +68,6 @@
 						<p>Two types of malnutrition that the Global Nutrition Report tracks are obesity and diabetes.
 						In the 2018 report, it identifies which countries are on track to reach pre-determined goals,
 							and which are behind, as well as the percent of the male and female population that have these conditions. </p>
-						<br>
-						<br>
 						<p>Is malnutrition in general, obesity, and diabetes a a regional, subregional, or
 						country level problem? Play around with the tree below to see! Select a track and click on nodes
 						to see if the country, the majority of the region, or the majority of the
@@ -78,28 +76,36 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class = "col-md-12">
-						<div id = "treemap">
-							<form class="form-inline">
-								<div class="form-group">
-									<label for="attribute"></label>
-									<select class="form-control" id="attribute">
-										<option value="country_class">Current Malnutrition State</option>
-										<option value="adult_fem_diabetes_track">Adult Female Diabetes Track</option>
-										<option value="adult_fem_obesity_track">Adult Female Obesity Track</option>
-										<option value="adult_mal_diabetes_track">Adult Male Diabetes Track</option>
-										<option value="adult_mal_obesity_track">Adult Male Obesity Track</option>
-									</select>
+
+					<div class="col-6">
+						<div class="container-fluid">
+							<div class="row">
+								<div class = "col-md-12">
+									<div id = "treemap">
+										<form class="form-inline">
+											<div class="form-group">
+												<label for="attribute"></label>
+												<select class="form-control" id="attribute">
+													<option value="country_class">Current Malnutrition State</option>
+													<option value="adult_fem_diabetes_track">Adult Female Diabetes Track</option>
+													<option value="adult_fem_obesity_track">Adult Female Obesity Track</option>
+													<option value="adult_mal_diabetes_track">Adult Male Diabetes Track</option>
+													<option value="adult_mal_obesity_track">Adult Male Obesity Track</option>
+												</select>
+											</div>
+										</form>
+									</div>
 								</div>
-							</form>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<div id="tree"></div>
+									<div id="tree-legend"></div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-6">
-						<div id="tree"></div>
-						<div id="tree-legend"></div>
-					</div>
+
 					<div class = "col-6">
 						<div class="container-fluid">
 							<div class="row">
@@ -123,6 +129,7 @@
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
