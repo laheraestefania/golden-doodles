@@ -80,10 +80,10 @@ Histogram.prototype.initVis = function(){
 
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 
-    // set the color scale
-    var color = d3.scaleOrdinal()
-        .domain(vis.data)
-        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
+    // // set the color scale
+    // var color = d3.scaleOrdinal()
+    //     .domain(vis.data)
+    //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
 
     //I got help with d3.histogram on this website :  https://www.d3-graph-gallery.com/graph/histogram_basic.html
 
@@ -110,7 +110,7 @@ Histogram.prototype.initVis = function(){
             // console.log(d.length);
             return vis.height - vis.y(d.length);
         })
-        .style("fill", "#69b3a2");
+        .style("fill", "#c51b8a");
 
 
     // Initialize brushing component
