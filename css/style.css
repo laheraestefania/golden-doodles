@@ -14,10 +14,12 @@
 
 h3, h4, h5 {
     padding: 20px;
+    font-family: 'Lato', sans-serif;
 }
 
 h1 {
     padding: 30px;
+    font-family: 'Lato', sans-serif;
 }
 
 /* Tree */
@@ -63,4 +65,12 @@ div.tooltip {
 
 #micronutrient-selection-button {
     margin: 20px;
+}
+
+.row {
+    margin: 40px;
+}
+
+p {
+    font-family: 'Lato', sans-serif;
 }
