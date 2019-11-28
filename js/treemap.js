@@ -391,7 +391,7 @@ treelegend.prototype.updateVis = function() {
                 case "experiencing two forms of malnutrition": return "#ed5f59";
                 case "experiencing three forms of malnutrition": return "#971c13";
                 case "On course" :
-                    return "#00ff00";
+                    return "#a3cd61";
                 case "No progress or worsening":
                     return "#ff0000";
                 case "No data" :
