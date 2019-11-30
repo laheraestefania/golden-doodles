@@ -1,3 +1,6 @@
+//Code help from: https://www.d3-graph-gallery.com/graph/pie_basic.html and our D3 book
+
+
 PieChart = function(_parentElement, _data, _eventHandler ){
     this.parentElement = _parentElement;
     this.data = _data;
@@ -13,11 +16,10 @@ PieChart = function(_parentElement, _data, _eventHandler ){
 PieChart.prototype.initVis = function(){
     var vis = this;
 
-    vis.margin = { top: 20, right: 0, bottom: 200, left: 20 };
+    vis.margin = { top: 100, right: 0, bottom: 200, left: 100 };
 
-    vis.width = 200 - vis.margin.left - vis.margin.right,
-        // vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-        vis.height = 200 - vis.margin.top - vis.margin.bottom;
+    vis.width = $("#" + vis.parentElement).width();
+    vis.height = $("#" + vis.parentElement).height();
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -26,38 +28,28 @@ PieChart.prototype.initVis = function(){
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
-
-    //Code help from: https://www.d3-graph-gallery.com/graph/pie_basic.html and our D3 book
-
-    // console.log(vis.data);
-
-    // console.log(organizedData);
-
+    vis.filteredData = vis.data;
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 };
 
-
 /** Data wrangling */
-
 PieChart.prototype.wrangleData = function(){
     var vis = this;
 
-    vis.organizedData = [0, 0];
+    var organizedData = [0, 0];
 
-    vis.data.forEach(function(d) {
+    vis.filteredData.forEach(function(d) {
         // console.log(d);
         if (d.plan == "Yes") {
-            vis.organizedData[0] ++;
+            organizedData[0] ++;
         } else if (d.plan == "No") {
-            vis.organizedData[1] ++;
+            organizedData[1] ++;
         }
     });
 
-    vis.displayData = vis.organizedData;
-
-    // console.log(vis.organizedData);
+    vis.displayData = organizedData;
 
     // Update the visualization
     vis.updateVis();
@@ -67,15 +59,17 @@ PieChart.prototype.wrangleData = function(){
 PieChart.prototype.updateVis = function(){
     var vis = this;
 
-    // console.log(vis.organizedData);
-
     // set the color scale
     vis.color = d3.scaleOrdinal()
-        .domain(vis.organizedData)
+        .domain(vis.displayData)
         .range(["#fee0d2", "#fc9272"]);
 
     // Compute the position of each group on the pie:
-    vis.pie = d3.pie();
+    vis.pie = d3.pie()
+        .value(function(d) {
+            // console.log(d);
+            return d
+        });
 
     vis.w = 200;
     vis.h = 200;
@@ -85,41 +79,81 @@ PieChart.prototype.updateVis = function(){
         .innerRadius(vis.innerRadius)
         .outerRadius(vis.outerRadius);
 
-    console.log(vis.pie(vis.organizedData));
+    vis.pieData = vis.pie(vis.displayData);
 
-    console.log(vis.svg.selectAll("g.arc"));
+    vis.pies = vis.svg.selectAll("path")
+        .data(vis.pieData);
 
-    //Set up groups
-    vis.arcs = vis.svg.selectAll("g.arc")
-        .data(vis.pie(vis.organizedData))
+    vis.pies
         .enter()
-        .append("g")
-        .attr("class", "arc")
-        .attr("transform", "translate(" + vis.outerRadius + ", " + vis.outerRadius + ")");
-
-    //Draw arc paths
-    vis.arcs.append("path")
-        .merge(vis.arcs)
+        .append('path')
+        .merge(vis.pies)
         .transition()
-        .duration(800)
-        .attr("fill", function(d, i) {
+        .duration(1000)
+        .attrTween('d', arcTween)
+        .attr('fill', function (d, i) {
             return vis.color(i);
         })
-        .attr("d", vis.arc);
+        .attr("stroke", "white")
+        .style("stroke-width", "2px")
+        .style("opacity", 1);
+
+        // vis.pies.append("text")
+        // .attr("transform", function(d) {
+        //     return "translate(" + vis.arc.centroid(d) + ")";
+        // })
+        // .attr("text-anchor", "middle")
+        // .text(function(d, i) {
+        //     console.log(d);
+        //     if (i == 0) {
+        //         return "Yes";
+        //     } else if (i == 1) {
+        //         return "No";
+        //     }
+        // });
+
+    vis.pies
+        .exit()
+        .remove();
 
 
-    vis.arcs.append("text")
-        .attr("transform", function(d) {
-            return "translate(" + vis.arc.centroid(d) + ")";
-        })
-        .attr("text-anchor", "middle")
-        .text(function(d, i) {
-            if (i == 0) {
-                return "Yes";
-            } else if (i == 1) {
-                return "No";
-            }
-        });
+    function arcTween(a) {
+        const i = d3.interpolate(this._current, a);
+        this._current = i(1);
+        return (t) => vis.arc(i(t));
+    }
+
+    //Set up groups
+    // vis.arcs = vis.svg.selectAll("g.arc")
+    //     .data(vis.pieData)
+    //     .enter()
+    //     .append("g")
+    //     .attr("class", "arc")
+    //     .attr("transform", "translate(" + vis.outerRadius + ", " + vis.outerRadius + ")");
+    //
+    // //Draw arc paths
+    // vis.arcs.append("path")
+    //     .merge(vis.arcs)
+    //     .transition()
+    //     .duration(800)
+    //     .attr("fill", function(d, i) {
+    //         return vis.color(i);
+    //     })
+    //     .attr("d", vis.arc);
+    //
+    //
+//     vis.pies.append("text")
+//         .attr("transform", function(d) {
+//             return "translate(" + vis.pies.centroid(d) + ")";
+//         })
+//         .attr("text-anchor", "middle")
+//         .text(function(d, i) {
+//             if (i == 0) {
+//                 return "Yes";
+//             } else if (i == 1) {
+//                 return "No";
+//             }
+//         });
 };
 
 PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
@@ -128,8 +162,6 @@ PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
     vis.filteredData = vis.data.filter(function(d){
         return (d.Sugar_sweetened_beverages_2016 >= selectionStart && d.Sugar_sweetened_beverages_2016 <= selectionEnd);
     });
-
-    // console.log(vis.filteredData);
 
     vis.wrangleData();
 };
