@@ -23,7 +23,7 @@ Scatterplot = function(_parentElement, _data, _config){
 Scatterplot.prototype.initVis = function(){
     var vis = this;
 
-    vis.margin = { top: 30, right: 30, bottom: 60, left: 60 };
+    vis.margin = { top: 30, right: 60, bottom: 60, left: 60 };
 
     vis.width = 750 - vis.margin.left - vis.margin.right,
         vis.height = 550 - vis.margin.top - vis.margin.bottom;
@@ -86,7 +86,7 @@ Scatterplot.prototype.initVis = function(){
 
     vis.legendGroup = vis.svg.append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width - 50) + ", 30)");
+        .attr("transform", "translate(" + (vis.width - vis.margin.right * 2) + ", 30)");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(5)
@@ -98,6 +98,8 @@ Scatterplot.prototype.initVis = function(){
     vis.populationScale = d3.scaleSqrt()
         .domain(d3.extent(vis.displayData, function(d) {return d.population_2017;}))
         .range([4, 30]);
+
+    vis.addLegend();
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
@@ -215,3 +217,76 @@ Scatterplot.prototype.updateVis = function(){
 }
 
 
+// Source: https://www.d3-graph-gallery.com/graph/bubble_legend.html
+// Also used in choroplethBubble.js file as well
+Scatterplot.prototype.addLegend = function () {
+    var vis = this;
+    var valuesToShow = [1000, 100000, 1000000]
+    var xCircle = vis.width - vis.margin.right;
+    var xLabel = vis.width;
+    var yCircle = vis.margin.bottom * 4;
+
+    vis.svg
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("circle")
+        .attr("class", "bubble-legend")
+        .attr("cx", xCircle)
+        .attr("cy", function(d){ return yCircle - vis.populationScale(d) } )
+        .attr("r", function(d){ return vis.populationScale(d) })
+        .style("fill", "none")
+        .attr("stroke", "black")
+        .attr("opacity", 0.0)
+        .transition()
+        .duration(transitionDuration)
+        .attr("opacity", 1.0);
+
+// Add legend: segments
+    vis.svg
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("line")
+        .attr("class", "bubble-legend")
+        .attr('x1', function(d){ return xCircle + vis.populationScale(d) } )
+        .attr('x2', xLabel)
+        .attr('y1', function(d){ return yCircle - vis.populationScale(d) } )
+        .attr('y2', function(d){ return yCircle - vis.populationScale(d) } )
+        .attr('stroke', 'black')
+        .style('stroke-dasharray', ('2,2'))
+        .attr("opacity", 0.0)
+        .transition()
+        .duration(transitionDuration)
+        .attr("opacity", 1.0);
+
+// Add legend: labels
+    vis.svg
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("text")
+        .attr("class", "bubble-legend")
+        .attr('x', xLabel)
+        .attr('y', function(d){ return yCircle - vis.populationScale(d) } )
+        .text( function(d){ return d * 1000 } )
+        .style("font-size", 10)
+        .attr('alignment-baseline', 'middle')
+        .attr("opacity", 0.0)
+        .transition()
+        .duration(transitionDuration)
+        .attr("opacity", 1.0);
+
+    vis.svg
+        .append("text")
+        .attr("class", "bubble-legend")
+        .style("font-size", 10)
+        .attr('alignment-baseline', 'middle')
+        .attr('x', xCircle - 35)
+        .attr('y', yCircle + 15)
+        .text("Population (2017)")
+        .attr("opacity", 0.0)
+        .transition()
+        .duration(transitionDuration)
+        .attr("opacity", 1.0);
+};
