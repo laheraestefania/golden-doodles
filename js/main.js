@@ -82,8 +82,6 @@ function loadData() {
                 return {plan: d.wasting_plan, Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016};
             });
 
-            // console.log(wastingPlanData);
-
             topology = topology_;
 
             femaleObesity = clean(femaleObesity_);
@@ -91,16 +89,6 @@ function loadData() {
             femaleDiabetes = clean(femaleDiabetes_);
             maleDiabetes = clean(maleDiabetes_);
 
-            // console.log("data by country");
-            // console.log(dataByCountry);
-            //
-            // console.log("dataByCountryName");
-            // console.log(dataByCountryName);
-            //
-            // console.log("fem obesity");
-            // console.log(femaleObesity);
-
-            // console.log(allData);
             createVis();
         }
     });
@@ -117,12 +105,11 @@ function createVis() {
     });
 
     var feature = $("#selected-feature").val();
+    var choroplethBubble = new ChoroplethBubble("map-bubble-hybrid", dataByCountry, topology, feature);
     var game = new ChoroplethGame("game", dataByCountry, topology, feature);
-    var map = new Choropleth("map", dataByCountry, topology, feature);
     var scatterplot = new Scatterplot("scatterplot", dataByCountry);
     var histogram = new Histogram("histogram", allData, MyEventHandler);
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
-    var bubble = new Bubble("bubble", dataByCountry, feature);
 
     //Pie charts
     var piechartSugarTax = new PieChart("pieChartSugarTax", sugarTaxData);
@@ -146,13 +133,11 @@ function createVis() {
     $("#choro-bubble-title").html(metadata[feature]);
     $("#selected-feature").on("change", function () {
         var feature = $("#selected-feature").val();
-        $("#map").html("");
+        $("#map-bubble-hybrid").html("");
         $("#game").html("");
-        $("#bubble").html("");
         $("#choro-bubble-title").html(metadata[feature]);
         var game = new ChoroplethGame("game", dataByCountry, topology, feature);
-        var map = new Choropleth("map", dataByCountry, topology, feature);
-        var bubble = new Bubble("bubble", dataByCountry, feature);
+        var choroplethBubble = new ChoroplethBubble("map-bubble-hybrid", dataByCountry, topology, feature);
 
     });
 }
@@ -164,6 +149,6 @@ function clean(data) {
                 obj[key] = +obj[key]
             }
         })
-    })
+    });
     return data;
 }

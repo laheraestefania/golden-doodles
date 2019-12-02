@@ -68,7 +68,6 @@ Bubble = function(_parentElement, _data, feature){
     this.padding = 1.5; // separation between same-color circles
     this.clusterPadding = 30; // separation between different-color circles
     this.maxRadius = 40;
-    console.log("max rad " + this.maxRadius);
 
     // total number of nodes
     this.n = this.data.length;
@@ -129,28 +128,7 @@ Bubble.prototype.initVis = function() {
         }
     });
 
-    vis.nodes = Object.keys(vis.data).map((key) => {
-        obj = vis.data[key];
-        // scale radius to fit on the screen
-        let scaledRadius  = this.radiusScale(+obj["population_2017"]),
-            forcedCluster = numbering[vis.clusterCat]["labels"][obj[vis.clusterCat]];
 
-        // add cluster id and radius to array
-        nodeObj = {
-            cluster : forcedCluster,
-            r : scaledRadius,
-            feature : obj[vis.feature],
-            featureName : metadata[vis.feature],
-            region : obj["region"],
-            subregion : obj["subregion"],
-            country: obj["country"]
-        };
-
-        if (!vis.clusters[forcedCluster] || (scaledRadius > vis.clusters[forcedCluster].r)) {
-            vis.clusters[forcedCluster] = nodeObj;
-        }
-        return nodeObj;
-    });
 
     vis.color.domain([
         0,
@@ -163,7 +141,7 @@ Bubble.prototype.initVis = function() {
         .attr("class", "legendSize")
         .attr("transform", "translate("+ 50 + ", 50)");
 
-    vis.addLegend()
+    vis.addLegend();
 
     vis.circles = vis.svg.append('g')
         .attr("class", "circles-group")
@@ -192,7 +170,7 @@ Bubble.prototype.initVis = function() {
         .on("mouseout", vis.tool_tip.hide);
 
     // create the clustering/collision force simulation
-    let simulation = d3.forceSimulation(vis.nodes)
+    vis.simulation = d3.forceSimulation(vis.nodes)
         .velocityDecay(0.2) // 0.2
         .force("x", d3.forceX().strength(.0005))
         .force("y", d3.forceY().strength(.0005))
@@ -209,7 +187,7 @@ Bubble.prototype.initVis = function() {
     function dragstarted(d) {
         // was 0.3
         // controls how loose when dragging
-        if (!d3.event.active) simulation.alphaTarget(0.6).restart();
+        if (!d3.event.active) vis.simulation.alphaTarget(0.6).restart();
         d.fx = d.x;
         d.fy = d.y;
     }
@@ -220,7 +198,7 @@ Bubble.prototype.initVis = function() {
     }
 
     function dragended(d) {
-        if (!d3.event.active) simulation.alphaTarget(0);
+        if (!d3.event.active) vis.simulation.alphaTarget(0);
         d.fx = null;
         d.fy = null;
     }
@@ -286,7 +264,7 @@ Bubble.prototype.wrangleData = function() {
         if (!vis.clusters[node.cluster] || (node.r > vis.clusters[node.cluster].r)) {
             vis.clusters[node.cluster] = node;
         }
-    })
+    });
 
     vis.updateVis();
 };
@@ -320,7 +298,7 @@ Bubble.prototype.updateVis = function() {
         .on("mouseout", vis.tool_tip.hide);
 
     // create the clustering/collision force simulation
-    let simulation = d3.forceSimulation(vis.nodes)
+    vis.simulation = d3.forceSimulation(vis.nodes)
         .velocityDecay(0.2) // 0.2
         .force("x", d3.forceX().strength(.0005))
         .force("y", d3.forceY().strength(.0005))
@@ -337,7 +315,7 @@ Bubble.prototype.updateVis = function() {
     function dragstarted(d) {
         // was 0.3
         // controls how loose when dragging
-        if (!d3.event.active) simulation.alphaTarget(0.6).restart();
+        if (!d3.event.active) vis.simulation.alphaTarget(0.6).restart();
         d.fx = d.x;
         d.fy = d.y;
     }
@@ -348,7 +326,7 @@ Bubble.prototype.updateVis = function() {
     }
 
     function dragended(d) {
-        if (!d3.event.active) simulation.alphaTarget(0);
+        if (!d3.event.active) vis.simulation.alphaTarget(0);
         d.fx = null;
         d.fy = null;
     }

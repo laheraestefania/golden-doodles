@@ -31,7 +31,7 @@ queue()
     alldata = csv;
     value = d3.select("#attribute").property("value");
 
-    console.log(subregional[1][value]);
+    // console.log(subregional[1][value]);
 
     if (value === "country_class") {
         legendlabels[0] = "experiencing one form of malnutrition";
@@ -85,7 +85,7 @@ for (let j = 0; j < nestdata.length; j++) {
         // Assigns the x and y position for the nodes
         var treeData = treemap(root);
 
-        console.log(treeData);
+        // console.log(treeData);
 
         // Compute the new tree layout.
         var nodes = treeData.descendants(),
@@ -254,7 +254,7 @@ for (let j = 0; j < nestdata.length; j++) {
                 // if not, extend
                 d.children = d._children;
                 if (d.height === 0) {
-                    console.log(d.data.data[0][value]);
+                    // console.log(d.data.data[0][value]);
                 }
                 d._children = null;
             }

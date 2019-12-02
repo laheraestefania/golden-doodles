@@ -29,8 +29,6 @@ LineChart = function(_parentElement, _data, _groupingData, gender="Female", cond
     });
 
     vis.years = Object.keys(_data[0]).map(vis.parseDate);
-    console.log(gender);
-    console.log(condition);
     vis.title = gender + ", " + condition + " (%)";
 
     vis.initVis();
@@ -44,7 +42,6 @@ LineChart.prototype.initVis = function(){
     var vis = this;
     vis.margin = { top: 40, right: 15, bottom: 40, left: 60 };
 
-    console.log($("#" + vis.parentElement).width());
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
     vis.height = 220 - vis.margin.top - vis.margin.bottom;
 
@@ -60,8 +57,6 @@ LineChart.prototype.initVis = function(){
     vis.x = d3.scaleTime()
         .range([0, vis.width])
         .domain(d3.extent(vis.years));
-
-    // console.log(vis.x.domain());
 
     vis.xAxis = d3.axisBottom()
         .scale(vis.x)
@@ -125,8 +120,6 @@ LineChart.prototype.initVis = function(){
 LineChart.prototype.wrangleData = function(){
     var vis = this;
 
-    console.log(vis.groupingData);
-
     vis.displayData = {};
     // Object.keys(vis.data).forEach(function (country) {
     //     if (vis.groupingData[country]["subregion"] === "Southern_Asia") {
@@ -134,8 +127,6 @@ LineChart.prototype.wrangleData = function(){
     //     }
     // });
     vis.displayData = vis.data;
-    console.log("display data");
-    console.log(vis.displayData);
     // Update the visualization
     vis.updateVis();
 };

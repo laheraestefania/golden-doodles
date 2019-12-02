@@ -89,6 +89,20 @@ ChoroplethGame.prototype.initVis = function() {
         .html("Let's play a game. Can you guess which " + vis.guessLimit + " countries consume the MOST?")
         .fadeIn("slow");
 
+    vis.tool_tip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-2, 0])
+        .html(function(d) {
+            let id = d["id"];
+            if (vis.data[id]) {
+                return vis.data[id]["country"];
+            } else {
+                return "N/A";
+            }
+        });
+
+    vis.svg.call(vis.tool_tip);
+
     // Render the world atlas by using the path generator
     vis.paths = vis.svg.selectAll(".country-path-game")
         .data(vis.world);
@@ -102,9 +116,11 @@ ChoroplethGame.prototype.initVis = function() {
         .on("mouseover", function(d) {
             vis.parentElt.selectAll(".country-path-game").attr("opacity", "0.75");
             d3.select(this).attr("opacity", "1.0");
+            vis.tool_tip.show(d);
         })
         .on("mouseout", function(d) {
             vis.parentElt.selectAll(".country-path-game").attr("opacity", "1.0");
+            vis.tool_tip.hide(d);
         })
         .on("click", function (d) {
             if (vis.state === "most") {
@@ -199,11 +215,21 @@ ChoroplethGame.prototype.showResults = function () {
         let htmlText = "Results! <br>You guessed <strong>" + vis.correct.size + " out of "
             + (2 * vis.guessLimit) + "</strong>. <br> The countries that consume the MOST are: <ol>";
        vis.most.forEach(function (id) {
-            htmlText += "<li> " + vis.data[id]["country"] + "</li>"
+            htmlText += "<li> " + vis.data[id]["country"]
+           if (vis.correct.has(id)) {
+               console.log("checking")
+               htmlText += "&nbsp; &#10004;"
+           }
+           htmlText += "</li>"
         });
         htmlText += "</ol> <br> The countries that consume the LEAST are: <ol>";
         vis.least.forEach(function (id) {
-            htmlText += "<li> " + vis.data[id]["country"] + "</li>"
+            htmlText += "<li> " + vis.data[id]["country"]
+            if (vis.correct.has(id)) {
+                console.log("checking")
+                htmlText += "&nbsp; &#10004;"
+            }
+            htmlText += "</li>"
         });
         $(this).html(htmlText + "</ol>");
         $(this).fadeIn("slow");

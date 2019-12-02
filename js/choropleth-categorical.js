@@ -13,10 +13,6 @@ ChoroplethCategorical = function(_parentElement, _data, topology, feature){
     this.initVis();
 };
 
-/*
- * Initialize area chart with brushing component
- */
-
 var catColorScale = {"country_class": ["#999999", "#a3cd61", "#f5bdbc", "#ed5f59", "#971c13"]};
 var catColorDomain = {"country_class":[
         "No data",

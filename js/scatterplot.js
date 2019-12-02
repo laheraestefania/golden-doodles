@@ -80,9 +80,7 @@ Scatterplot.prototype.initVis = function(){
         .attr("y", - vis.margin.left/2)
         .attr("transform", "rotate(-90)");
 
-    // // * TO-DO *
-    console.log("Original data", vis.data);
-    console.log(vis.displayData);
+
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 
@@ -104,16 +102,13 @@ Scatterplot.prototype.wrangleData = function(){
     // get parameter for scatterplot
     vis.my_param = d3.select("#scatterplot-year").property("value");
     vis.x_param = "GDP_capita_PPP_" + vis.my_param;
-    // console.log("x param", vis.x_param);
     vis.y_param = "u5mr_" + vis.my_param;
 
     vis.svg.select('.title')
         .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
 
-    // console.log("y param", vis.y_param);
     d3.select("#scatterplot-year").on("change", function() {
         vis.my_param = d3.select("#scatterplot-year").property("value");
-        // console.log(my_param);
         vis.x_param = "GDP_capita_PPP_" + vis.my_param;
         vis.y_param = "u5mr_" + vis.my_param;
         vis.svg.select('.title')
@@ -170,8 +165,6 @@ Scatterplot.prototype.updateVis = function(){
 
     vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
     vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
-
-    // console.log("help me", typeof (vis.colorPalette));
 
     vis.legendGroup = vis.svg.append("g")
         .attr("class", "legendSequential")

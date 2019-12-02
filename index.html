@@ -196,35 +196,36 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 
 		<div class = "section">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-3">
 						<h3 id="choro-bubble-title">More Generally...</h3>
-						We just say the countries that consume the most and least, but what about everything in between?
+						We just saw the countries that consume the most and least, but
+						what about everything in between?
+						<div id="bubble-map-radio">
+							<form>
+								<input type="radio" name="bubble-map-radio" value="map" checked> map<br>
+								<input type="radio" name="bubble-map-radio" value="population"> population<br>
+							</form>
+						</div>
+						<br>
+						<div id="bubble-radio-div">
+							<form>
+								<input type="radio" name="bubble-scope" value="region" checked> region<br>
+								<input type="radio" name="bubble-scope" value="subregion"> subregion<br>
+							</form>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<form>
-							<input type="radio" name="bubble-scope" value="region" checked> region<br>
-							<input type="radio" name="bubble-scope" value="subregion"> subregion<br>
-						</form>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-5">
-						<div id='bubble'></div>
-					</div>
-					<div class="col-md-6">
-						<div id='map'></div>
+					<div class="col-md-9">
+						<div id="map-bubble-hybrid"></div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<div class = "section">
 			<div class="row">
 			<h3>Possible Determinants</h3>
@@ -360,6 +361,7 @@
 	<script src="js/bubble.js"></script>
 	<script src="js/lineChart.js"></script>
 	<script src="js/piechart.js"></script>
+	<script src="js/choroplethBubble.js"></script>
 
 	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>
