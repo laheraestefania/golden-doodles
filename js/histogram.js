@@ -23,7 +23,7 @@ Histogram.prototype.initVis = function(){
 
     vis.margin = { top: 50, right: 0, bottom: 50, left: 140 };
 
-    vis.width = 800 - vis.margin.left - vis.margin.right,
+    vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
     // vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
         vis.height = 300 - vis.margin.top - vis.margin.bottom;
 
