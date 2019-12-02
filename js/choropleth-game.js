@@ -128,7 +128,6 @@ ChoroplethGame.prototype.initVis = function() {
                     d3.select(this).attr("fill", vis.mostColor);
                     vis.mostCount += 1;
                     vis.guessedMost.add(d["id"]);
-                    // console.log("added to vis.guessedMost " + vis.data[d["id"]]["country"]);
                     if (vis.mostCount === vis.guessLimit) {
                         vis.state = "least";
                         $("#map-game-instructions").fadeOut("slow", function () {
@@ -146,12 +145,8 @@ ChoroplethGame.prototype.initVis = function() {
                     d3.select(this).attr("fill", vis.leastColor);
                     vis.leastCount += 1;
                     vis.guessedLeast.add(d["id"]);
-                    // console.log("added to vis.guessedLeast " + vis.data[d["id"]]["country"]);
                     if (vis.leastCount === vis.guessLimit) {
                         vis.state = "";
-                        console.log("guesses");
-                        console.log(vis.guessedMost);
-                        console.log(vis.guessedLeast);
                         // vis.wrangleData();
                         setTimeout(function () {
                             vis.wrangleData();
@@ -168,7 +163,6 @@ ChoroplethGame.prototype.initVis = function() {
 
 ChoroplethGame.prototype.wrangleData = function () {
     let vis = this;
-    console.log("wrangling");
 
     let sorted = [];
     for (let id in vis.data) {
@@ -189,10 +183,6 @@ ChoroplethGame.prototype.wrangleData = function () {
 
 ChoroplethGame.prototype.showResults = function () {
     let vis = this;
-    console.log("most and least");
-
-    console.log(vis.most);
-    console.log(vis.least);
 
     vis.svg.selectAll(".country-path-game")
         .attr("fill",function (d) {
@@ -217,7 +207,6 @@ ChoroplethGame.prototype.showResults = function () {
        vis.most.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"]
            if (vis.correct.has(id)) {
-               console.log("checking")
                htmlText += "&nbsp; &#10004;"
            }
            htmlText += "</li>"
@@ -226,7 +215,6 @@ ChoroplethGame.prototype.showResults = function () {
         vis.least.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"]
             if (vis.correct.has(id)) {
-                console.log("checking")
                 htmlText += "&nbsp; &#10004;"
             }
             htmlText += "</li>"

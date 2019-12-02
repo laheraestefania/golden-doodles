@@ -79,7 +79,7 @@ ChoroplethBubble.prototype.initVis = function() {
 
     vis.margin = {top: 50, right: 50, bottom: 50, left: 50};
 
-    vis.width = 800 - vis.margin.left - vis.margin.right,
+    vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
         vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
@@ -524,9 +524,9 @@ ChoroplethBubble.prototype.addLegend = function () {
     // var xCircle = 230
     // var xLabel = 380
     // var yCircle = 330
-    var xCircle = vis.width - 20
-    var xLabel = vis.width + 35
-    var yCircle = vis.height // - vis.margin.bottom
+    var xCircle = vis.width - 50;
+    var xLabel = vis.width;
+    var yCircle = vis.height; // - vis.margin.bottom
 
     vis.parentElt.select("svg")
         .selectAll("legend")

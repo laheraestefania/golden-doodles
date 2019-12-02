@@ -77,10 +77,10 @@
 				</div>
 				<div class="row">
 
-					<div class="col-6">
+					<div class="col-7">
 						<div class="container-fluid">
 							<div class="row">
-								<div class = "col-md-12">
+								<div class = "col-md-6">
 									<div id = "treemap">
 										<form class="form-inline">
 											<div class="form-group">
@@ -96,17 +96,19 @@
 										</form>
 									</div>
 								</div>
+								<div class="col-6">
+									<div id="tree-legend"></div>
+								</div>
 							</div>
 							<div class="row">
 								<div class="col-12">
 									<div id="tree"></div>
-									<div id="tree-legend"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class = "col-6">
+					<div class = "col-5">
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-12 centered" id="adult-obesity-diabetes-title"><h6>Adult (18+) Diabetes and Obesity Prevalence</h6></div>
@@ -205,6 +207,7 @@
 						<h3 id="choro-bubble-title">More Generally...</h3>
 						We just saw the countries that consume the most and least, but
 						what about everything in between?
+						<br>
 						<div id="bubble-map-radio">
 							<form>
 								<input type="radio" name="bubble-map-radio" value="map" checked> map<br>
@@ -213,6 +216,8 @@
 						</div>
 						<br>
 						<div id="bubble-radio-div">
+							Cluster by:
+							<br>
 							<form>
 								<input type="radio" name="bubble-scope" value="region" checked> region<br>
 								<input type="radio" name="bubble-scope" value="subregion"> subregion<br>
