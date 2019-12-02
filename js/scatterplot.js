@@ -81,6 +81,19 @@ Scatterplot.prototype.initVis = function(){
         .attr("transform", "rotate(-90)");
 
 
+    vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
+    vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
+
+    vis.legendGroup = vis.svg.append("g")
+        .attr("class", "legendSequential")
+        .attr("transform", "translate(" + (vis.width - 50) + ", 30)");
+
+    vis.legendSequential = d3.legendColor()
+        .shapeWidth(5)
+        .shapeHeight(15)
+        .orient("vertical")
+        .scale(vis.colorPalette);
+    
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 
@@ -162,19 +175,6 @@ Scatterplot.prototype.updateVis = function(){
                 "</br>  GDP Per Capita: " + d[vis.x_param] +
                 "</br>  Under 5 Mortality Rate: " + d[vis.y_param] ; });
     vis.svg.call(vis.tooltip);
-
-    vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
-    vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
-
-    vis.legendGroup = vis.svg.append("g")
-        .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width - 50) + ", 30)");
-
-    vis.legendSequential = d3.legendColor()
-        .shapeWidth(5)
-        .shapeHeight(15)
-        .orient("vertical")
-        .scale(vis.colorPalette);
 
     var temp = vis.svg.selectAll(".countries")
         .data(vis.displayData, function(d){return d.id;});
