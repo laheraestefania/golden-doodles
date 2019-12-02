@@ -121,10 +121,17 @@ Histogram.prototype.updateVis = function(){
 
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 
-    // // set the color scale
-    // var color = d3.scaleOrdinal()
-    //     .domain(vis.data)
-    //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
+    /// Code from the example given in the instructions: http://bl.ocks.org/davegotz/bd54b56723c154d25eedde6504d30ad7
+    var tool_tip = d3.tip()
+        .attr("class", "d3-tip-histogram")
+        .offset([-8,0])
+        .html(function(d) {
+            return "Countries: " +
+            d.map(function(d) {
+                return " " + d.country + " ";
+            });
+        });
+    vis.svg.call(tool_tip);
 
     //I got help with d3.histogram on this website :  https://www.d3-graph-gallery.com/graph/histogram_basic.html
 
@@ -151,7 +158,9 @@ Histogram.prototype.updateVis = function(){
             // console.log(d.length);
             return vis.height - vis.y(d.length);
         })
-        .style("fill", "#de2d26");
+        .style("fill", "#de2d26")
+        .on('mouseover', tool_tip.show )
+        .on('mouseout', tool_tip.hide);
 
     // Call brush component here
     vis.brushGroup.call(vis.brush, vis.currentBrushRegion);

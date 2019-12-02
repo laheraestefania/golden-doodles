@@ -89,7 +89,7 @@ PieChart.prototype.updateVis = function(){
         .append('path')
         .merge(vis.pies)
         .transition()
-        .duration(1000)
+        .duration(500)
         .attrTween('d', arcTween)
         .attr('fill', function (d, i) {
             return vis.color(i);
