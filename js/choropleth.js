@@ -11,13 +11,7 @@ Choropleth = function(_parentElement, _data, topology, feature){
     this.world = topojson.feature(topology, topology.objects.countries).features;
     this.feature = feature;
     this.initVis();
-
-    // console.log(_data);
 };
-
-/*
- * Initialize area chart with brushing component
- */
 
 Choropleth.prototype.initVis = function() {
     var vis = this;

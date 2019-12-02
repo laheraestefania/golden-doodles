@@ -29,8 +29,6 @@ LineChart = function(_parentElement, _data, _groupingData, gender="Female", cond
     });
 
     vis.years = Object.keys(_data[0]).map(vis.parseDate);
-    console.log(gender);
-    console.log(condition);
     vis.title = gender + ", " + condition + " (%)";
 
     vis.initVis();
@@ -42,11 +40,10 @@ LineChart = function(_parentElement, _data, _groupingData, gender="Female", cond
 
 LineChart.prototype.initVis = function(){
     var vis = this;
-    vis.margin = { top: 40, right: 15, bottom: 40, left: 60 };
+    vis.margin = { top: 30, right: 10, bottom: 30, left: 30 };
 
-    console.log($("#" + vis.parentElement).width());
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
-    vis.height = 220 - vis.margin.top - vis.margin.bottom;
+    vis.height = 180 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -60,8 +57,6 @@ LineChart.prototype.initVis = function(){
     vis.x = d3.scaleTime()
         .range([0, vis.width])
         .domain(d3.extent(vis.years));
-
-    // console.log(vis.x.domain());
 
     vis.xAxis = d3.axisBottom()
         .scale(vis.x)
@@ -100,7 +95,7 @@ LineChart.prototype.initVis = function(){
         .attr("x", 0)
         .attr("y", -10)
         .attr("fill", "black")
-        .text("percent (%)");
+        .text("%");
 
     vis.svg.append("g")
         .attr("class", "x-axis axis")
@@ -125,8 +120,6 @@ LineChart.prototype.initVis = function(){
 LineChart.prototype.wrangleData = function(){
     var vis = this;
 
-    console.log(vis.groupingData);
-
     vis.displayData = {};
     // Object.keys(vis.data).forEach(function (country) {
     //     if (vis.groupingData[country]["subregion"] === "Southern_Asia") {
@@ -134,8 +127,6 @@ LineChart.prototype.wrangleData = function(){
     //     }
     // });
     vis.displayData = vis.data;
-    console.log("display data");
-    console.log(vis.displayData);
     // Update the visualization
     vis.updateVis();
 };

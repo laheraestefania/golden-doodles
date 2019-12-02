@@ -77,10 +77,10 @@
 				</div>
 				<div class="row">
 
-					<div class="col-6">
+					<div class="col-7">
 						<div class="container-fluid">
 							<div class="row">
-								<div class = "col-md-12">
+								<div class = "col-md-6">
 									<div id = "treemap">
 										<form class="form-inline">
 											<div class="form-group">
@@ -96,17 +96,19 @@
 										</form>
 									</div>
 								</div>
+								<div class="col-6">
+									<div id="tree-legend"></div>
+								</div>
 							</div>
 							<div class="row">
 								<div class="col-12">
 									<div id="tree"></div>
-									<div id="tree-legend"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class = "col-6">
+					<div class = "col-5">
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-12 centered" id="adult-obesity-diabetes-title"><h6>Adult (18+) Diabetes and Obesity Prevalence</h6></div>
@@ -196,40 +198,46 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 
 		<div class = "section">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-3">
 						<h3 id="choro-bubble-title">More Generally...</h3>
-						We just say the countries that consume the most and least, but what about everything in between?
+						We just saw the countries that consume the most and least, but
+						what about everything in between?
+						<br>
+						<div id="bubble-map-radio">
+							<form>
+								<input type="radio" name="bubble-map-radio" value="map" checked> map<br>
+								<input type="radio" name="bubble-map-radio" value="population"> population<br>
+							</form>
+						</div>
+						<br>
+						<div id="bubble-radio-div">
+							Cluster by:
+							<br>
+							<form>
+								<input type="radio" name="bubble-scope" value="region" checked> region<br>
+								<input type="radio" name="bubble-scope" value="subregion"> subregion<br>
+							</form>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<form>
-							<input type="radio" name="bubble-scope" value="region" checked> region<br>
-							<input type="radio" name="bubble-scope" value="subregion"> subregion<br>
-						</form>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-5">
-						<div id='bubble'></div>
-					</div>
-					<div class="col-md-6">
-						<div id='map'></div>
+					<div class="col-md-9">
+						<div id="map-bubble-hybrid"></div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<div class = "section">
 			<div class="row">
-			<h3>Possible Determinants</h3>
-			<h4>Now that we've seen a couple trends in obesity and micronutrient consumption,
-				let's explore possible causes of these phenomena.</h4>
+				<div class="col-12">
+					<h3>Possible Determinants</h3>
+					<h4>Now that we've seen a couple trends in obesity and micronutrient consumption,
+						let's explore possible causes of these phenomena.</h4>
+				</div>
 			</div>
 		</div>
 
@@ -237,7 +245,7 @@
 			<div class="container-fluid">
 				<div class = "row">
 					<div class = "col-md-12" id = "histogram">
-						<h2>Let's Talk Policy</h2>
+						<h3>Let's Talk Policy</h3>
 						<p>Many countries have policies in place to fight malnutrition. The pie charts below
 						show the percent of countries that have each respective policy or legislation.
 						<br>
@@ -249,20 +257,20 @@
 
 					<div class="row">
 						<div class = "col-md-3" >
-							<h4>Sugar Taxes</h4>
+							<h5>Sugar Taxes</h5>
 							<div id = "pieChartSugarTax"></div>
 						</div>
 						<div class = "col-md-3" >
-							<h4>Sodium Plans</h4>
+							<h5>Sodium Plans</h5>
 							<div id = "pieChartSodiumPlan"></div>
 						</div>
 
 						<div class = "col-md-3" >
-							<h4>Wasting Plans</h4>
+							<h5>Wasting Plans</h5>
 							<div id = "pieChartWastingPlan"></div>
 						</div>
 						<div class = "col-md-3" >
-							<h4>Child Overweight Plans</h4>
+							<h5>Child Overweight Plans</h5>
 							<div id = "pieChartChildOverweightPlan"></div>
 						</div>
 					</div>
@@ -360,6 +368,7 @@
 	<script src="js/bubble.js"></script>
 	<script src="js/lineChart.js"></script>
 	<script src="js/piechart.js"></script>
+	<script src="js/choroplethBubble.js"></script>
 
 	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>

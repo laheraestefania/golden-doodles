@@ -13,10 +13,6 @@ ChoroplethCategorical = function(_parentElement, _data, topology, feature){
     this.initVis();
 };
 
-/*
- * Initialize area chart with brushing component
- */
-
 var catColorScale = {"country_class": ["#999999", "#a3cd61", "#f5bdbc", "#ed5f59", "#971c13"]};
 var catColorDomain = {"country_class":[
         "No data",
@@ -28,13 +24,12 @@ var catColorDomain = {"country_class":[
 ChoroplethCategorical.prototype.initVis = function() {
     var vis = this;
 
-    vis.margin = {top: 0, right: 250, bottom: 30, left: 20};
-
-    vis.width = 900 - vis.margin.left - vis.margin.right,
+    vis.margin = {top: 50, right: 50, bottom: 50, left: 50};
+    vis.parentElt = d3.select("#" + vis.parentElement);
+    vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
         vis.height = 500 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
-    vis.parentElt = d3.select("#" + vis.parentElement);
     vis.svg = vis.parentElt.append("svg")
         .attr("class", "choro-cat-svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
@@ -45,8 +40,8 @@ ChoroplethCategorical.prototype.initVis = function() {
 
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([110, 50])                 // Where to center the map in degrees
-        .scale(110)                       // Zoom-level
+        .center([110, 30])                 // Where to center the map in degrees
+        .scale(90)                       // Zoom-level
         .rotate([0, 0]);                   // Map-rotation
 
     // D3 geo path generator (maps geodata to SVG paths)
@@ -70,12 +65,10 @@ ChoroplethCategorical.prototype.initVis = function() {
             "experiencing one form of malnutrition",
             "experiencing two forms of malnutrition",
             "experiencing three forms of malnutrition"]);
-        // .domain(catColorDomain[vis.feature])
-        // .range(catColorScale[vis.feature]);
 
     vis.legendGroup = vis.parentElt.select(".choro-cat-svg").append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width + 30) + ", 30)");
+        .attr("transform", "translate(" + 20 + ", " + (vis.height - 70) + ")");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(5)

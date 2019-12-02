@@ -13,7 +13,7 @@
 }
 
 h3, h4, h5 {
-    padding: 20px;
+    padding: 10px;
     font-family: 'Lato', sans-serif;
 }
 
@@ -65,10 +65,6 @@ div.tooltip {
 
 #micronutrient-selection-button {
     margin: 20px;
-}
-
-.row {
-    margin: 10px;
 }
 
 p {
