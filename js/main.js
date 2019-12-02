@@ -96,6 +96,7 @@ function loadData() {
 
 
 function createVis() {
+    var vis = this;
 
     // (3) Create event handler
     var MyEventHandler = {};
@@ -108,7 +109,7 @@ function createVis() {
     var choroplethBubble = new ChoroplethBubble("map-bubble-hybrid", dataByCountry, topology, feature);
     var game = new ChoroplethGame("game", dataByCountry, topology, feature);
     var scatterplot = new Scatterplot("scatterplot", dataByCountry);
-    var histogram = new Histogram("histogram", allData, MyEventHandler);
+    vis.histogram = new Histogram("histogram", allData, MyEventHandler);
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
 
     //Pie charts
@@ -152,3 +153,9 @@ function clean(data) {
     });
     return data;
 }
+
+function updateHistogram()  {
+    var vis = this;
+
+    vis.histogram.updateVis();
+};

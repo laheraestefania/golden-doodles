@@ -56,8 +56,6 @@ Histogram.prototype.initVis = function(){
         .attr("class", "brush")
         .call(vis.brush);
 
-    d3.select("#ranking-type").on("change", vis.updateVis());
-
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 };
@@ -137,7 +135,9 @@ Histogram.prototype.updateVis = function(){
 
     // set the parameters for the histogram
     var histogram = d3.histogram()
-        .value(function(d) { return d.Sugar_sweetened_beverages_2016; })   // I need to give the vector of value
+        .value(function(d) {
+            return d.Sugar_sweetened_beverages_2016;
+        })   // I need to give the vector of value
         .domain(vis.x.domain())  // then the domain of the graphic
         .thresholds(vis.x.ticks(70)); // then the numbers of bins
 
