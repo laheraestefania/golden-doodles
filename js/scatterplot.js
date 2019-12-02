@@ -35,6 +35,8 @@ Scatterplot.prototype.initVis = function(){
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
+    vis.transitionDuration = 800;
+
     // Scales and axes
     // x-axis == GDP
     vis.x = d3.scaleLinear()
@@ -124,6 +126,11 @@ Scatterplot.prototype.wrangleData = function(){
     vis.svg.select('.title')
         .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
 
+    // sort by descending population so that all of the nodes show up and don't cover each other
+    vis.displayData = vis.displayData.sort(function(a,b){
+        return b.population_2017 - a.population_2017;
+    });
+
     d3.select("#scatterplot-year").on("change", function() {
         vis.my_param = d3.select("#scatterplot-year").property("value");
         vis.x_param = "GDP_capita_PPP_" + vis.my_param;
@@ -201,15 +208,15 @@ Scatterplot.prototype.updateVis = function(){
             // return 5;
         })
         .transition()
-        .duration(800)
+        .duration(vis.transitionDuration)
         .attr("cx", function(d){ return vis.x(d[vis.x_param]); })
         .attr("cy", function(d){ return vis.y(d[vis.y_param]); });
 
     temp.exit().remove();
 
     // Call axis functions with the new domain
-    vis.svg.select(".x-axis").transition(800).call(vis.xAxis);
-    vis.svg.select(".y-axis").transition(800).call(vis.yAxis);
+    vis.svg.select(".x-axis").transition(vis.transitionDuration).call(vis.xAxis);
+    vis.svg.select(".y-axis").transition(vis.transitionDuration).call(vis.yAxis);
 
 
     vis.legendGroup.call(vis.legendSequential);
@@ -239,7 +246,7 @@ Scatterplot.prototype.addLegend = function () {
         .attr("stroke", "black")
         .attr("opacity", 0.0)
         .transition()
-        .duration(transitionDuration)
+        .duration(vis.transitionDuration)
         .attr("opacity", 1.0);
 
 // Add legend: segments
@@ -257,7 +264,7 @@ Scatterplot.prototype.addLegend = function () {
         .style('stroke-dasharray', ('2,2'))
         .attr("opacity", 0.0)
         .transition()
-        .duration(transitionDuration)
+        .duration(vis.transitionDuration)
         .attr("opacity", 1.0);
 
 // Add legend: labels
@@ -274,7 +281,7 @@ Scatterplot.prototype.addLegend = function () {
         .attr('alignment-baseline', 'middle')
         .attr("opacity", 0.0)
         .transition()
-        .duration(transitionDuration)
+        .duration(vis.transitionDuration)
         .attr("opacity", 1.0);
 
     vis.svg
@@ -287,6 +294,6 @@ Scatterplot.prototype.addLegend = function () {
         .text("Population (2017)")
         .attr("opacity", 0.0)
         .transition()
-        .duration(transitionDuration)
+        .duration(vis.transitionDuration)
         .attr("opacity", 1.0);
 };
