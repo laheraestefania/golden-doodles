@@ -81,13 +81,28 @@ Scatterplot.prototype.initVis = function(){
         .attr("transform", "rotate(-90)");
 
 
-    // (Filter, aggregate, modify data)
-    vis.wrangleData();
+    vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
+    vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
+
+    vis.legendGroup = vis.svg.append("g")
+        .attr("class", "legendSequential")
+        .attr("transform", "translate(" + (vis.width - 50) + ", 30)");
+
+    vis.legendSequential = d3.legendColor()
+        .shapeWidth(5)
+        .shapeHeight(15)
+        .orient("vertical")
+        .scale(vis.colorPalette);
 
     // scale function for population circles
     vis.populationScale = d3.scaleSqrt()
         .domain(d3.extent(vis.displayData, function(d) {return d.population_2017;}))
         .range([4, 30]);
+
+    // (Filter, aggregate, modify data)
+    vis.wrangleData();
+
+
 
 }
 
@@ -163,19 +178,6 @@ Scatterplot.prototype.updateVis = function(){
                 "</br>  Under 5 Mortality Rate: " + d[vis.y_param] ; });
     vis.svg.call(vis.tooltip);
 
-    vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
-    vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
-
-    vis.legendGroup = vis.svg.append("g")
-        .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width - 50) + ", 30)");
-
-    vis.legendSequential = d3.legendColor()
-        .shapeWidth(5)
-        .shapeHeight(15)
-        .orient("vertical")
-        .scale(vis.colorPalette);
-
     var temp = vis.svg.selectAll(".countries")
         .data(vis.displayData, function(d){return d.id;});
 
@@ -189,11 +191,12 @@ Scatterplot.prototype.updateVis = function(){
         // add tooltip whenever mouse hovers over
         .on("mouseover", vis.tooltip.show)
         .on("mouseout", vis.tooltip.hide)
-        .attr("r", function(d){
-            if (vis.my_param == '2017'){
-                return vis.populationScale(d.population_2017);
-            }
-            return 5;
+        .attr("r", function(d){ return vis.populationScale(d.population_2017);
+            // made it so that population ratio is always for 2017
+            // if (vis.my_param == '2017'){
+            //     return vis.populationScale(d.population_2017);
+            // }
+            // return 5;
         })
         .transition()
         .duration(800)
