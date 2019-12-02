@@ -35,8 +35,49 @@ Histogram.prototype.initVis = function(){
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
 
-    // SVG clipping path
-    // ***TO-DO***
+    // Initialize brushing component
+    // *** TO-DO ***
+    vis.currentBrushRegion = null;
+
+    vis.brush = d3.brushX()
+        .extent([[0,0],[vis.width, vis.height]])
+        .on("brush", function(){
+            // User just selected a specific region
+            vis.currentBrushRegion = d3.event.selection;
+            vis.currentBrushRegion = vis.currentBrushRegion.map(vis.x.invert);
+
+            // 3. Trigger the event 'selectionChanged' of our event handler
+            $(vis.MyEventHandler).trigger("selectionChanged", vis.currentBrushRegion);
+        });
+
+    // Append brush component here
+    // *** TO-DO ***
+    vis.brushGroup = vis.svg.append("g")
+        .attr("class", "brush")
+        .call(vis.brush);
+
+    d3.select("#ranking-type").on("change", vis.updateVis());
+
+    // (Filter, aggregate, modify data)
+    vis.wrangleData();
+};
+
+
+/** Data wrangling */
+
+Histogram.prototype.wrangleData = function(){
+    var vis = this;
+
+    // Update the visualization
+    vis.updateVis();
+};
+
+
+Histogram.prototype.updateVis = function(){
+    var vis = this;
+
+    vis.selectedValue = (d3.select("#selected-feature").property("value"));
+    console.log(vis.selectedValue);
 
     // Scales and axes
     vis.x = d3.scaleLinear()
@@ -112,48 +153,6 @@ Histogram.prototype.initVis = function(){
         })
         .style("fill", "#de2d26");
 
-
-    // Initialize brushing component
-    // *** TO-DO ***
-    vis.currentBrushRegion = null;
-
-    vis.brush = d3.brushX()
-        .extent([[0,0],[vis.width, vis.height]])
-        .on("brush", function(){
-            // User just selected a specific region
-            vis.currentBrushRegion = d3.event.selection;
-            vis.currentBrushRegion = vis.currentBrushRegion.map(vis.x.invert);
-
-            // 3. Trigger the event 'selectionChanged' of our event handler
-            $(vis.MyEventHandler).trigger("selectionChanged", vis.currentBrushRegion);
-        });
-
-    // console.log(vis.currentBrushRegion);
-
-    // Append brush component here
-    // *** TO-DO ***
-    vis.brushGroup = vis.svg.append("g")
-        .attr("class", "brush")
-        .call(vis.brush);
-
-    // (Filter, aggregate, modify data)
-    vis.wrangleData();
-};
-
-
-/** Data wrangling */
-
-Histogram.prototype.wrangleData = function(){
-    var vis = this;
-
-    // Update the visualization
-    vis.updateVis();
-};
-
-
-Histogram.prototype.updateVis = function(){
-    var vis = this;
-
     // Call brush component here
     vis.brushGroup.call(vis.brush, vis.currentBrushRegion);
 
@@ -162,10 +161,3 @@ Histogram.prototype.updateVis = function(){
     vis.svg.select(".x-axis").call(vis.xAxis);
     vis.svg.select(".y-axis").call(vis.yAxis);
 };
-
-// Histogram.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
-//     var vis = this;
-//
-//
-//     vis.wrangleData();
-// };
