@@ -93,7 +93,7 @@ Scatterplot.prototype.initVis = function(){
         .shapeHeight(15)
         .orient("vertical")
         .scale(vis.colorPalette);
-    
+
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 
@@ -190,10 +190,11 @@ Scatterplot.prototype.updateVis = function(){
         .on("mouseover", vis.tooltip.show)
         .on("mouseout", vis.tooltip.hide)
         .attr("r", function(d){
-            if (vis.my_param == '2017'){
+            // made it so that population ratio is always for 2017
+            // if (vis.my_param == '2017'){
                 return vis.populationScale(d.population_2017);
-            }
-            return 5;
+            // }
+            // return 5;
         })
         .transition()
         .duration(800)
