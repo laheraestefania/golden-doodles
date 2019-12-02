@@ -26,28 +26,32 @@ var treemap = d3.tree()
 queue()
     .defer(d3.csv, "data/cleaned_nutrition_data.csv")
     .defer(d3.csv, "data/subregional_data.csv")
-    .await(function(error, csv, subregional) {
+    .defer(d3.csv, "data/regional_data.csv")
+    .await(function(error, csv, subregional, regional) {
 
     alldata = csv;
     value = d3.select("#attribute").property("value");
 
     // console.log(subregional[1][value]);
 
-    if (value === "country_class") {
-        legendlabels[0] = "experiencing one form of malnutrition";
-        legendlabels[1] = "experiencing two forms of malnutrition";
-        legendlabels[2] = "experiencing three forms of malnutrition";
-        legendlabels[3] = "No data";
-    } else {
-        legendlabels[0] = "On course";
-        legendlabels[1] = "No progress or worsening";
-        legendlabels[2] = "No data";
-    }
+        if (value === "country_class") {
+            legendlabels[0] = "experiencing one form of malnutrition";
+            legendlabels[1] = "experiencing two forms of malnutrition";
+            legendlabels[2] = "experiencing three forms of malnutrition";
+            legendlabels[3] = "";
+            legendlabels[4] = "No data";
+        } else {
+            legendlabels[0] = "On course";
+            legendlabels[1] = "No progress or worsening";
+            legendlabels[2] = "No data";
+            legendlabels[3] = null;
+            legendlabels[4] = null;
+        };
 
     nestdata = d3.nest()
-        .key(function(d) { return d.region})
-        .key(function(d) { return d.subregion})
-        .key(function(d) { return d.country})
+        .key(function(d) { return d.region}).sortKeys(d3.ascending)
+        .key(function(d) { return d.subregion}).sortKeys(d3.ascending)
+        .key(function(d) { return d.country}).sortKeys(d3.ascending)
         .entries(alldata);
 
 for (let j = 0; j < nestdata.length; j++) {
@@ -58,6 +62,14 @@ for (let j = 0; j < nestdata.length; j++) {
             }
         }
 }
+
+    subregional.sort(function(a, b) {
+        return d3.ascending(a.subregion - b.subregion);
+    });
+
+    subregional.sort(function(a, b) {
+        return d3.ascending(a.region - b.region);
+    });
 
     var root = d3.hierarchy({values: nestdata}, function(d) {return d.values;});
 
@@ -162,18 +174,50 @@ for (let j = 0; j < nestdata.length; j++) {
                         case "": return "#a3cd61";
                     }
                 } else if (d.height === 1) {
-                    switch(subregional[i][value]) {
-                        case "experiencing one form of malnutrition": return "#f5bdbc";
-                        case "experiencing two forms of malnutrition": return "#ed5f59";
-                        case "experiencing three forms of malnutrition": return "#971c13";
-                        case "On course" :
-                            return "#a3cd61";
-                        case "No progress or worsening":
-                            return "#ff0000";
-                        case "No data" :
-                            return "#ccc";
-                        case "No Data" : return "#ccc";
-                        case "": return "#a3cd61";
+                    for (j = 0; j < subregional.length; j++) {
+                        if (d.data.key === subregional[j].subregion) {
+                            switch (subregional[j][value]) {
+                                case "experiencing one form of malnutrition":
+                                    return "#f5bdbc";
+                                case "experiencing two forms of malnutrition":
+                                    return "#ed5f59";
+                                case "experiencing three forms of malnutrition":
+                                    return "#971c13";
+                                case "On course" :
+                                    return "#a3cd61";
+                                case "No progress or worsening":
+                                    return "#ff0000";
+                                case "No data" :
+                                    return "#ccc";
+                                case "No Data" :
+                                    return "#ccc";
+                                case "":
+                                    return "#a3cd61";
+                            }
+                        }
+                    }
+                } else if (d.height === 2) {
+                    for (k = 0; k < regional.length; k++) {
+                        if (d.data.key === regional[k].region) {
+                            switch (regional[k][value]) {
+                                case "experiencing one form of malnutrition":
+                                    return "#f5bdbc";
+                                case "experiencing two forms of malnutrition":
+                                    return "#ed5f59";
+                                case "experiencing three forms of malnutrition":
+                                    return "#971c13";
+                                case "On course" :
+                                    return "#a3cd61";
+                                case "No progress or worsening":
+                                    return "#ff0000";
+                                case "No data" :
+                                    return "#ccc";
+                                case "No Data" :
+                                    return "#ccc";
+                                case "":
+                                    return "#a3cd61";
+                            }
+                        }
                     }
                 }
                  else {
@@ -287,18 +331,50 @@ for (let j = 0; j < nestdata.length; j++) {
                         case "": return "#a3cd61";
                     }
                 } else if (d.height === 1) {
-                    switch(subregional[i][value]) {
-                        case "experiencing one form of malnutrition": return "#f5bdbc";
-                        case "experiencing two forms of malnutrition": return "#ed5f59";
-                        case "experiencing three forms of malnutrition": return "#971c13";
-                        case "On course" :
-                            return "#a3cd61";
-                        case "No progress or worsening":
-                            return "#ff0000";
-                        case "No data" :
-                            return "#ccc";
-                        case "No Data" : return "#ccc";
-                        case "": return "#a3cd61";
+                    for (j = 0; j < subregional.length; j++) {
+                        if (d.data.key === subregional[j].subregion) {
+                            switch (subregional[j][value]) {
+                                case "experiencing one form of malnutrition":
+                                    return "#f5bdbc";
+                                case "experiencing two forms of malnutrition":
+                                    return "#ed5f59";
+                                case "experiencing three forms of malnutrition":
+                                    return "#971c13";
+                                case "On course" :
+                                    return "#a3cd61";
+                                case "No progress or worsening":
+                                    return "#ff0000";
+                                case "No data" :
+                                    return "#ccc";
+                                case "No Data" :
+                                    return "#ccc";
+                                case "":
+                                    return "#a3cd61";
+                            }
+                        }
+                    }
+                } else if (d.height === 2) {
+                    for (k = 0; k < regional.length; k++) {
+                        if (d.data.key === regional[k].region) {
+                            switch (regional[k][value]) {
+                                case "experiencing one form of malnutrition":
+                                    return "#f5bdbc";
+                                case "experiencing two forms of malnutrition":
+                                    return "#ed5f59";
+                                case "experiencing three forms of malnutrition":
+                                    return "#971c13";
+                                case "On course" :
+                                    return "#a3cd61";
+                                case "No progress or worsening":
+                                    return "#ff0000";
+                                case "No data" :
+                                    return "#ccc";
+                                case "No Data" :
+                                    return "#ccc";
+                                case "":
+                                    return "#a3cd61";
+                            }
+                        }
                     }
                 } else {
                     return "#000";
@@ -309,14 +385,14 @@ for (let j = 0; j < nestdata.length; j++) {
             legendlabels[0] = "experiencing one form of malnutrition";
             legendlabels[1] = "experiencing two forms of malnutrition";
             legendlabels[2] = "experiencing three forms of malnutrition";
-            legendlabels[3] = "No data";
-            // legendlabels[4] = "";
+            legendlabels[3] = "";
+            legendlabels[4] = "No data";
         } else {
             legendlabels[0] = "On course";
             legendlabels[1] = "No progress or worsening";
             legendlabels[2] = "No data";
             legendlabels[3] = null;
-            // legendlabels[4] = null;
+            legendlabels[4] = null;
         };
 
         legend.updateVis();
@@ -396,6 +472,8 @@ treelegend.prototype.updateVis = function() {
                     return "#ff0000";
                 case "No data" :
                     return "#ccc";
+                case "" :
+                    return "#a3cd61";
                 case null :
                     return "rgba(79, 114, 201, 0)";
             }
