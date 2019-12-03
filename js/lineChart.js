@@ -103,6 +103,26 @@ LineChart.prototype.initVis = function(){
         .attr("fill", "black")
         .text("Year");
 
+    // tool tip
+    vis.tool_tip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-2, 0])
+        .html(function(d) {
+            return d.key;
+            // let id = d["id"];
+            // if (vis.data[id]) {
+            //     let s = vis.data[id]["country"] + "<br>"+ metadata[vis.feature] + " : ";
+            //     if (vis.displayData[id]) {
+            //         s+= vis.displayData[id];
+            //     }
+            //     return s;
+            // } else {
+            //     return "No Data";
+            // }
+        });
+
+    vis.svg.call(vis.tool_tip);
+
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 };
@@ -191,12 +211,22 @@ LineChart.prototype.updateVis = function(){
             .attr("stroke", "rgba(152,171,190,0.45)")
             .attr("stroke-width", 2)
             .attr("fill", "rgba(255,255,255,0)")
-            .attr("class", "linepath")
-            // .attr("class", function () {
-            //     let region = vis.groupingData[key]["region"];
-            //     let subregion = vis.groupingData[key]["subregion"];
-            //     return key.replace(" ", "_") + " " + region + " " + subregion;
-            // })
+            .attr("id", "linepath")
+            .attr("class", function (d) {
+                d.key = key;
+                return d.key;
+                // let region = vis.groupingData[key]["region"];
+                // let subregion = vis.groupingData[key]["subregion"];
+                // return key.replace(" ", "_") + " " + region + " " + subregion;
+            })
+            .on("mouseover", function(d) {
+                d3.select(this).attr('opacity', '0');
+                vis.tool_tip.show(d);
+            })
+            .on("mouseout", function(d) {
+                d3.select(this).attr('opacity', '1');
+                vis.tool_tip.hide(d);
+            })
             .attr("d", vis.linePath);
     })
 
