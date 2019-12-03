@@ -64,6 +64,18 @@ PieChart.prototype.updateVis = function(){
         .domain(vis.displayData)
         .range(["#fee0d2", "#fc9272"]);
 
+    //I got help with implementing the legend with https://d3-legend.susielu.com/#color-ordinal
+
+    // svgChart.append("g")
+    //     .attr("class", "legendOrdinal")
+    //     .attr("transform", "translate(300,260)");
+    //
+    // var legendOrdinal = d3.legendColor()
+    //     .scale(vis.color);
+    //
+    // svgChart.select(".legendOrdinal")
+    //     .call(legendOrdinal);
+
     // Compute the position of each group on the pie:
     vis.pie = d3.pie()
         .value(function(d) {
