@@ -83,7 +83,7 @@ ChoroplethGame.prototype.initVis = function() {
 
     vis.legendGroup.call(vis.legendSequential);
 
-    $("#map-game-title").html(`<h3>${metadata[vis.feature]} </h3>`);
+    $("#map-game-title").html(`<h4>${metadata[vis.feature]} </h4>`);
 
     $("#map-game-instructions").hide()
         .html("Let's play a game. Can you guess which " + vis.guessLimit + " countries consume the MOST?")
