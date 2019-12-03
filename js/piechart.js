@@ -16,17 +16,23 @@ PieChart = function(_parentElement, _data, _eventHandler ){
 PieChart.prototype.initVis = function(){
     var vis = this;
 
-    vis.margin = { top: 100, right: 0, bottom: 200, left: 100 };
+    vis.margin = { top: 10, right: 10, bottom: 10, left: 10 };
 
     vis.width = $("#" + vis.parentElement).width();
     vis.height = $("#" + vis.parentElement).height();
 
+    console.log(vis.width, vis.height);
+
     // SVG drawing area
-    vis.svg = d3.select("#" + vis.parentElement).append("svg")
+    vis.marginSvg = d3.select("#" + vis.parentElement).append("svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
         .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+
+    vis.svg = vis.marginSvg
+        .append("g")
+        .attr("transform", `translate(${vis.width / 2}, ${vis.height / 2})`);
 
     vis.filteredData = vis.data;
 
@@ -83,9 +89,7 @@ PieChart.prototype.updateVis = function(){
             return d
         });
 
-    vis.w = 200;
-    vis.h = 200;
-    vis.outerRadius = vis.w / 3;
+    vis.outerRadius = vis.height / 3;
     vis.innerRadius = 0;
     vis.arc = d3.arc()
         .innerRadius(vis.innerRadius)
@@ -110,19 +114,19 @@ PieChart.prototype.updateVis = function(){
         .style("stroke-width", "2px")
         .style("opacity", 1);
 
-        vis.pies.append("text")
-        .attr("transform", function(d) {
-            return "translate(" + vis.arc.centroid(d) + ")";
-        })
-        .attr("text-anchor", "middle")
-        .text(function(d, i) {
-            // console.log(d);
-            if (i == 0) {
-                return "Yes";
-            } else if (i == 1) {
-                return "No";
-            }
-        });
+        // vis.pies.append("text")
+        // .attr("transform", function(d) {
+        //     return "translate(" + vis.arc.centroid(d) + ")";
+        // })
+        // .attr("text-anchor", "middle")
+        // .text(function(d, i) {
+        //     // console.log(d);
+        //     if (i == 0) {
+        //         return "Yes";
+        //     } else if (i == 1) {
+        //         return "No";
+        //     }
+        // });
 
     vis.pies
         .exit()
