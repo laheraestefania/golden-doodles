@@ -35,8 +35,47 @@ Histogram.prototype.initVis = function(){
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
 
-    // SVG clipping path
-    // ***TO-DO***
+    // Initialize brushing component
+    // *** TO-DO ***
+    vis.currentBrushRegion = null;
+
+    vis.brush = d3.brushX()
+        .extent([[0,0],[vis.width, vis.height]])
+        .on("brush", function(){
+            // User just selected a specific region
+            vis.currentBrushRegion = d3.event.selection;
+            vis.currentBrushRegion = vis.currentBrushRegion.map(vis.x.invert);
+
+            // 3. Trigger the event 'selectionChanged' of our event handler
+            $(vis.MyEventHandler).trigger("selectionChanged", vis.currentBrushRegion);
+        });
+
+    // Append brush component here
+    // *** TO-DO ***
+    vis.brushGroup = vis.svg.append("g")
+        .attr("class", "brush")
+        .call(vis.brush);
+
+    // (Filter, aggregate, modify data)
+    vis.wrangleData();
+};
+
+
+/** Data wrangling */
+
+Histogram.prototype.wrangleData = function(){
+    var vis = this;
+
+    // Update the visualization
+    vis.updateVis();
+};
+
+
+Histogram.prototype.updateVis = function(){
+    var vis = this;
+
+    vis.selectedValue = (d3.select("#selected-feature").property("value"));
+    console.log(vis.selectedValue);
 
     // Scales and axes
     vis.x = d3.scaleLinear()
@@ -80,16 +119,25 @@ Histogram.prototype.initVis = function(){
 
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 
-    // // set the color scale
-    // var color = d3.scaleOrdinal()
-    //     .domain(vis.data)
-    //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
+    /// Code from the example given in the instructions: http://bl.ocks.org/davegotz/bd54b56723c154d25eedde6504d30ad7
+    var tool_tip = d3.tip()
+        .attr("class", "d3-tip-histogram")
+        .offset([-8,0])
+        .html(function(d) {
+            return "Countries: " +
+            d.map(function(d) {
+                return " " + d.country + " ";
+            });
+        });
+    vis.svg.call(tool_tip);
 
     //I got help with d3.histogram on this website :  https://www.d3-graph-gallery.com/graph/histogram_basic.html
 
     // set the parameters for the histogram
     var histogram = d3.histogram()
-        .value(function(d) { return d.Sugar_sweetened_beverages_2016; })   // I need to give the vector of value
+        .value(function(d) {
+            return d.Sugar_sweetened_beverages_2016;
+        })   // I need to give the vector of value
         .domain(vis.x.domain())  // then the domain of the graphic
         .thresholds(vis.x.ticks(70)); // then the numbers of bins
 
@@ -110,49 +158,9 @@ Histogram.prototype.initVis = function(){
             // console.log(d.length);
             return vis.height - vis.y(d.length);
         })
-        .style("fill", "#de2d26");
-
-
-    // Initialize brushing component
-    // *** TO-DO ***
-    vis.currentBrushRegion = null;
-
-    vis.brush = d3.brushX()
-        .extent([[0,0],[vis.width, vis.height]])
-        .on("brush", function(){
-            // User just selected a specific region
-            vis.currentBrushRegion = d3.event.selection;
-            vis.currentBrushRegion = vis.currentBrushRegion.map(vis.x.invert);
-
-            // 3. Trigger the event 'selectionChanged' of our event handler
-            $(vis.MyEventHandler).trigger("selectionChanged", vis.currentBrushRegion);
-        });
-
-    // console.log(vis.currentBrushRegion);
-
-    // Append brush component here
-    // *** TO-DO ***
-    vis.brushGroup = vis.svg.append("g")
-        .attr("class", "brush")
-        .call(vis.brush);
-
-    // (Filter, aggregate, modify data)
-    vis.wrangleData();
-};
-
-
-/** Data wrangling */
-
-Histogram.prototype.wrangleData = function(){
-    var vis = this;
-
-    // Update the visualization
-    vis.updateVis();
-};
-
-
-Histogram.prototype.updateVis = function(){
-    var vis = this;
+        .style("fill", "#de2d26")
+        .on('mouseover', tool_tip.show )
+        .on('mouseout', tool_tip.hide);
 
     // Call brush component here
     vis.brushGroup.call(vis.brush, vis.currentBrushRegion);
@@ -162,10 +170,3 @@ Histogram.prototype.updateVis = function(){
     vis.svg.select(".x-axis").call(vis.xAxis);
     vis.svg.select(".y-axis").call(vis.yAxis);
 };
-
-// Histogram.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
-//     var vis = this;
-//
-//
-//     vis.wrangleData();
-// };

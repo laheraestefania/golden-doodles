@@ -71,3 +71,11 @@ p {
     font-family: 'Lato', sans-serif;
 }
 
+.d3-tip-histogram {
+    font-family: 'Lato', sans-serif;
+    font-size: 10px;
+    background-color: white;
+    padding: 10px;
+    width: 400px;
+}
+

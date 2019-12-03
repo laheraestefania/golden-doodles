@@ -89,7 +89,7 @@ PieChart.prototype.updateVis = function(){
         .append('path')
         .merge(vis.pies)
         .transition()
-        .duration(1000)
+        .duration(500)
         .attrTween('d', arcTween)
         .attr('fill', function (d, i) {
             return vis.color(i);
@@ -98,19 +98,19 @@ PieChart.prototype.updateVis = function(){
         .style("stroke-width", "2px")
         .style("opacity", 1);
 
-        // vis.pies.append("text")
-        // .attr("transform", function(d) {
-        //     return "translate(" + vis.arc.centroid(d) + ")";
-        // })
-        // .attr("text-anchor", "middle")
-        // .text(function(d, i) {
-        //     console.log(d);
-        //     if (i == 0) {
-        //         return "Yes";
-        //     } else if (i == 1) {
-        //         return "No";
-        //     }
-        // });
+        vis.pies.append("text")
+        .attr("transform", function(d) {
+            return "translate(" + vis.arc.centroid(d) + ")";
+        })
+        .attr("text-anchor", "middle")
+        .text(function(d, i) {
+            // console.log(d);
+            if (i == 0) {
+                return "Yes";
+            } else if (i == 1) {
+                return "No";
+            }
+        });
 
     vis.pies
         .exit()
@@ -162,6 +162,8 @@ PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
     vis.filteredData = vis.data.filter(function(d){
         return (d.Sugar_sweetened_beverages_2016 >= selectionStart && d.Sugar_sweetened_beverages_2016 <= selectionEnd);
     });
+
+    // console.log(vis.filteredData);
 
     vis.wrangleData();
 };
