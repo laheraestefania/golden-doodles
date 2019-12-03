@@ -163,7 +163,9 @@ for (let j = 0; j < nestdata.length; j++) {
             .attr("transform", function(d) {
                 return "translate(" + source.y0 + "," + source.x0 + ")";
             })
-            .on('click', click);
+            .on('click', click)
+            .on('mouseover', hoveron)
+            .on('mouseout', hoverout);
 
         // Add Circle for the nodes
         nodeEnter.append('circle')
@@ -345,11 +347,27 @@ for (let j = 0; j < nestdata.length; j++) {
                 // if not, extend
                 d.children = d._children;
                 if (d.height === 0) {
-                    // console.log(d.data.data[0][value]);
+
                 }
                 d._children = null;
             }
             update(d);
+        }
+
+        function hoveron(d) {
+            if (d.height === 0) {
+                lineChart.svg.selectAll("." + d.data.key)
+                    .attr('fill', "black")
+                    .attr("stroke", "black");
+            }
+        }
+
+        function hoverout(d) {
+            if (d.height === 0) {
+                lineChart.svg.selectAll("." + d.data.key)
+                    .attr('fill', "rgba(152,171,190,0.45)")
+                    .attr("stroke", "rgba(255,255,255,0)");
+            }
         }
     }
 
@@ -357,7 +375,7 @@ for (let j = 0; j < nestdata.length; j++) {
 
     d3.select("#attribute").on("change", function() {
         value = d3.select("#attribute").property("value");
-        lineChart.svg.selectAll(".linepath").remove();
+        lineChart.svg.selectAll("#linepath").remove();
         lineChart.svg.selectAll(".area-title").remove();
 
         lineChart.value = value;
