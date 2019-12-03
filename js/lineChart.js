@@ -46,7 +46,7 @@ LineChart.prototype.initVis = function(){
     vis.margin = { top: 30, right: 10, bottom: 30, left: 30 };
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
-    vis.height = 500 - vis.margin.top - vis.margin.bottom;
+    vis.height = 400 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -208,7 +208,8 @@ LineChart.prototype.updateVis = function(){
     Object.keys(vis.displayData).forEach(function (key) {
         vis.svg.append("path")
             .datum(vis.displayData[key])
-            .attr("stroke", "rgba(152,171,190,0.45)")
+            .attr("stroke", lightBlue)
+            .attr("stroke-opacity", 0.3)
             .attr("stroke-width", 2)
             .attr("fill", "rgba(255,255,255,0)")
             .attr("id", "linepath")
@@ -220,11 +221,9 @@ LineChart.prototype.updateVis = function(){
                 // return key.replace(" ", "_") + " " + region + " " + subregion;
             })
             .on("mouseover", function(d) {
-                d3.select(this).attr('opacity', '0');
                 vis.tool_tip.show(d);
             })
             .on("mouseout", function(d) {
-                d3.select(this).attr('opacity', '1');
                 vis.tool_tip.hide(d);
             })
             .attr("d", vis.linePath);

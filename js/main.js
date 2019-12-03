@@ -5,7 +5,6 @@ var dataByCountryName = {};
 var allData = [];
 var topology = [];
 var metadata = {};
-var noDataColor = "#999999";
 var sugarTaxData = [], sodiumPlanData = [], childOverweightPlanData = [], wastingPlanData = [];
 var femaleObesity = [], maleObesity = [], femaleDiabetes = [], maleDiabetes = [];
 var categorical = new Set(["iso3", "country", "region", "subregion",

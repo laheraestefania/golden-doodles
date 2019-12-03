@@ -11,8 +11,8 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.feature = feature;
     this.mostCount = 0;
     this.leastCount = 0;
-    this.mostColor = "rgb(18,49,103)";
-    this.leastColor = "rgb(227,237,247)";
+    this.mostColor = "#28345d";
+    this.leastColor = "#ced4ea";
     this.state = "most";
     // store the "answers" -which consume the most and least
     this.most = new Set();

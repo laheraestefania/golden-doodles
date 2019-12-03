@@ -4,8 +4,6 @@
  * @param _data						-- the
  */
 
-let transitionDuration = 1000;
-
 function constructHtmlText(d) {
     console.log(d);
 
@@ -41,7 +39,8 @@ ChoroplethBubble = function(_parentElement, _data, topology, feature){
 
     // total number of clusters - default is by region
     vis.m = numbering[vis.clusterCat]["num"];
-    vis.color = d3.scaleSequential(d3.interpolateBlues);
+    // vis.color = d3.scaleSequential(d3.interpolateBlues);
+    vis.color = d3.scaleSequential(sequentialInterpolator);
     vis.clusters = new Array(vis.m);
 
 

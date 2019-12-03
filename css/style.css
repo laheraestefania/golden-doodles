@@ -100,33 +100,34 @@ p {
 
 /*Help with navbars: https://www.w3schools.com/css/css_navbar.asp*/
 
-ul {
+#myNavBar ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #28345d;
     position: fixed;
     top: 0;
     width: 100%;
 }
 
-li {
+#myNavBar li {
     float: left;
+    font-size: 12px;
 }
 
-li a {
+#myNavBar li a {
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    /*padding: 14px 16px;*/
+    padding: 12px 12px;
     text-decoration: none;
 }
 
 /* Change the link color to #111 (black) on hover */
-li a:hover {
-    background-color: #111;
+#myNavBar li a:hover {
+    background-color: #191e37;
     text-decoration: none;
     color: white;
 }
-

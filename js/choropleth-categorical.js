@@ -13,14 +13,6 @@ ChoroplethCategorical = function(_parentElement, _data, topology, feature){
     this.initVis();
 };
 
-var catColorScale = {"country_class": ["#999999", "#a3cd61", "#f5bdbc", "#ed5f59", "#971c13"]};
-var catColorDomain = {"country_class":[
-        "No data",
-        "None",
-        "experiencing one form of malnutrition",
-        "experiencing two forms of malnutrition",
-        "experiencing three forms of malnutrition"]}
-
 ChoroplethCategorical.prototype.initVis = function() {
     var vis = this;
 

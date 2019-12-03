@@ -157,7 +157,8 @@ Histogram.prototype.updateVis = function(){
             // console.log(d.length);
             return vis.height - vis.y(d.length);
         })
-        .style("fill", "#de2d26")
+        // .style("fill", "#de2d26")
+        .style("fill", mainRed)
         .on('mouseover', tool_tip.show )
         .on('mouseout', tool_tip.hide);
 

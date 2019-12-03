@@ -260,9 +260,9 @@ for (let j = 0; j < nestdata.length; j++) {
                                 case "No progress or worsening":
                                     return "#ff0000";
                                 case "No data" :
-                                    return "#ccc";
+                                    return noDataColor;
                                 case "No Data" :
-                                    return "#ccc";
+                                    return noDataColor;
                                 case "":
                                     return "#a3cd61";
                             }
@@ -357,16 +357,17 @@ for (let j = 0; j < nestdata.length; j++) {
         function hoveron(d) {
             if (d.height === 0) {
                 lineChart.svg.selectAll("." + d.data.key)
-                    .attr('fill', "black")
-                    .attr("stroke", "black");
+                    .attr("stroke", darkBlue)
+                    .attr("stroke-opacity", 1.0)
+                    .raise();
             }
         }
 
         function hoverout(d) {
             if (d.height === 0) {
                 lineChart.svg.selectAll("." + d.data.key)
-                    .attr('fill', "rgba(152,171,190,0.45)")
-                    .attr("stroke", "rgba(255,255,255,0)");
+                    .attr("stroke", lightBlue)
+                    .attr("stroke-opacity", 0.3);
             }
         }
     }

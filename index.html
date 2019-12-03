@@ -21,11 +21,11 @@
 <div id="myNavBar" style="height: 10vh; z-index: 10;">
 	<ul>
 		<li><a href="#section1">Home</a></li>
-		<li><a href="#section2">Malnutrition: A Global Problem</a></li>
-		<li><a href="#section3">Tracking Progress</a></li>
-		<li><a href="#section4">Diving Deeper</a></li>
-		<li><a href="#section5">Play Our Game!</a></li>
-		<li><a href="#section6">Estimates per Country</a></li>
+		<li><a href="#section2">Overview</a></li>
+		<li><a href="#section3">Progress</a></li>
+		<li><a href="#section4">Micronutrients</a></li>
+		<li><a href="#section5">Game</a></li>
+		<li><a href="#section6">Micronutrient Estimates</a></li>
 		<li><a href="#section7">Determinants</a></li>
 		<li><a href="#section8">Policy</a></li>
 		<li><a href="#section9">Money</a></li>
@@ -428,11 +428,11 @@
 <script src="js/d3-scale-chromatic.v1.min.js"></script>
 <script src="js/d3-tip.js"></script>
 <script src="js/d3-legend.min.js"></script>
+<script src="js/d3-interpolate.min.js"></script>
 <script type="text/javascript" src="js/fullpage.js"></script>
 
 <!-- Visualization objects -->
-<script src="js/stackedAreaChart.js"></script>
-<script src="js/timeline.js"></script>
+<script src="js/helpers.js"></script>
 <script src="js/choropleth.js"></script>
 <script src="js/choropleth-game.js"></script>
 <script src="js/scatterplot.js"></script>
@@ -447,13 +447,35 @@
 <!-- Load data, create visualizations -->
 <script src="js/main.js"></script>
 <script>
-	// var sectionColor = [];
-
 	new fullpage('#fullpage', {
 		//options here
 		autoScrolling:true,
-		sectionsColor: ['#ffffff', '#f7f7f7', '#ececec', '#e9e9e9',
-			'#d7d7d7', '#cccccc', '#c9c9c9', '#bbbbbb', '#b9b9b9', '#acacacac', '#a9a9a9a9'],
+		// original
+		// sectionsColor: ['#ffffff', '#f7f7f7', '#ececec', '#e9e9e9',
+		// 	'#d7d7d7', '#cccccc', '#c9c9c9', '#bbbbbb', '#b9b9b9', '#acacacac', '#a9a9a9a9'],
+
+		// option 1: grayscale
+		// sectionsColor: [
+		// 		// intro
+		// 		'#ffffff', '#ffffff', '#ffffff',
+		// 		// micronutrients
+		// 		'#ebebeb', '#ebebeb', '#ebebeb',
+		// 		// determinants
+		// 		'#d7d7d7', '#d7d7d7', '#d7d7d7',
+		// 		// conclusion
+		// 		'#c3c3c3', '#c3c3c3'],
+
+		// option 2: one color
+		sectionsColor: [
+			// intro
+			backgroundColor, backgroundColor, backgroundColor,
+			// micronutrients
+			backgroundColor, backgroundColor, backgroundColor,
+			// determinants
+			backgroundColor, backgroundColor, backgroundColor,
+			// conclusion
+			backgroundColor, backgroundColor],
+
 		anchors: ['section1', 'section2', 'section3', 'section4', 'section5', 'section6', 'section7',
 			'section8', 'section9', 'section10', 'section11'],
 		fixedElements: '#myNavBar'
