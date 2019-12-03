@@ -118,12 +118,6 @@ function createVis() {
     var piechartWastingPlan = new PieChart("pieChartWastingPlan", childOverweightPlanData);
     var piechartChildOverweightPlan = new PieChart("pieChartChildOverweightPlan", wastingPlanData);
 
-    // line charts
-    // var lineChart = new LineChart("female-obesity-line-chart", femaleObesity, dataByCountryName);
-    // var lineChart = new LineChart("female-diabetes-line-chart", femaleDiabetes, dataByCountryName, gender="Female", condition="Diabetes");
-    // var lineChart = new LineChart("male-obesity-line-chart", maleObesity, dataByCountryName, gender="Male");
-    // var lineChart = new LineChart("male-diabetes-line-chart", maleDiabetes, dataByCountryName, gender="Male", condition="Diabetes");
-
     $(MyEventHandler).bind("selectionChanged", function(event, rangeStart, rangeEnd){
         piechartSugarTax.onSelectionChange(rangeStart, rangeEnd);
         piechartSodiumPlan.onSelectionChange(rangeStart, rangeEnd);
