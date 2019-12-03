@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div id="myNavBar" class="row" style="height: 10vh; z-index: 10;">
+<div id="myNavBar" style="height: 10vh; z-index: 10;">
 	<ul>
 		<li><a href="#section1">Home</a></li>
 		<li><a href="#section2">Malnutrition: A Global Problem</a></li>
@@ -34,14 +34,19 @@
 	</ul>
 </div>
 <div id="fullpage" >
-
-
-
 	<!-- intro -->
-	<div class = "section" style="background-image: url('img/Nutrition-Image.jpg');
-		background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
-		<!--Navigation bar links-->
-		<a id="home"><h1 >Investigating Global Nutrition</h1></a>
+	<div class = "section" style="background-image: url('img/Nutrition-Image.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
+		<div class="container-fluid" style="height: 100%">
+			<div class="row" style="height:100%">
+				<div class="col-md-12">
+					<div class="row justify-content-center" style="height: 33vh; margin-top: 33vh; background: rgba(255,255,255,0.68)">
+						<div class="align-self-center">
+							<h1>Investigating Global Nutrition</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- overview, generally malnutrition -->
@@ -255,58 +260,91 @@
 		</div>
 	</div>
 
+	<!-- transition page -->
 	<div class = "section">
-		<div class="row">
-			<div class="col-12">
-				<a id="possible-determinants"><h3>Possible Determinants</h3></a>
-				<h4>Now that we've seen a couple trends in obesity and micronutrient consumption,
-					let's explore possible causes of these phenomena.</h4>
+		<div class="container-fluid" style="height: 100%;">
+			<div class="row" style="height:100%;">
+				<div class="col-md-12">
+					<div class="row" style="height: 33vh; margin-top: 33vh; background: rgba(255,255,255,0.68)">
+						<div class="col">
+							<div class="row justify-content-center" style="height: 50%">
+								<div class="align-self-center">
+									<h3>Possible Determinants</h3>
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="align-self-center">
+									<h4>Now that we've seen a couple trends in obesity and micronutrient consumption,
+										let's explore possible causes of these phenomena.</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
+	<!-- policy -->
 	<div class = "section">
-		<div class="container-fluid" style="height: 100vh;">
+		<div class="container-fluid" style="height: 100%;">
 
-			<!--						Heading-->
-			<div class = "row" style="height: 10vh; background: yellow; margin-top: 10vh;">
-				<div class = "col-md-12" >
-					<h3>Let's Talk Policy</h3>
-					<p>Many countries have policies in place to fight malnutrition. The pie charts below
-						show the percent of countries that have each respective policy or legislation.
-						<br>
-						Brush over the micronutrient or dietary component to see if countries with similar
-						consumption levels have similar policies! </p>
+			<!-- Heading -->
+			<div class = "row" style="height: 15%; margin-top: 5%;">
+				<div class = "col-md-12">
+					<div class="row justify-content-center">
+						<div class="align-self-center">
+							<h3>Let's Talk Policy</h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8 offset-2">
+							<p style="text-align: center">Many countries have policies in place to fight malnutrition. The pie charts below
+								show the percent of countries that have each respective policy or legislation.
+								<br>
+								Brush over the micronutrient or dietary component to see if countries with similar
+								consumption levels have similar policies! </p>
+						</div>
+					</div>
 				</div>
 			</div>
-			<!--						Histogram -->
-			<div class="row" id = "histogram" style="height: 50vh; background: blue;">
 
-			</div>
+			<!-- Histogram -->
+			<div class="row" id = "histogram" style="height: 40%;"></div>
 
-			<div class="row" style="height: 30vh; background: green;">
-				<div class = "col-md-3" style="background: red; ">
-					<div class="row justify-content-center">
+			<!-- pies -->
+			<div class="row" style="height: 30%;">
+
+				<!-- pie one -->
+				<div class = "col-md-3">
+					<div class="row justify-content-center" style="height: 10%">
 						<h5 class="align-self-center">Sugar Taxes</h5>
 					</div>
-					<div class="row" id = "pieChartSugarTax" style="height: 100%"></div>
-				</div>
-				<div class = "col-md-3" style="background: red; ">
-					<div class="row justify-content-center">
-						<h5 class="align-self-center">Sodium Plans</h5>
-					</div>
-					<div class="row" id = "pieChartSodiumPlan" style="height: 100%"></div>
+					<div class="row" id = "pieChartSugarTax" style="height: 90%"></div>
 				</div>
 
-				<div class = "col-md-3" style="background: red; ">
-					<div class="row justify-content-center">
-						<h5 class="align-self-center">Wasting Plans</h5>
+				<!-- pie two -->
+				<div class = "col-md-3">
+					<div class="row justify-content-center" style="height: 10%">
+						<h5 class="align-self-center">pieChartSodiumPlan</h5>
 					</div>
-					<div class="row" id = "pieChartWastingPlan" style="height: 100%"></div>
+					<div class="row" id="pieChartSodiumPlan" style="height: 90%"></div>
 				</div>
-				<div class = "col-md-3" >
-					<h5>Child Overweight Plans</h5>
-					<div id = "pieChartChildOverweightPlan"></div>
+
+				<!-- pie three -->
+				<div class = "col-md-3">
+					<div class="row justify-content-center" style="height: 10%">
+						<h5 class="align-self-center">pieChartWastingPlan</h5>
+					</div>
+					<div class="row" id="pieChartWastingPlan" style="height: 90%"></div>
+				</div>
+
+				<!-- pie four -->
+				<div class = "col-md-3">
+					<div class="row justify-content-center" style="height: 10%">
+						<h5 class="align-self-center">pieChartChildOverweightPlan</h5>
+					</div>
+					<div class="row" id="pieChartChildOverweightPlan" style="height: 90%"></div>
 				</div>
 			</div>
 		</div>
@@ -377,48 +415,51 @@
 </div>
 
 
-	<!-- Load JS libraries -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/popper.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/d3.min.js"></script>
-	<script src="js/topojson.min.js"></script>
-	<script src="js/queue.min.js"></script>
-	<script src="js/d3-scale-chromatic.v1.min.js"></script>
-	<script src="js/d3-tip.js"></script>
-	<script src="js/d3-legend.min.js"></script>
-	<script type="text/javascript" src="js/fullpage.js"></script>
 
-	<!-- Visualization objects -->
-	<script src="js/stackedAreaChart.js"></script>
-	<script src="js/timeline.js"></script>
-	<script src="js/choropleth.js"></script>
-	<script src="js/choropleth-game.js"></script>
-	<script src="js/scatterplot.js"></script>
-	<script src="js/histogram.js"></script>
-	<script src="js/choropleth-categorical.js"></script>
-	<script src="js/treemap.js"></script>
-	<script src="js/bubble.js"></script>
-	<script src="js/lineChart.js"></script>
-	<script src="js/piechart.js"></script>
-	<script src="js/choroplethBubble.js"></script>
 
-	<!-- Load data, create visualizations -->
-	<script src="js/main.js"></script>
-	<script>
-		// var sectionColor = [];
 
-		new fullpage('#fullpage', {
-			//options here
-			autoScrolling:true,
-			sectionsColor: ['#ffffff', '#f7f7f7', '#ececec', '#e9e9e9',
-				'#d7d7d7', '#cccccc', '#c9c9c9', '#bbbbbb', '#b9b9b9', '#acacacac', '#a9a9a9a9'],
-			anchors: ['section1', 'section2', 'section3', 'section4', 'section5', 'section6', 'section7',
-				'section8', 'section9', 'section10', 'section11'],
-			fixedElements: '#myNavBar'
-		});
+<!-- Load JS libraries -->
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/d3.min.js"></script>
+<script src="js/topojson.min.js"></script>
+<script src="js/queue.min.js"></script>
+<script src="js/d3-scale-chromatic.v1.min.js"></script>
+<script src="js/d3-tip.js"></script>
+<script src="js/d3-legend.min.js"></script>
+<script type="text/javascript" src="js/fullpage.js"></script>
 
-	</script>
+<!-- Visualization objects -->
+<script src="js/stackedAreaChart.js"></script>
+<script src="js/timeline.js"></script>
+<script src="js/choropleth.js"></script>
+<script src="js/choropleth-game.js"></script>
+<script src="js/scatterplot.js"></script>
+<script src="js/histogram.js"></script>
+<script src="js/choropleth-categorical.js"></script>
+<script src="js/treemap.js"></script>
+<script src="js/bubble.js"></script>
+<script src="js/lineChart.js"></script>
+<script src="js/piechart.js"></script>
+<script src="js/choroplethBubble.js"></script>
+
+<!-- Load data, create visualizations -->
+<script src="js/main.js"></script>
+<script>
+	// var sectionColor = [];
+
+	new fullpage('#fullpage', {
+		//options here
+		autoScrolling:true,
+		sectionsColor: ['#ffffff', '#f7f7f7', '#ececec', '#e9e9e9',
+			'#d7d7d7', '#cccccc', '#c9c9c9', '#bbbbbb', '#b9b9b9', '#acacacac', '#a9a9a9a9'],
+		anchors: ['section1', 'section2', 'section3', 'section4', 'section5', 'section6', 'section7',
+			'section8', 'section9', 'section10', 'section11'],
+		fixedElements: '#myNavBar'
+	});
+
+</script>
 
 </body>
 </html>

@@ -21,11 +21,10 @@ Histogram = function(_parentElement, _data, _eventHandler ){
 Histogram.prototype.initVis = function(){
     var vis = this;
 
-    vis.margin = { top: 50, right: 0, bottom: 50, left: 140 };
+    vis.margin = { top: 50, right: 50, bottom: 50, left: 100 };
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-    // vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-        vis.height = 300 - vis.margin.top - vis.margin.bottom;
+    vis.height = $("#" + vis.parentElement).height() - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -79,7 +78,7 @@ Histogram.prototype.updateVis = function(){
 
     // Scales and axes
     vis.x = d3.scaleLinear()
-        .range([0, 700])
+        .range([0, vis.width])
         .domain([0, 350]);
 
     vis.y = d3.scaleLinear()

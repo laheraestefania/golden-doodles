@@ -200,8 +200,13 @@ Scatterplot.prototype.updateVis = function(){
         // add tooltip whenever mouse hovers over
         .on("mouseover", vis.tooltip.show)
         .on("mouseout", vis.tooltip.hide)
-        .attr("r", function(d){ return vis.populationScale(d.population_2017);})
-        .attr("stroke", "black")
+        .attr("r", function(d){ return vis.populationScale(d.population_2017);
+            // made it so that population ratio is always for 2017
+            // if (vis.my_param == '2017'){
+            //     return vis.populationScale(d.population_2017);
+            // }
+            // return 5;
+        })
         .transition()
         .duration(vis.transitionDuration)
         .attr("cx", function(d){ return vis.x(d[vis.x_param]); })
@@ -228,7 +233,8 @@ Scatterplot.prototype.addLegend = function () {
     var xLabel = vis.width;
     var yCircle = vis.margin.bottom * 4;
 
-    vis.svg.selectAll("legend")
+    vis.svg
+        .selectAll("legend")
         .data(valuesToShow)
         .enter()
         .append("circle")
@@ -244,7 +250,8 @@ Scatterplot.prototype.addLegend = function () {
         .attr("opacity", 1.0);
 
 // Add legend: segments
-    vis.svg.selectAll("legend")
+    vis.svg
+        .selectAll("legend")
         .data(valuesToShow)
         .enter()
         .append("line")
@@ -261,7 +268,8 @@ Scatterplot.prototype.addLegend = function () {
         .attr("opacity", 1.0);
 
 // Add legend: labels
-    vis.svg.selectAll("legend")
+    vis.svg
+        .selectAll("legend")
         .data(valuesToShow)
         .enter()
         .append("text")
@@ -276,7 +284,8 @@ Scatterplot.prototype.addLegend = function () {
         .duration(vis.transitionDuration)
         .attr("opacity", 1.0);
 
-    vis.svg.append("text")
+    vis.svg
+        .append("text")
         .attr("class", "bubble-legend")
         .style("font-size", 10)
         .attr('alignment-baseline', 'middle')

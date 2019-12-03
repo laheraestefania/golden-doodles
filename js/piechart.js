@@ -16,21 +16,16 @@ PieChart = function(_parentElement, _data, _eventHandler ){
 PieChart.prototype.initVis = function(){
     var vis = this;
 
-    vis.margin = { top: 10, right: 10, bottom: 10, left: 10 };
-
     vis.width = $("#" + vis.parentElement).width();
     vis.height = $("#" + vis.parentElement).height();
 
     console.log(vis.width, vis.height);
 
-    // SVG drawing area
-    vis.marginSvg = d3.select("#" + vis.parentElement).append("svg")
-        .attr("width", vis.width + vis.margin.left + vis.margin.right)
-        .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+    vis.radius = Math.min(vis.width, vis.height) / 2.5;
 
-    vis.svg = vis.marginSvg
+    vis.svg = d3.select("#" + vis.parentElement).append("svg")
+        .attr("width", vis.width)
+        .attr("height", vis.height)
         .append("g")
         .attr("transform", `translate(${vis.width / 2}, ${vis.height / 2})`);
 
@@ -89,11 +84,9 @@ PieChart.prototype.updateVis = function(){
             return d
         });
 
-    vis.outerRadius = vis.height / 3;
-    vis.innerRadius = 0;
     vis.arc = d3.arc()
-        .innerRadius(vis.innerRadius)
-        .outerRadius(vis.outerRadius);
+        .innerRadius(0)
+        .outerRadius(vis.radius);
 
     vis.pieData = vis.pie(vis.displayData);
 
