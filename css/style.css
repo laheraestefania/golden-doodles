@@ -18,8 +18,17 @@ h3, h4, h5 {
 }
 
 h1 {
-    padding: 30px;
+    padding: 40px;
     font-family: 'Lato', sans-serif;
+    color: white;
+    text-align: center;
+    font-size: 100px;
+    /* Hack for the text shadow: https://wpshout.com/quick-guides/create-text-outline-css/*/
+    text-shadow:
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000;
 }
 
 /* Tree */
