@@ -12,6 +12,7 @@ var area = d3.select("#tree")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var legendlabels = [];
+var dataByCountryName = {};
 
 var i = 0,
     duration = 750,
@@ -21,18 +22,64 @@ var i = 0,
 var treemap = d3.tree()
     .size([height, width/2]);
 
+var linedata = null;
+
 // Data cleaning
 
 queue()
     .defer(d3.csv, "data/cleaned_nutrition_data.csv")
     .defer(d3.csv, "data/subregional_data.csv")
     .defer(d3.csv, "data/regional_data.csv")
-    .await(function(error, csv, subregional, regional) {
+    .defer(d3.csv, "data/female_diabetes.csv")
+    .defer(d3.csv, "data/male_diabetes.csv")
+    .defer(d3.csv, "data/female_obesity.csv")
+    .defer(d3.csv, "data/male_obesity.csv")
+    .await(function(error, csv, subregional, regional,
+                    femaleDiabetes_,
+                    maleDiabetes_,
+                    femaleObesity_,
+                    maleObesity_,) {
 
     alldata = csv;
     value = d3.select("#attribute").property("value");
 
-    // console.log(subregional[1][value]);
+    femaleObesity = clean(femaleObesity_);
+    maleObesity = clean(maleObesity_);
+    femaleDiabetes = clean(femaleDiabetes_);
+    maleDiabetes = clean(maleDiabetes_);
+
+    // Save nutrition data keyed by country name
+    // d is a country object from inside the nutritionData list
+    alldata.forEach(function (d) {
+        dataByCountryName[d["country"]] = {};
+        Object.keys(d).forEach(function (key) {
+            if (!categorical.has(key)) {
+                d[key] = +d[key];
+            }
+            dataByCountryName[d["country"]][key] = d[key];
+        });
+    });
+
+        switch(value) {
+            case "country_class":
+                linedata = maleObesity;
+                break;
+            case "adult_fem_diabetes_track":
+                linedata = femaleDiabetes;
+                break;
+            case "adult_mal_diabetes_track":
+                linedata = maleDiabetes;
+                break;
+            case "adult_fem_obesity_track":
+                linedata = femaleObesity;
+                break;
+            case "adult_mal_obesity_track":
+                linedata = maleObesity;
+                break;
+        }
+
+    // Line chart
+    lineChart = new LineChart("linechart", linedata, dataByCountryName);
 
         if (value === "country_class") {
             legendlabels[0] = "experiencing one form of malnutrition";
@@ -92,7 +139,7 @@ for (let j = 0; j < nestdata.length; j++) {
         }
     }
 
-// Define function update (template & inspiration from https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd)
+    // Define function update (template & inspiration from https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd)
     function update(source) {
         // Assigns the x and y position for the nodes
         var treeData = treemap(root);
@@ -310,6 +357,11 @@ for (let j = 0; j < nestdata.length; j++) {
 
     d3.select("#attribute").on("change", function() {
         value = d3.select("#attribute").property("value");
+        lineChart.svg.selectAll(".linepath").remove();
+        lineChart.svg.selectAll(".area-title").remove();
+
+        lineChart.value = value;
+
         // update(root);
         nodeUpdate.select('circle.node')
             .attr('r', 7)
@@ -396,6 +448,7 @@ for (let j = 0; j < nestdata.length; j++) {
         };
 
         legend.updateVis();
+        lineChart.wrangleData();
 
     });
 
@@ -499,4 +552,15 @@ treelegend.prototype.updateVis = function() {
 
     legendcircle.exit().remove();
 };
+
+function clean(data) {
+    data.forEach(function (obj) {
+        Object.keys(obj).forEach(function (key) {
+            if (!isNaN(+obj[key])) {
+                obj[key] = +obj[key]
+            }
+        })
+    });
+    return data;
+}
 
