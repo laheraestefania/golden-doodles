@@ -356,6 +356,8 @@ for (let j = 0; j < nestdata.length; j++) {
 
         function hoveron(d) {
             if (d.height === 0) {
+                console.log(d.data.key);
+                console.log(d);
                 lineChart.svg.selectAll("." + d.data.key)
                     .attr("stroke", darkBlue)
                     .attr("stroke-opacity", 1.0)
