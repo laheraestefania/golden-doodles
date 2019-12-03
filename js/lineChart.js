@@ -7,19 +7,21 @@
 
 LineChart = function(_parentElement, _data, _groupingData, gender="Female", condition="Obesity"){
     var vis = this;
+
     vis.timeFormat = d3.timeFormat("'%y");
     vis.parseDate = d3.timeParse("%Y");
     vis.parentElement = _parentElement;
-    vis.data = {};
-    _data.forEach(function (d) {
-        var countryName = d["country"];
-        delete d["country"];
-        let l = [];
-        Object.keys(d).forEach(function (key) {
-            l.push({"key": key, "value": d[key]})
-        });
-        vis.data[countryName] = l;
-    });
+    vis.alldata = _data;
+    // vis.data = {};
+    // _data.forEach(function (d) {
+    //     var countryName = d["country"];
+    //     delete d["country"];
+    //     let l = [];
+    //     Object.keys(d).forEach(function (key) {
+    //         l.push({"key": key, "value": d[key]})
+    //     });
+    //     vis.data[countryName] = l;
+    // });
 
     vis.groupingData = {};
     Object.keys(_groupingData).forEach(function (countryName) {
@@ -29,7 +31,8 @@ LineChart = function(_parentElement, _data, _groupingData, gender="Female", cond
     });
 
     vis.years = Object.keys(_data[0]).map(vis.parseDate);
-    vis.title = gender + ", " + condition + " (%)";
+
+    vis.value = d3.select("#attribute").property("value");
 
     vis.initVis();
 };
@@ -43,7 +46,7 @@ LineChart.prototype.initVis = function(){
     vis.margin = { top: 30, right: 10, bottom: 30, left: 30 };
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
-    vis.height = 180 - vis.margin.top - vis.margin.bottom;
+    vis.height = 500 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -69,14 +72,6 @@ LineChart.prototype.initVis = function(){
 
     vis.yAxis = d3.axisLeft()
         .scale(vis.y);
-
-    // Add title
-    vis.svg.append("text")
-        .attr("class", "area-title")
-        .attr("x", vis.width / 5)
-        .attr("y", -20)
-        .attr("font-size", 12)
-        .text(vis.title);
 
     vis.linePath = d3.line()
         .curve(d3.curveCardinal)
@@ -120,6 +115,56 @@ LineChart.prototype.initVis = function(){
 LineChart.prototype.wrangleData = function(){
     var vis = this;
 
+    vis.data = {};
+
+    switch(vis.value) {
+        case "country_class":
+            vis.alldata = femaleDiabetes;
+            gender = "Female";
+            condition = "Diabetes";
+            break;
+        case "adult_fem_diabetes_track":
+            vis.alldata = femaleDiabetes;
+            gender = "Female";
+            condition = "Diabetes";
+            break;
+        case "adult_mal_diabetes_track":
+            vis.alldata = maleDiabetes;
+            gender = "Male";
+            condition = "Diabetes";
+            break;
+        case "adult_fem_obesity_track":
+            vis.alldata = femaleObesity;
+            gender = "Female";
+            condition = "Obesity";
+            break;
+        case "adult_mal_obesity_track":
+            vis.alldata = maleObesity;
+            gender = "Male";
+            condition = "Obesity";
+            break;
+    }
+
+    vis.title = gender + ", " + condition + " (%)";
+
+    // Add title
+    vis.svg.append("text")
+        .attr("class", "area-title")
+        .attr("x", vis.width / 2)
+        .attr("y", -20)
+        .attr("font-size", 12)
+        .text(vis.title);
+
+    vis.alldata.forEach(function (d) {
+        var countryName = d["country"];
+        delete d["country"];
+        let l = [];
+        Object.keys(d).forEach(function (key) {
+            l.push({"key": key, "value": d[key]})
+        });
+        vis.data[countryName] = l;
+    });
+
     vis.displayData = {};
     // Object.keys(vis.data).forEach(function (country) {
     //     if (vis.groupingData[country]["subregion"] === "Southern_Asia") {
@@ -139,20 +184,21 @@ LineChart.prototype.wrangleData = function(){
 LineChart.prototype.updateVis = function(){
     var vis = this;
     // Draw path
+
     Object.keys(vis.displayData).forEach(function (key) {
         vis.svg.append("path")
             .datum(vis.displayData[key])
             .attr("stroke", "rgba(152,171,190,0.45)")
             .attr("stroke-width", 2)
             .attr("fill", "rgba(255,255,255,0)")
-            .attr("class", function () {
-                let region = vis.groupingData[key]["region"];
-                let subregion = vis.groupingData[key]["subregion"];
-                return key.replace(" ", "_") + " " + region + " " + subregion;
-            })
+            .attr("class", "linepath")
+            // .attr("class", function () {
+            //     let region = vis.groupingData[key]["region"];
+            //     let subregion = vis.groupingData[key]["subregion"];
+            //     return key.replace(" ", "_") + " " + region + " " + subregion;
+            // })
             .attr("d", vis.linePath);
     })
-
 
 }
 
