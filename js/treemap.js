@@ -378,8 +378,8 @@ for (let j = 0; j < nestdata.length; j++) {
 
     d3.select("#attribute").on("change", function() {
         value = d3.select("#attribute").property("value");
-        lineChart.svg.selectAll(".linepath").remove();
-        lineChart.svg.selectAll(".area-title").remove();
+        lineChart.svg.selectAll(".linepath").transition().duration(transitionDuration).attr("stroke-opacity", 0.0).remove();
+        lineChart.svg.selectAll(".area-title").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
 
         lineChart.value = value;
 

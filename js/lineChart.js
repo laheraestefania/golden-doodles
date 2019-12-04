@@ -178,6 +178,9 @@ LineChart.prototype.wrangleData = function(){
         .attr("x", vis.width / 2)
         .attr("y", -20)
         .attr("font-size", 12)
+        .transition()
+        .duration(transitionDuration)
+        .attr("opacity", 1.0)
         .text(vis.title);
 
     vis.years = Object.keys(vis.alldata[0]).map(vis.parseDate);
@@ -220,25 +223,21 @@ LineChart.prototype.updateVis = function(){
     Object.keys(vis.displayData).forEach(function (key) {
         vis.svg.append("path")
             .datum(vis.displayData[key])
-            .attr("stroke", lightBlue)
-            .attr("stroke-opacity", 0.3)
-            .attr("stroke-width", 2)
-            .attr("fill", "rgba(255,255,255,0)")
-            .attr("class", function (d) {
-                console.log("d is ")
-                console.log(d);
-                console.log("key is " + key);
-                // d.key = key;
-                return key.replace(/ /g, "_") + " linepath";
-                // let region = vis.groupingData[key]["region"];
-                // let subregion = vis.groupingData[key]["subregion"];
-                // return key.replace(" ", "_") + " " + region + " " + subregion;
-            })
             .on("mouseover", function() {
                 vis.tool_tip.show(key);
             })
             .on("mouseout", function() {
                 vis.tool_tip.hide(key);
+            })
+            .attr("stroke-opacity", 0.0)
+            .transition()
+            .duration(transitionDuration)
+            .attr("stroke", lightBlue)
+            .attr("stroke-opacity", 0.3)
+            .attr("stroke-width", 2)
+            .attr("fill", "rgba(255,255,255,0)")
+            .attr("class", function (d) {
+                return key.replace(/ /g, "_") + " linepath";
             })
             .attr("d", vis.linePath);
     })
