@@ -139,7 +139,6 @@ LineChart.prototype.wrangleData = function(){
 
     vis.data = {};
 
-    console.log(vis.value);
     switch(vis.value) {
         case "country_class":
             vis.alldata = femaleDiabetes;
@@ -184,11 +183,8 @@ LineChart.prototype.wrangleData = function(){
         .text(vis.title);
 
     vis.years = Object.keys(vis.alldata[0]).map(vis.parseDate);
-    console.log("alldata")
-    console.log(vis.alldata);
+
     vis.alldata.forEach(function (d) {
-        console.log("d is ")
-        console.log(d);
         var countryName = d["country"];
         let l = [];
         // go through each year, create list of (key=year, value) pairs
@@ -204,7 +200,6 @@ LineChart.prototype.wrangleData = function(){
 
     vis.displayData = vis.data;
 
-    console.log(vis.displayData);
     // Update the visualization
     vis.updateVis();
 };
