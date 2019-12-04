@@ -113,7 +113,7 @@ PieChart.prototype.updateVis = function(){
         .attr('fill', function (d, i) {
             return vis.color(i);
         })
-        .attr("stroke", "white")
+        .attr("stroke", "black")
         .style("stroke-width", "2px")
         .style("opacity", 1);
 
