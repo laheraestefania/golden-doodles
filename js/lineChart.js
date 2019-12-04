@@ -159,19 +159,6 @@ LineChart.prototype.wrangleData = function(){
             console.log("not recognized");
     }
 
-    vis.title = gender + ", " + condition + " (%)";
-
-    // Add title
-    vis.svg.append("text")
-        .attr("class", "area-title")
-        .attr("x", vis.width / 2)
-        .attr("y", -20)
-        .attr("font-size", 12)
-        .transition()
-        .duration(transitionDuration)
-        .attr("opacity", 1.0)
-        .text(vis.title);
-
     vis.years = Object.keys(vis.alldata[0]).map(vis.parseDate);
 
     vis.alldata.forEach(function (d) {
@@ -188,7 +175,37 @@ LineChart.prototype.wrangleData = function(){
 
     vis.displayData = {};
 
-    vis.displayData = vis.data;
+    if (vis.value !== "country_class") {
+        vis.displayData = vis.data;
+        vis.title = gender + ", " + condition + " (%)";
+        instructions = " ";
+    } else {
+        vis.displayData = { };
+        vis.title = " ";
+        instructions = "Please select a diabetes or obesity track"
+    }
+
+    // Add title
+    vis.svg.append("text")
+        .attr("class", "area-title")
+        .attr("x", vis.width / 2)
+        .attr("y", -20)
+        .attr("font-size", 12)
+        .transition()
+        .duration(transitionDuration)
+        .attr("opacity", 1.0)
+        .text(vis.title);
+
+    // Instruction Box
+    vis.svg.append("text")
+        .attr("class", "instructionbox")
+        .attr("x", vis.width / 3)
+        .attr("y", 100)
+        .attr("font-size", 12)
+        .transition()
+        .duration(transitionDuration)
+        .attr("opacity", 1.0)
+        .text(instructions);
 
     // Update the visualization
     vis.updateVis();
@@ -203,6 +220,8 @@ LineChart.prototype.updateVis = function(){
     var vis = this;
     vis.x.domain(d3.extent(vis.years));
     vis.svg.select(".x-axis").transition().duration(transitionDuration).call(vis.xAxis);
+
+
     // Draw path
     // each key is a country
     Object.keys(vis.displayData).forEach(function (key) {
