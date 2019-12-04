@@ -79,7 +79,7 @@ function loadData() {
             sodiumPlanData = allData.map(function(d) {
                 return {plan: d.sodium_plan,
                     Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016,
-                    Red_Meat_2016: d.Red_meat_2016,
+                    Red_meat_2016: d.Red_meat_2016,
                     Salt_2016: d.Salt_2016,
                     Calcium_2016: d.Calcium_2016,
                     Vegetables_2016: d.Vegetables_2016,
@@ -91,7 +91,7 @@ function loadData() {
             childOverweightPlanData = allData.map(function(d) {
                 return {plan: d.child_overweight_plan,
                     Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016,
-                    Red_Meat_2016: d.Red_meat_2016,
+                    Red_meat_2016: d.Red_meat_2016,
                     Salt_2016: d.Salt_2016,
                     Calcium_2016: d.Calcium_2016,
                     Vegetables_2016: d.Vegetables_2016,

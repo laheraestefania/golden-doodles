@@ -53,23 +53,7 @@ Histogram.prototype.wrangleData = function(){
 Histogram.prototype.updateVis = function(){
     var vis = this;
 
-    // // set the color scale
-    // var colorOrdinal = d3.scaleOrdinal()
-    //     .domain("Yes", "No")
-    //     .range(["#fee0d2", "#fc9272"]);
-    //
-    // vis.svg.append("g")
-    //     .attr("class", "legendOrdinal")
-    //     .attr("transform", "translate(160,100)");
-    //
-    // var legendOrdinal = d3.legendColor()
-    //     .scale(colorOrdinal);
-    //
-    // vis.svg.select(".legendOrdinal")
-    //     .call(legendOrdinal);
-
     vis.selectedValue = (d3.select("#selected-feature").property("value"));
-    // console.log(vis.selectedValue);
 
     // Initialize brushing component
     vis.currentBrushRegion = null;
@@ -87,12 +71,9 @@ Histogram.prototype.updateVis = function(){
         });
 
     // Append brush component here
-    // *** TO-DO ***
     vis.brushGroup = vis.svg.append("g")
-        .attr("class", "brush")
-        .call(vis.brush);
-
-    // console.log(d3.max(vis.selectedValue));
+        .attr("class", "brush");
+        // .call(vis.brush);
 
     // Scales and axes
     vis.x = d3.scaleLinear()
