@@ -69,6 +69,7 @@ ChoroplethBubble = function(_parentElement, _data, topology, feature){
         }
     });
 
+    $("#choro-bubble-title").html(metadata[feature]);
 
     vis.initVis();
 };

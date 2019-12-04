@@ -85,11 +85,11 @@ ChoroplethGame.prototype.initVis = function() {
 
 
     $("#map-game-feature").hide()
-        .html(`You selected <strong>${metadata[vis.feature].toLowerCase()}</strong>.`)
+        .html(`<p>You selected <strong>${metadata[vis.feature].toLowerCase()}</strong>.</p>`)
         .fadeIn(transitionDuration);
 
     $("#map-game-instructions").hide()
-        .html("Click on the " + vis.guessLimit + " countries you think consume the MOST!")
+        .html("<p>Click on the " + vis.guessLimit + " countries you think consume the MOST!</p>")
         .fadeIn(transitionDuration);
 
     vis.tool_tip = d3.tip()
@@ -134,7 +134,7 @@ ChoroplethGame.prototype.initVis = function() {
                     if (vis.mostCount === vis.guessLimit) {
                         vis.state = "least";
                         $("#map-game-instructions").fadeOut(transitionDuration, function () {
-                            $(this).html("Now click on the " + vis.guessLimit + " countries you think consume the least!")
+                            $(this).html("<p>Now click on the " + vis.guessLimit + " countries you think consume the least!</p>")
                         }).fadeIn(transitionDuration);
                     }
                 } else if (d3.select(this).attr("fill") === vis.mostColor) {
@@ -205,7 +205,7 @@ ChoroplethGame.prototype.showResults = function () {
         });
 
     $("#map-game-instructions").fadeOut("slow", function () {
-        let htmlText = "Results: <br>You guessed <strong>" + vis.correct.size + " out of "
+        let htmlText = "<p><br>You guessed <strong>" + vis.correct.size + " out of "
             + (2 * vis.guessLimit) + "</strong>. <br> The countries that consume the MOST are: <ol>";
        vis.most.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"]
@@ -222,7 +222,7 @@ ChoroplethGame.prototype.showResults = function () {
             }
             htmlText += "</li>"
         });
-        $(this).html(htmlText + "</ol>");
+        $(this).html(htmlText + "</ol></p>");
         $(this).fadeIn("slow");
     });
 

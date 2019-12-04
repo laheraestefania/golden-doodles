@@ -2,7 +2,7 @@
 var margin = {top: 10, right: 20, bottom: 10, left: 50};
 
 var width = $("#tree").width() - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    height = 350 - margin.top - margin.bottom;
 
 var area = d3.select("#tree")
     .append("svg")
@@ -62,7 +62,7 @@ queue()
 
         switch(value) {
             case "country_class":
-                linedata = maleObesity;
+                linedata = null;
                 break;
             case "adult_fem_diabetes_track":
                 linedata = femaleDiabetes;
@@ -87,12 +87,16 @@ queue()
             legendlabels[2] = "experiencing three forms of malnutrition";
             legendlabels[3] = "";
             legendlabels[4] = "No data";
+
+            lineChart.svg.selectAll(".linepath").transition().duration(transitionDuration).attr("stroke-opacity", 0.0).remove();
+            lineChart.svg.selectAll(".area-title").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
         } else {
             legendlabels[0] = "On course";
             legendlabels[1] = "No progress or worsening";
             legendlabels[2] = "No data";
             legendlabels[3] = null;
             legendlabels[4] = null;
+            lineChart.svg.selectAll(".instructionbox").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
         };
 
     nestdata = d3.nest()
@@ -460,12 +464,16 @@ for (let j = 0; j < nestdata.length; j++) {
             legendlabels[2] = "experiencing three forms of malnutrition";
             legendlabels[3] = "";
             legendlabels[4] = "No data";
+
+            lineChart.svg.selectAll(".linepath").transition().duration(transitionDuration).attr("stroke-opacity", 0.0).remove();
+            lineChart.svg.selectAll(".area-title").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
         } else {
             legendlabels[0] = "On course";
             legendlabels[1] = "No progress or worsening";
             legendlabels[2] = "No data";
             legendlabels[3] = null;
             legendlabels[4] = null;
+            lineChart.svg.selectAll(".instructionbox").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
         };
 
         legend.updateVis();
@@ -506,8 +514,8 @@ treelegend.prototype.initVis = function() {
 
     vis.legend = d3.select("#" + vis.parentElement)
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", 100)
+        .attr("width", 300)
+        .attr("height", 80)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -574,6 +582,7 @@ treelegend.prototype.updateVis = function() {
     legendcircle.exit().remove();
 };
 
+// Clean function
 function clean(data) {
     data.forEach(function (obj) {
         Object.keys(obj).forEach(function (key) {

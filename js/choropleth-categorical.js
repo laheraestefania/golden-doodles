@@ -19,7 +19,7 @@ ChoroplethCategorical.prototype.initVis = function() {
     vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
     vis.parentElt = d3.select("#" + vis.parentElement);
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-        vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        vis.height = 450 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = vis.parentElt.append("svg")
