@@ -72,7 +72,6 @@ Histogram.prototype.updateVis = function(){
     // console.log(vis.selectedValue);
 
     // Initialize brushing component
-    // *** TO-DO ***
     vis.currentBrushRegion = null;
 
     vis.brush = d3.brushX()
@@ -132,7 +131,7 @@ Histogram.prototype.updateVis = function(){
         .text(function(d) {
             if (vis.selectedValue == "Sugar_sweetened_beverages_2016") {
                 return "Sugar Intake Via Sweetened Beverages";
-            } else if (vis.selectedValue == "Red_Meat_2016") {
+            } else if (vis.selectedValue == "Red_meat_2016") {
                 return "Red Meat Consumption";
             } else if (vis.selectedValue == "Salt_2016") {
                 return "Salt Consumption";
@@ -162,7 +161,7 @@ Histogram.prototype.updateVis = function(){
         .text(function(d) {
             if (vis.selectedValue == "Sugar_sweetened_beverages_2016") {
                 return "Grams of Sugar";
-            } else if (vis.selectedValue == "Red meat_2016") {
+            } else if (vis.selectedValue == "Red_meat_2016") {
                 return "Grams of Red Meat";
             } else if (vis.selectedValue == "Salt_2016") {
                 return "Grams of Salt";
@@ -172,7 +171,7 @@ Histogram.prototype.updateVis = function(){
                 return "Grams of Vegetables";
             } else if (vis.selectedValue == "Fruit_2016") {
                 return "Grams of Fruit";
-            } else if (vis.selectedValue == "Whole grain_2016") {
+            } else if (vis.selectedValue == "Whole_grain_2016") {
                 return "Grams of Whole Grains";
             }
         });
