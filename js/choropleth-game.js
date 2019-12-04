@@ -83,11 +83,14 @@ ChoroplethGame.prototype.initVis = function() {
 
     vis.legendGroup.call(vis.legendSequential);
 
-    $("#map-game-title").html(`<h4>${metadata[vis.feature]} </h4>`);
+
+    $("#map-game-feature").hide()
+        .html(`You selected <strong>${metadata[vis.feature].toLowerCase()}</strong>.`)
+        .fadeIn(transitionDuration);
 
     $("#map-game-instructions").hide()
-        .html("Let's play a game. Can you guess which " + vis.guessLimit + " countries consume the MOST?")
-        .fadeIn("slow");
+        .html("Click on the " + vis.guessLimit + " countries you think consume the MOST!")
+        .fadeIn(transitionDuration);
 
     vis.tool_tip = d3.tip()
         .attr("class", "d3-tip")
@@ -130,9 +133,9 @@ ChoroplethGame.prototype.initVis = function() {
                     vis.guessedMost.add(d["id"]);
                     if (vis.mostCount === vis.guessLimit) {
                         vis.state = "least";
-                        $("#map-game-instructions").fadeOut("slow", function () {
-                            $(this).html("Can you guess which " + vis.guessLimit + " countries consume the LEAST?")
-                        }).fadeIn("slow");
+                        $("#map-game-instructions").fadeOut(transitionDuration, function () {
+                            $(this).html("Now click on the " + vis.guessLimit + " countries you think consume the least!")
+                        }).fadeIn(transitionDuration);
                     }
                 } else if (d3.select(this).attr("fill") === vis.mostColor) {
                     vis.mostCount -= 1;
@@ -202,7 +205,7 @@ ChoroplethGame.prototype.showResults = function () {
         });
 
     $("#map-game-instructions").fadeOut("slow", function () {
-        let htmlText = "Results! <br>You guessed <strong>" + vis.correct.size + " out of "
+        let htmlText = "Results: <br>You guessed <strong>" + vis.correct.size + " out of "
             + (2 * vis.guessLimit) + "</strong>. <br> The countries that consume the MOST are: <ol>";
        vis.most.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"]
