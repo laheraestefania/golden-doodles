@@ -75,6 +75,7 @@ PieChart.prototype.updateVis = function(){
         .domain(vis.displayData)
         .range(["#fee0d2", "#fc9272"]);
 
+
     //I got help with implementing the legend with https://d3-legend.susielu.com/#color-ordinal
 
     // svgChart.append("g")
