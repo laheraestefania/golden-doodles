@@ -251,7 +251,7 @@ LineChart.prototype.updateVis = function(){
             .duration(transitionDuration)
             .attr("stroke", lightBlue)
             .attr("stroke-opacity", 0.3)
-            .attr("stroke-width", 2)
+            .attr("stroke-width", 3)
             .attr("fill", "rgba(255,255,255,0)")
             .attr("class", function (d) {
                 return key.replace(/ /g, "_") + " linepath";
