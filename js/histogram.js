@@ -33,6 +33,7 @@ Histogram.prototype.initVis = function(){
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
+
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 };
@@ -50,6 +51,21 @@ Histogram.prototype.wrangleData = function(){
 
 Histogram.prototype.updateVis = function(){
     var vis = this;
+
+    // // set the color scale
+    // var colorOrdinal = d3.scaleOrdinal()
+    //     .domain("Yes", "No")
+    //     .range(["#fee0d2", "#fc9272"]);
+    //
+    // vis.svg.append("g")
+    //     .attr("class", "legendOrdinal")
+    //     .attr("transform", "translate(160,100)");
+    //
+    // var legendOrdinal = d3.legendColor()
+    //     .scale(colorOrdinal);
+    //
+    // vis.svg.select(".legendOrdinal")
+    //     .call(legendOrdinal);
 
     vis.selectedValue = (d3.select("#selected-feature").property("value"));
     // console.log(vis.selectedValue);
