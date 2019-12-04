@@ -36,7 +36,7 @@ h3, h4, h5 {
 h1 {
     padding: 20px;
     font-family: 'Lato', sans-serif;
-    color: white;
+    color: #28345d;
     text-align: center;
     font-size: 75px;
     /* Hack for the text shadow: https://wpshout.com/quick-guides/create-text-outline-css/*/
