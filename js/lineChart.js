@@ -49,7 +49,7 @@ LineChart.prototype.initVis = function(){
     vis.margin = { top: 30, right: 10, bottom: 30, left: 30 };
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
-    vis.height = 300 - vis.margin.top - vis.margin.bottom;
+    vis.height = 400 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -131,26 +131,38 @@ LineChart.prototype.wrangleData = function(){
 
     switch(vis.value) {
         case "country_class":
-            vis.alldata = femaleDiabetes;
-            gender = "Female";
-            condition = "Diabetes";
-            break;
+            $("#linechart").fadeOut(transitionDuration, function () {
+                $("#barchart").fadeIn(transitionDuration);
+            });
+            return;
         case "adult_fem_diabetes_track":
+            $("#barchart").fadeOut(transitionDuration, function () {
+                $("#linechart").fadeIn(transitionDuration);
+            });
             vis.alldata = femaleDiabetes;
             gender = "Female";
             condition = "Diabetes";
             break;
         case "adult_mal_diabetes_track":
+            $("#barchart").fadeOut(transitionDuration, function () {
+                $("#linechart").fadeIn(transitionDuration);
+            });
             vis.alldata = maleDiabetes;
             gender = "Male";
             condition = "Diabetes";
             break;
         case "adult_fem_obesity_track":
+            $("#barchart").fadeOut(transitionDuration, function () {
+                $("#linechart").fadeIn(transitionDuration);
+            });
             vis.alldata = femaleObesity;
             gender = "Female";
             condition = "Obesity";
             break;
         case "adult_mal_obesity_track":
+            $("#barchart").fadeOut(transitionDuration, function () {
+                $("#linechart").fadeIn(transitionDuration);
+            });
             vis.alldata = maleObesity;
             gender = "Male";
             condition = "Obesity";
@@ -177,7 +189,7 @@ LineChart.prototype.wrangleData = function(){
 
     if (vis.value !== "country_class") {
         vis.displayData = vis.data;
-        vis.title = gender + ", " + condition + " (%)";
+        vis.title = "Adult (18+) " + gender + " " + condition + " Prevalence (%)";
         instructions = " ";
     } else {
         vis.displayData = { };
@@ -188,7 +200,8 @@ LineChart.prototype.wrangleData = function(){
     // Add title
     vis.svg.append("text")
         .attr("class", "area-title")
-        .attr("x", vis.width / 2)
+        .attr("x", vis.width / 2 - 100)
+        .attr("text-anchor", "center")
         .attr("y", -20)
         .attr("font-size", 12)
         .transition()
