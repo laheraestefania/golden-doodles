@@ -2,6 +2,11 @@
     font-size: 10px;
 }
 
+.charity-images img {
+    width: 200px;
+    padding: 1%;
+}
+
 .d3-tip {
     line-height: 1;
     padding: 6px;
