@@ -359,9 +359,7 @@ for (let j = 0; j < nestdata.length; j++) {
         }
 
         function hoveron(d) {
-            if (d.height === 0) {
-                console.log(d.data.key);
-                console.log(d.data.key.replace(/ /g, "_"));
+            if (d.height === 0 && d3.select("#attribute").property("value") !== "country_class") {
                 lineChart.svg.selectAll("." + d.data.key.replace(/ /g, "_"))
                     .attr("stroke", darkBlue)
                     .attr("stroke-opacity", 1.0)
@@ -370,7 +368,7 @@ for (let j = 0; j < nestdata.length; j++) {
         }
 
         function hoverout(d) {
-            if (d.height === 0) {
+            if (d.height === 0 && d3.select("#attribute").property("value") !== "country_class") {
                 lineChart.svg.selectAll("." + d.data.key.replace(/ /g, "_"))
                     .attr("stroke", lightBlue)
                     .attr("stroke-opacity", 0.3);

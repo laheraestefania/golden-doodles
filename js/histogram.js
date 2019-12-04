@@ -9,8 +9,8 @@ Histogram = function(_parentElement, _data, _eventHandler ){
     this.parentElement = _parentElement;
     this.data = _data;
     this.MyEventHandler = _eventHandler;
-    console.log("hist data");
-    console.log(this.data);
+    // console.log("hist data");
+    // console.log(this.data);
     this.initVis();
 }
 

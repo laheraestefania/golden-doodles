@@ -148,6 +148,8 @@ function createVis() {
     var piechartWastingPlan = new PieChart("pieChartWastingPlan", childOverweightPlanData);
     var piechartChildOverweightPlan = new PieChart("pieChartChildOverweightPlan", wastingPlanData);
 
+    var barChart = new BarChart("barchart", Object.values(dataByCountry), "Malnutrition Classification", "country_class")
+
     $(MyEventHandler).bind("selectionChanged", function(event, rangeStart, rangeEnd){
         piechartSugarTax.onSelectionChange(rangeStart, rangeEnd);
         piechartSodiumPlan.onSelectionChange(rangeStart, rangeEnd);
