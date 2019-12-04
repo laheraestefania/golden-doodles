@@ -96,6 +96,7 @@ queue()
             legendlabels[2] = "No data";
             legendlabels[3] = null;
             legendlabels[4] = null;
+            lineChart.svg.selectAll(".instructionbox").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
         };
 
     nestdata = d3.nest()
@@ -472,6 +473,7 @@ for (let j = 0; j < nestdata.length; j++) {
             legendlabels[2] = "No data";
             legendlabels[3] = null;
             legendlabels[4] = null;
+            lineChart.svg.selectAll(".instructionbox").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
         };
 
         legend.updateVis();
@@ -580,6 +582,7 @@ treelegend.prototype.updateVis = function() {
     legendcircle.exit().remove();
 };
 
+// Clean function
 function clean(data) {
     data.forEach(function (obj) {
         Object.keys(obj).forEach(function (key) {
