@@ -16,7 +16,7 @@ ChoroplethCategorical = function(_parentElement, _data, topology, feature){
 ChoroplethCategorical.prototype.initVis = function() {
     var vis = this;
 
-    vis.margin = {top: 50, right: 50, bottom: 50, left: 50};
+    vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
     vis.parentElt = d3.select("#" + vis.parentElement);
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
         vis.height = 500 - vis.margin.top - vis.margin.bottom;
@@ -32,8 +32,8 @@ ChoroplethCategorical.prototype.initVis = function() {
 
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([110, 30])                 // Where to center the map in degrees
-        .scale(90)                       // Zoom-level
+        .center([150, 30])                 // Where to center the map in degrees
+        .scale(80)                       // Zoom-level
         .rotate([0, 0]);                   // Map-rotation
 
     // D3 geo path generator (maps geodata to SVG paths)
@@ -60,7 +60,7 @@ ChoroplethCategorical.prototype.initVis = function() {
 
     vis.legendGroup = vis.parentElt.select(".choro-cat-svg").append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + 20 + ", " + (vis.height - 70) + ")");
+        .attr("transform", "translate(" + 20 + ", " + (vis.height - 100) + ")");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(5)
