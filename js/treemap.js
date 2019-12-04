@@ -357,8 +357,8 @@ for (let j = 0; j < nestdata.length; j++) {
         function hoveron(d) {
             if (d.height === 0) {
                 console.log(d.data.key);
-                console.log(d);
-                lineChart.svg.selectAll("." + d.data.key)
+                console.log(d.data.key.replace(/ /g, "_"));
+                lineChart.svg.selectAll("." + d.data.key.replace(/ /g, "_"))
                     .attr("stroke", darkBlue)
                     .attr("stroke-opacity", 1.0)
                     .raise();
@@ -367,7 +367,7 @@ for (let j = 0; j < nestdata.length; j++) {
 
         function hoverout(d) {
             if (d.height === 0) {
-                lineChart.svg.selectAll("." + d.data.key)
+                lineChart.svg.selectAll("." + d.data.key.replace(/ /g, "_"))
                     .attr("stroke", lightBlue)
                     .attr("stroke-opacity", 0.3);
             }
@@ -378,7 +378,7 @@ for (let j = 0; j < nestdata.length; j++) {
 
     d3.select("#attribute").on("change", function() {
         value = d3.select("#attribute").property("value");
-        lineChart.svg.selectAll("#linepath").remove();
+        lineChart.svg.selectAll(".linepath").remove();
         lineChart.svg.selectAll(".area-title").remove();
 
         lineChart.value = value;

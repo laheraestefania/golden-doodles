@@ -25,12 +25,15 @@ LineChart = function(_parentElement, _data, _groupingData, gender="Female", cond
 
     vis.groupingData = {};
     Object.keys(_groupingData).forEach(function (countryName) {
-        let region = _groupingData[countryName].region.replace(" ", "_");
-        let subregion = _groupingData[countryName].subregion.replace(" ", "_");
+        let region = _groupingData[countryName].region.replace(/ /g, "_");
+        let subregion = _groupingData[countryName].subregion.replace(/ /g, "_");
         vis.groupingData[countryName] = {"region": region, "subregion": subregion}
     });
 
-    vis.years = Object.keys(_data[0]).map(vis.parseDate);
+    // vis.years = Object.keys(_data[0]).map(vis.parseDate);
+    //
+    // console.log(vis.years);
+    // console.log("years");
 
     vis.value = d3.select("#attribute").property("value");
 
@@ -58,8 +61,7 @@ LineChart.prototype.initVis = function(){
 
     // Scales and axes
     vis.x = d3.scaleTime()
-        .range([0, vis.width])
-        .domain(d3.extent(vis.years));
+        .range([0, vis.width]);
 
     vis.xAxis = d3.axisBottom()
         .scale(vis.x)
@@ -108,7 +110,7 @@ LineChart.prototype.initVis = function(){
         .attr("class", "d3-tip")
         .offset([-2, 0])
         .html(function(d) {
-            return d.key;
+            return d.key.replace(/_/g, " ");
             // let id = d["id"];
             // if (vis.data[id]) {
             //     let s = vis.data[id]["country"] + "<br>"+ metadata[vis.feature] + " : ";
@@ -137,6 +139,7 @@ LineChart.prototype.wrangleData = function(){
 
     vis.data = {};
 
+    console.log(vis.value);
     switch(vis.value) {
         case "country_class":
             vis.alldata = femaleDiabetes;
@@ -163,6 +166,8 @@ LineChart.prototype.wrangleData = function(){
             gender = "Male";
             condition = "Obesity";
             break;
+        default:
+            console.log("not recognized");
     }
 
     vis.title = gender + ", " + condition + " (%)";
@@ -175,23 +180,28 @@ LineChart.prototype.wrangleData = function(){
         .attr("font-size", 12)
         .text(vis.title);
 
+    vis.years = Object.keys(vis.alldata[0]).map(vis.parseDate);
+    console.log("alldata")
+    console.log(vis.alldata);
     vis.alldata.forEach(function (d) {
+        console.log("d is ")
+        console.log(d);
         var countryName = d["country"];
-        delete d["country"];
         let l = [];
+        // go through each year, create list of (key=year, value) pairs
         Object.keys(d).forEach(function (key) {
-            l.push({"key": key, "value": d[key]})
+            if (key !== "country") {
+                l.push({"key": key, "value": d[key]})
+            }
         });
         vis.data[countryName] = l;
     });
 
     vis.displayData = {};
-    // Object.keys(vis.data).forEach(function (country) {
-    //     if (vis.groupingData[country]["subregion"] === "Southern_Asia") {
-    //         vis.displayData[country] = vis.data[country];
-    //     }
-    // });
+
     vis.displayData = vis.data;
+
+    console.log(vis.displayData);
     // Update the visualization
     vis.updateVis();
 };
@@ -203,8 +213,9 @@ LineChart.prototype.wrangleData = function(){
 
 LineChart.prototype.updateVis = function(){
     var vis = this;
+    vis.x.domain(d3.extent(vis.years));
+    vis.svg.select(".x-axis").transition().duration(transitionDuration).call(vis.xAxis);
     // Draw path
-
     Object.keys(vis.displayData).forEach(function (key) {
         vis.svg.append("path")
             .datum(vis.displayData[key])
@@ -212,10 +223,9 @@ LineChart.prototype.updateVis = function(){
             .attr("stroke-opacity", 0.3)
             .attr("stroke-width", 2)
             .attr("fill", "rgba(255,255,255,0)")
-            .attr("id", "linepath")
             .attr("class", function (d) {
-                d.key = key;
-                return d.key;
+                d.key = key.replace(/ /g, "_");
+                return d.key + " linepath";
                 // let region = vis.groupingData[key]["region"];
                 // let subregion = vis.groupingData[key]["subregion"];
                 // return key.replace(" ", "_") + " " + region + " " + subregion;

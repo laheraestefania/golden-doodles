@@ -19,8 +19,6 @@ PieChart.prototype.initVis = function(){
     vis.width = $("#" + vis.parentElement).width();
     vis.height = $("#" + vis.parentElement).height();
 
-    console.log(vis.width, vis.height);
-
     vis.radius = Math.min(vis.width, vis.height) / 2.5;
 
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -80,7 +78,6 @@ PieChart.prototype.updateVis = function(){
     // Compute the position of each group on the pie:
     vis.pie = d3.pie()
         .value(function(d) {
-            // console.log(d);
             return d
         });
 

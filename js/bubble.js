@@ -1,46 +1,5 @@
 // https://bl.ocks.org/Thanaporn-sk/c7f74cb5051a0cdf6cf077a9db332dfb
 
-const regionNumbers = {
-    "Africa": 0,
-    "Asia": 1,
-    "Europe": 2,
-    "Latin America and the Caribbean": 3,
-    "N. America": 4,
-    "Oceania": 5
-};
-
-const subRegionNumbers = {
-    "Australia and New Zealand": 0,
-    "Caribbean" : 1,
-    "Central America": 2,
-    "Central Asia": 3,
-    "Eastern Africa" : 4,
-    "Eastern Asia": 5,
-    "Eastern Europe": 6,
-    "Melanesia": 7,
-    "Micronesia": 8,
-    "Middle Africa": 9,
-    "Northern Africa": 10,
-    "Northern America": 11,
-    "Northern Europe": 12,
-    "Polynesia": 13,
-    "South America": 14,
-    "South-eastern Asia": 15,
-    "Southern Africa": 16,
-    "Southern Asia": 17,
-    "Southern Europe": 18,
-    "Western Africa": 19,
-    "Western Asia": 20,
-    "Western Europe": 21
-};
-
-const numRegions = 6, numSubRegions = 22;
-
-const numbering = {
-    "region": {"num": numRegions, "labels": regionNumbers},
-    "subregion": {"num": numSubRegions, "labels": subRegionNumbers},
-}
-
 function constructHtmlText(d) {
     let s = d["country"];
     s += "<br>Region: " + d["region"] + "<br>Subregion: " + d["subregion"];
