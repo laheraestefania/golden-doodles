@@ -34,6 +34,7 @@ Histogram.prototype.initVis = function(){
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
+
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 };
@@ -53,10 +54,8 @@ Histogram.prototype.updateVis = function(){
     var vis = this;
 
     vis.selectedValue = (d3.select("#selected-feature").property("value"));
-    // console.log(vis.selectedValue);
 
     // Initialize brushing component
-    // *** TO-DO ***
     vis.currentBrushRegion = null;
 
     vis.brush = d3.brushX()
@@ -72,12 +71,9 @@ Histogram.prototype.updateVis = function(){
         });
 
     // Append brush component here
-    // *** TO-DO ***
     vis.brushGroup = vis.svg.append("g")
-        .attr("class", "brush")
-        .call(vis.brush);
-
-    // console.log(d3.max(vis.selectedValue));
+        .attr("class", "brush");
+        // .call(vis.brush);
 
     // Scales and axes
     vis.x = d3.scaleLinear()
@@ -116,7 +112,7 @@ Histogram.prototype.updateVis = function(){
         .text(function(d) {
             if (vis.selectedValue == "Sugar_sweetened_beverages_2016") {
                 return "Sugar Intake Via Sweetened Beverages";
-            } else if (vis.selectedValue == "Red_Meat_2016") {
+            } else if (vis.selectedValue == "Red_meat_2016") {
                 return "Red Meat Consumption";
             } else if (vis.selectedValue == "Salt_2016") {
                 return "Salt Consumption";
@@ -146,7 +142,7 @@ Histogram.prototype.updateVis = function(){
         .text(function(d) {
             if (vis.selectedValue == "Sugar_sweetened_beverages_2016") {
                 return "Grams of Sugar";
-            } else if (vis.selectedValue == "Red meat_2016") {
+            } else if (vis.selectedValue == "Red_meat_2016") {
                 return "Grams of Red Meat";
             } else if (vis.selectedValue == "Salt_2016") {
                 return "Grams of Salt";
@@ -156,7 +152,7 @@ Histogram.prototype.updateVis = function(){
                 return "Grams of Vegetables";
             } else if (vis.selectedValue == "Fruit_2016") {
                 return "Grams of Fruit";
-            } else if (vis.selectedValue == "Whole grain_2016") {
+            } else if (vis.selectedValue == "Whole_grain_2016") {
                 return "Grams of Whole Grains";
             }
         });
