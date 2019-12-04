@@ -111,16 +111,6 @@ LineChart.prototype.initVis = function(){
         .offset([-2, 0])
         .html(function(key) {
             return key;
-            // let id = d["id"];
-            // if (vis.data[id]) {
-            //     let s = vis.data[id]["country"] + "<br>"+ metadata[vis.feature] + " : ";
-            //     if (vis.displayData[id]) {
-            //         s+= vis.displayData[id];
-            //     }
-            //     return s;
-            // } else {
-            //     return "No Data";
-            // }
         });
 
     vis.svg.call(vis.tool_tip);
