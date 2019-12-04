@@ -42,6 +42,7 @@ Histogram.prototype.initVis = function(){
         .extent([[0,0],[vis.width, vis.height]])
         .on("brush", function(){
             // User just selected a specific region
+            console.log("brushing")
             vis.currentBrushRegion = d3.event.selection;
             vis.currentBrushRegion = vis.currentBrushRegion.map(vis.x.invert);
 

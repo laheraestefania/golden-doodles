@@ -95,6 +95,7 @@ function loadData() {
 
 
 function createVis() {
+    var vis = this;
 
     // (3) Create event handler
     var MyEventHandler = {};
