@@ -62,7 +62,7 @@ queue()
 
         switch(value) {
             case "country_class":
-                linedata = maleObesity;
+                linedata = null;
                 break;
             case "adult_fem_diabetes_track":
                 linedata = femaleDiabetes;
@@ -87,6 +87,9 @@ queue()
             legendlabels[2] = "experiencing three forms of malnutrition";
             legendlabels[3] = "";
             legendlabels[4] = "No data";
+
+            lineChart.svg.selectAll(".linepath").transition().duration(transitionDuration).attr("stroke-opacity", 0.0).remove();
+            lineChart.svg.selectAll(".area-title").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
         } else {
             legendlabels[0] = "On course";
             legendlabels[1] = "No progress or worsening";
@@ -460,6 +463,9 @@ for (let j = 0; j < nestdata.length; j++) {
             legendlabels[2] = "experiencing three forms of malnutrition";
             legendlabels[3] = "";
             legendlabels[4] = "No data";
+
+            lineChart.svg.selectAll(".linepath").transition().duration(transitionDuration).attr("stroke-opacity", 0.0).remove();
+            lineChart.svg.selectAll(".area-title").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
         } else {
             legendlabels[0] = "On course";
             legendlabels[1] = "No progress or worsening";
