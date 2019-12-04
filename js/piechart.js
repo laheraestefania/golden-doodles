@@ -16,10 +16,16 @@ PieChart = function(_parentElement, _data, _eventHandler ){
 PieChart.prototype.initVis = function(){
     var vis = this;
 
-    vis.width = $("#" + vis.parentElement).width();
-    vis.height = $("#" + vis.parentElement).height();
+    // vis.width = $("#" + vis.parentElement).width();
+    // vis.height = $("#" + vis.parentElement).height();
+    //
+    // vis.radius = Math.min(vis.width, vis.height) / 2.5;
 
-    vis.radius = Math.min(vis.width, vis.height) / 2.5;
+    // adjusting this so the pie charts are all the same size because right now they are all different
+    vis.width = $("#" + vis.parentElement).width();
+    vis.height = vis.width / 2;
+
+    vis.radius = vis.height / 2;
 
     console.log(vis.radius);
 

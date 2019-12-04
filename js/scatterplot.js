@@ -23,10 +23,10 @@ Scatterplot = function(_parentElement, _data, _config){
 Scatterplot.prototype.initVis = function(){
     var vis = this;
 
-    vis.margin = { top: 30, right: 60, bottom: 60, left: 60 };
+    vis.margin = { top: 40, right: 200, bottom: 60, left: 60 };
 
-    vis.width = 750 - vis.margin.left - vis.margin.right,
-        vis.height = 550 - vis.margin.top - vis.margin.bottom;
+    vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
+        vis.height = 400 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -62,7 +62,7 @@ Scatterplot.prototype.initVis = function(){
     // graph title
     vis.svg.append("text").attr("class", "title")
         .attr("x", 300)
-        .attr("y", vis.margin.top/4)
+        .attr("y", -20)
         .attr("text-anchor", "middle")
         .style("font-size", "16px");
 
@@ -88,7 +88,7 @@ Scatterplot.prototype.initVis = function(){
 
     vis.legendGroup = vis.svg.append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width - vis.margin.right * 2) + ", 30)");
+        .attr("transform", "translate(" + (vis.width) + ", 0)");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(5)
@@ -229,8 +229,8 @@ Scatterplot.prototype.updateVis = function(){
 Scatterplot.prototype.addLegend = function () {
     var vis = this;
     var valuesToShow = [1000, 100000, 1000000]
-    var xCircle = vis.width - vis.margin.right;
-    var xLabel = vis.width;
+    var xCircle = vis.width + 20;
+    var xLabel = vis.width + 60;
     var yCircle = vis.margin.bottom * 4;
 
     vis.svg

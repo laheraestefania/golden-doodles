@@ -2,7 +2,7 @@
 var margin = {top: 10, right: 20, bottom: 10, left: 50};
 
 var width = $("#tree").width() - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    height = 350 - margin.top - margin.bottom;
 
 var area = d3.select("#tree")
     .append("svg")
@@ -506,8 +506,8 @@ treelegend.prototype.initVis = function() {
 
     vis.legend = d3.select("#" + vis.parentElement)
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", 100)
+        .attr("width", 300)
+        .attr("height", 80)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 

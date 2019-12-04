@@ -109,8 +109,8 @@ Histogram.prototype.updateVis = function(){
         .data([1]);
 
     vis.title.enter().append("text")
-        .attr("x", -50)
-        .attr("y", -8)
+        .attr("x", 0)
+        .attr("y", -20)
         .attr("class", "histogram-title")
         .merge(vis.title)
         .text(function(d) {
@@ -138,8 +138,9 @@ Histogram.prototype.updateVis = function(){
         .data([1]);
 
     vis.xTitle.enter().append("text")
-        .attr("x", 300)
-        .attr("y", 235)
+        .attr("x", vis.width / 2)
+        .attr("y", vis.height + 40)
+        .attr("font-size", "10px")
         .attr("class", "histogramX-title")
         .merge(vis.xTitle)
         .text(function(d) {
@@ -165,8 +166,9 @@ Histogram.prototype.updateVis = function(){
     vis.svg.append("text")
         .text("Number of Countries")
         .attr("transform", "rotate(270)")
-        .attr("x", -200)
-        .attr("y", -50);
+        .attr("font-size", "10px")
+        .attr("x", -175)
+        .attr("y", -30);
 
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 
