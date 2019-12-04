@@ -124,12 +124,11 @@ function createVis() {
         piechartChildOverweightPlan.onSelectionChange(rangeStart, rangeEnd);
     });
 
-    $("#choro-bubble-title").html(metadata[feature]);
     $("#selected-feature").on("change", function () {
         var feature = $("#selected-feature").val();
         $("#map-bubble-hybrid").html("");
+        $("#map-bubble-hybrid").html("");
         $("#game").html("");
-        $("#choro-bubble-title").html(metadata[feature]);
         var game = new ChoroplethGame("game", dataByCountry, topology, feature);
         var choroplethBubble = new ChoroplethBubble("map-bubble-hybrid", dataByCountry, topology, feature);
 

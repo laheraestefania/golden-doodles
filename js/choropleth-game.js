@@ -205,7 +205,7 @@ ChoroplethGame.prototype.showResults = function () {
         });
 
     $("#map-game-instructions").fadeOut("slow", function () {
-        let htmlText = "Results: <br>You guessed <strong>" + vis.correct.size + " out of "
+        let htmlText = "<br>You guessed <strong>" + vis.correct.size + " out of "
             + (2 * vis.guessLimit) + "</strong>. <br> The countries that consume the MOST are: <ol>";
        vis.most.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"]

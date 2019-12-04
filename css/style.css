@@ -15,15 +15,16 @@
 h3, h4, h5 {
     padding: 10px;
     font-family: 'Lato', sans-serif;
+    color: "#4056A1";
 }
 
-h3 {
-    font-size: 50px;
-}
+/*h3 {*/
+/*    font-size: 50px;*/
+/*}*/
 
-h4 {
-    font-size: 40px;
-}
+/*h4 {*/
+/*    font-size: 40px;*/
+/*}*/
 
 h1 {
     padding: 40px;
