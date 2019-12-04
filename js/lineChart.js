@@ -109,8 +109,8 @@ LineChart.prototype.initVis = function(){
     vis.tool_tip = d3.tip()
         .attr("class", "d3-tip")
         .offset([-2, 0])
-        .html(function(d) {
-            return d.key.replace(/_/g, " ");
+        .html(function(key) {
+            return key;
             // let id = d["id"];
             // if (vis.data[id]) {
             //     let s = vis.data[id]["country"] + "<br>"+ metadata[vis.feature] + " : ";
@@ -216,6 +216,7 @@ LineChart.prototype.updateVis = function(){
     vis.x.domain(d3.extent(vis.years));
     vis.svg.select(".x-axis").transition().duration(transitionDuration).call(vis.xAxis);
     // Draw path
+    // each key is a country
     Object.keys(vis.displayData).forEach(function (key) {
         vis.svg.append("path")
             .datum(vis.displayData[key])
@@ -224,17 +225,20 @@ LineChart.prototype.updateVis = function(){
             .attr("stroke-width", 2)
             .attr("fill", "rgba(255,255,255,0)")
             .attr("class", function (d) {
-                d.key = key.replace(/ /g, "_");
-                return d.key + " linepath";
+                console.log("d is ")
+                console.log(d);
+                console.log("key is " + key);
+                // d.key = key;
+                return key.replace(/ /g, "_") + " linepath";
                 // let region = vis.groupingData[key]["region"];
                 // let subregion = vis.groupingData[key]["subregion"];
                 // return key.replace(" ", "_") + " " + region + " " + subregion;
             })
-            .on("mouseover", function(d) {
-                vis.tool_tip.show(d);
+            .on("mouseover", function() {
+                vis.tool_tip.show(key);
             })
-            .on("mouseout", function(d) {
-                vis.tool_tip.hide(d);
+            .on("mouseout", function() {
+                vis.tool_tip.hide(key);
             })
             .attr("d", vis.linePath);
     })
