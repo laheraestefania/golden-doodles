@@ -64,21 +64,52 @@ function loadData() {
 
             // console.log(allData);
 
-
             sugarTaxData = allData.map(function(d) {
-                return {plan: d.sugar_tax, Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016};
+                return {plan: d.sugar_tax,
+                    Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016,
+                    Red_Meat_2016: d["Red meat_2016"],
+                    Salt_2016: d.Salt_2016,
+                    Calcium_2016: d.Calcium_2016,
+                    Vegetables_2016: d.Vegetables_2016,
+                    Fruit_2016: d.Fruit_2016,
+                    Whole_grain_2016: d["Whole grain_2016"]
+                };
             });
 
             sodiumPlanData = allData.map(function(d) {
-                return {plan: d.sodium_plan, Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016};
+                return {plan: d.sodium_plan,
+                    Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016,
+                    Red_Meat_2016: d["Red meat_2016"],
+                    Salt_2016: d.Salt_2016,
+                    Calcium_2016: d.Calcium_2016,
+                    Vegetables_2016: d.Vegetables_2016,
+                    Fruit_2016: d.Fruit_2016,
+                    Whole_grain_2016: d["Whole grain_2016"]
+                };
             });
 
             childOverweightPlanData = allData.map(function(d) {
-                return {plan: d.child_overweight_plan, Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016};
+                return {plan: d.child_overweight_plan,
+                    Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016,
+                    Red_Meat_2016: d["Red meat_2016"],
+                    Salt_2016: d.Salt_2016,
+                    Calcium_2016: d.Calcium_2016,
+                    Vegetables_2016: d.Vegetables_2016,
+                    Fruit_2016: d.Fruit_2016,
+                    Whole_grain_2016: d["Whole grain_2016"]
+                };
             });
 
             wastingPlanData = allData.map(function(d) {
-                return {plan: d.wasting_plan, Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016};
+                return {plan: d.wasting_plan,
+                    Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016,
+                    Red_Meat_2016: d["Red meat_2016"],
+                    Salt_2016: d.Salt_2016,
+                    Calcium_2016: d.Calcium_2016,
+                    Vegetables_2016: d.Vegetables_2016,
+                    Fruit_2016: d.Fruit_2016,
+                    Whole_grain_2016: d["Whole grain_2016"]
+                };
             });
 
             topology = topology_;

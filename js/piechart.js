@@ -21,6 +21,8 @@ PieChart.prototype.initVis = function(){
 
     vis.radius = Math.min(vis.width, vis.height) / 2.5;
 
+    console.log(vis.radius);
+
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
         .attr("width", vis.width)
         .attr("height", vis.height)
@@ -39,6 +41,8 @@ PieChart.prototype.wrangleData = function(){
 
     var organizedData = [0, 0];
 
+    console.log(vis.filteredData);
+
     vis.filteredData.forEach(function(d) {
         // console.log(d);
         if (d.plan == "Yes") {
@@ -49,6 +53,8 @@ PieChart.prototype.wrangleData = function(){
     });
 
     vis.displayData = organizedData;
+
+    console.log(organizedData);
 
     // Update the visualization
     vis.updateVis();
@@ -165,8 +171,17 @@ PieChart.prototype.updateVis = function(){
 PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
     var vis = this;
 
+    vis.selectedValue = (d3.select("#selected-feature").property("value"));
+
     vis.filteredData = vis.data.filter(function(d){
-        return (d.Sugar_sweetened_beverages_2016 >= selectionStart && d.Sugar_sweetened_beverages_2016 <= selectionEnd);
+        if (vis.selectedValue == "Red meat_2016") {
+            return (d.Red_Meat_2016 >= selectionStart && d.Red_Meat_2016 <= selectionEnd);
+        } else if (vis.selectedValue == "Whole grain_2016") {
+            return (d.Whole_grain_2016 >= selectionStart && d.Whole_grain_2016 <= selectionEnd);
+        } else {
+            return (d[vis.selectedValue] >= selectionStart && d[vis.selectedValue] <= selectionEnd);
+        }
+
     });
 
     // console.log(vis.filteredData);
