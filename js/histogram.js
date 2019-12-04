@@ -9,7 +9,8 @@ Histogram = function(_parentElement, _data, _eventHandler ){
     this.parentElement = _parentElement;
     this.data = _data;
     this.MyEventHandler = _eventHandler;
-
+    console.log("hist data");
+    console.log(this.data);
     this.initVis();
 }
 
@@ -33,29 +34,6 @@ Histogram.prototype.initVis = function(){
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
-
-    // Initialize brushing component
-    // *** TO-DO ***
-    vis.currentBrushRegion = null;
-
-    vis.brush = d3.brushX()
-        .extent([[0,0],[vis.width, vis.height]])
-        .on("brush", function(){
-            // User just selected a specific region
-            console.log("brushing")
-            vis.currentBrushRegion = d3.event.selection;
-            vis.currentBrushRegion = vis.currentBrushRegion.map(vis.x.invert);
-
-            // 3. Trigger the event 'selectionChanged' of our event handler
-            $(vis.MyEventHandler).trigger("selectionChanged", vis.currentBrushRegion);
-        });
-
-    // Append brush component here
-    // *** TO-DO ***
-    vis.brushGroup = vis.svg.append("g")
-        .attr("class", "brush")
-        .call(vis.brush);
-
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 };
@@ -75,12 +53,39 @@ Histogram.prototype.updateVis = function(){
     var vis = this;
 
     vis.selectedValue = (d3.select("#selected-feature").property("value"));
-    console.log(vis.selectedValue);
+    // console.log(vis.selectedValue);
+
+    // Initialize brushing component
+    // *** TO-DO ***
+    vis.currentBrushRegion = null;
+
+    vis.brush = d3.brushX()
+        .extent([[0,0],[vis.width, vis.height]])
+        .on("brush", function(){
+            // User just selected a specific region
+            // console.log("brushing");
+            vis.currentBrushRegion = d3.event.selection;
+            vis.currentBrushRegion = vis.currentBrushRegion.map(vis.x.invert);
+
+            // 3. Trigger the event 'selectionChanged' of our event handler
+            $(vis.MyEventHandler).trigger("selectionChanged", vis.currentBrushRegion);
+        });
+
+    // Append brush component here
+    // *** TO-DO ***
+    vis.brushGroup = vis.svg.append("g")
+        .attr("class", "brush")
+        .call(vis.brush);
+
+    // console.log(d3.max(vis.selectedValue));
 
     // Scales and axes
     vis.x = d3.scaleLinear()
         .range([0, vis.width])
-        .domain([0, 350]);
+        // .domain([0, 350]);
+        .domain([0, d3.max(vis.data, function(d) {
+            return d[vis.selectedValue];
+        })]);
 
     vis.y = d3.scaleLinear()
         .range([vis.height, 0])
@@ -100,22 +105,70 @@ Histogram.prototype.updateVis = function(){
         .attr("class", "y-axis axis");
 
     // Axis title
-    vis.svg.append("text")
-        .attr("x", -50)
-        .attr("y", -8)
-        .text("Sugar Intake Via Sweetened Beverages");
+    vis.title = vis.svg.selectAll(".histogram-title")
+        .data([1]);
+
+    vis.title.enter().append("text")
+        .attr("x", 0)
+        .attr("y", -20)
+        .attr("class", "histogram-title")
+        .merge(vis.title)
+        .text(function(d) {
+            if (vis.selectedValue == "Sugar_sweetened_beverages_2016") {
+                return "Sugar Intake Via Sweetened Beverages";
+            } else if (vis.selectedValue == "Red_Meat_2016") {
+                return "Red Meat Consumption";
+            } else if (vis.selectedValue == "Salt_2016") {
+                return "Salt Consumption";
+            } else if (vis.selectedValue == "Calcium_2016") {
+                return "Calcium Consumption";
+            } else if (vis.selectedValue == "Vegetables_2016") {
+                return "Vegetable Consumption";
+            } else if (vis.selectedValue == "Fruit_2016") {
+                return "Fruit Consumption";
+            } else if (vis.selectedValue == "Whole_grain_2016") {
+                return "Whole Grain Consumption";
+            }
+        });
+
+    vis.title.exit().remove();
 
     // Axis title
-    vis.svg.append("text")
-        .attr("x", 300)
-        .attr("y", 235)
-        .text("Grams of Sugar");
+    vis.xTitle = vis.svg.selectAll(".histogramX-title")
+        .data([1]);
+
+    vis.xTitle.enter().append("text")
+        .attr("x", vis.width / 2)
+        .attr("y", vis.height + 40)
+        .attr("font-size", "10px")
+        .attr("class", "histogramX-title")
+        .merge(vis.xTitle)
+        .text(function(d) {
+            if (vis.selectedValue == "Sugar_sweetened_beverages_2016") {
+                return "Grams of Sugar";
+            } else if (vis.selectedValue == "Red meat_2016") {
+                return "Grams of Red Meat";
+            } else if (vis.selectedValue == "Salt_2016") {
+                return "Grams of Salt";
+            } else if (vis.selectedValue == "Calcium_2016") {
+                return "Grams of Calcium";
+            } else if (vis.selectedValue == "Vegetables_2016") {
+                return "Grams of Vegetables";
+            } else if (vis.selectedValue == "Fruit_2016") {
+                return "Grams of Fruit";
+            } else if (vis.selectedValue == "Whole grain_2016") {
+                return "Grams of Whole Grains";
+            }
+        });
+
+    vis.xTitle.exit().remove();
 
     vis.svg.append("text")
         .text("Number of Countries")
         .attr("transform", "rotate(270)")
-        .attr("x", -200)
-        .attr("y", -50);
+        .attr("font-size", "10px")
+        .attr("x", -175)
+        .attr("y", -30);
 
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 
@@ -136,22 +189,27 @@ Histogram.prototype.updateVis = function(){
     // set the parameters for the histogram
     var histogram = d3.histogram()
         .value(function(d) {
-            return d.Sugar_sweetened_beverages_2016;
+            return d[vis.selectedValue];
         })   // I need to give the vector of value
         .domain(vis.x.domain())  // then the domain of the graphic
         .thresholds(vis.x.ticks(70)); // then the numbers of bins
 
     // And apply this function to data to get the bins
     var bins = histogram(vis.data, function(d) {
-        return d.Sugar_sweetened_beverages_2016;
+        return d[vis.selectedValue];
     });
 
     // append the bar rectangles to the svg element
-    vis.svg.selectAll("rect")
-        .data(bins)
-        .enter()
+    vis.bars = vis.svg.selectAll("rect")
+        .data(bins);
+
+        vis.bars.enter()
         .append("rect")
         .attr("x", 1)
+        .on('mouseover', tool_tip.show )
+        .on('mouseout', tool_tip.hide)
+        .merge(vis.bars)
+        .transition()
         .attr("transform", function(d) { return "translate(" + vis.x(d.x0) + "," + vis.y(d.length) + ")"; })
         .attr("width", function(d) { return vis.x(d.x1) - vis.x(d.x0) -1 ; })
         .attr("height", function(d) {
@@ -159,9 +217,9 @@ Histogram.prototype.updateVis = function(){
             return vis.height - vis.y(d.length);
         })
         // .style("fill", "#de2d26")
-        .style("fill", mainRed)
-        .on('mouseover', tool_tip.show )
-        .on('mouseout', tool_tip.hide);
+        .style("fill", mainRed);
+
+    vis.bars.exit().remove();
 
     // Call brush component here
     vis.brushGroup.call(vis.brush, vis.currentBrushRegion);
