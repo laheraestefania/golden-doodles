@@ -106,23 +106,29 @@ PieChart.prototype.updateVis = function(){
         .exit()
         .remove();
 
-    //I got help with implementing the legend with https://d3-legend.susielu.com/#color-ordinal
-
-    // svgChart.append("g")
-    //     .attr("class", "legendOrdinal")
-    //     .attr("transform", "translate(100,160)");
-    //
-    // var legendOrdinal = d3.legendColor()
-    //     .scale(vis.color);
-    //
-    // svgChart.select(".legendOrdinal")
-    //     .call(legendOrdinal);
 
     function arcTween(a) {
         const i = d3.interpolate(this._current, a);
         this._current = i(1);
         return (t) => vis.arc(i(t));
     }
+
+    //I got help with implementing the legend with https://d3-legend.susielu.com/#color-ordinal
+
+    // set the color scale
+    vis.colorLegend = d3.scaleOrdinal()
+        .domain(["No","Yes"])
+        .range(["#fee0d2", "#fc9272"]);
+
+    vis.svg.append("g")
+        .attr("class", "legendOrdinal")
+        .attr("transform", "translate(90,-100)");
+
+    var legendOrdinal = d3.legendColor()
+        .scale(vis.colorLegend);
+
+    vis.svg.select(".legendOrdinal")
+        .call(legendOrdinal);
 };
 
 PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
