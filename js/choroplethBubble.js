@@ -5,10 +5,7 @@
  */
 
 function constructHtmlText(d) {
-    console.log(d);
-
     let s = d["country"];
-    console.log(s);
     s += "<br>Region: " + d["region"] + "<br>Subregion: " + d["subregion"];
     if (!isNaN(d["feature"])) {
         s += "<br>" + d["featureName"] + ": " + d["feature"];
@@ -28,10 +25,7 @@ ChoroplethBubble = function(_parentElement, _data, topology, feature){
     vis.feature = feature;
     vis.mapMode = true;
     $('#map-radio-button').prop('checked', true);
-    d3.selectAll(".bubble-legend").remove();
-    d3.selectAll(".bubble-legend-text").remove();
-    d3.selectAll(".bubble-legend-line").remove();
-    d3.selectAll(".bubble-legend-population").remove();
+    d3.selectAll(".bubble-legend-group").remove();
     // $('#population-radio-button').attr('checked', '');
     vis.padding = 1.5; // separation between same-color circles
     vis.clusterPadding = 30; // separation between different-color circles
@@ -147,6 +141,8 @@ ChoroplethBubble.prototype.initVis = function() {
 
     vis.legendGroup.call(vis.legendSequential);
 
+    vis.addLegend();
+
     vis.tool_tip = d3.tip()
         .attr("class", "d3-tip")
         .offset([-2, 0])
@@ -205,7 +201,6 @@ ChoroplethBubble.prototype.initVis = function() {
                 break;
             case 'population':
                 vis.mapMode = false;
-
                 vis.svg.selectAll("path")
                     .transition()
                     .duration(transitionDuration)
@@ -216,7 +211,8 @@ ChoroplethBubble.prototype.initVis = function() {
 
                 $("#bubble-radio-div").fadeIn();
 
-                vis.addLegend();
+                vis.bubbleLegendGroup.transition().duration(transitionDuration).attr("opacity", 1.0);
+                d3.selectAll(".bubble-legend").transition().duration(transitionDuration).attr("opacity", 1.0);
 
                 setTimeout(function () {
                     vis.svg.attr("transform", "translate(" + vis.width* 4/7 + "," + vis.height/2 + ")");
@@ -368,10 +364,10 @@ ChoroplethBubble.prototype.updateVis = function () {
     if (vis.mapMode) {
         // Remove all bubble stuff
         vis.svg.selectAll("circle").transition().duration(transitionDuration).attr("opacity", 0.0).remove();
-        vis.parentElt.selectAll(".bubble-legend")
+        vis.bubbleLegendGroup
             .transition()
             .duration(transitionDuration)
-            .attr("opacity", 0.0).remove();
+            .attr("opacity", 0.0);
 
         $("#bubble-radio-div").fadeOut();
 
@@ -410,6 +406,8 @@ ChoroplethBubble.prototype.updateVis = function () {
             .duration(transitionDuration)
             .attr("opacity", 1.0);
     } else {
+
+
         // nodes
         vis.svg.selectAll('.node')
             .data(vis.nodes)
@@ -536,29 +534,30 @@ ChoroplethBubble.prototype.addLegend = function () {
 
     vis.bubbleLegendGroup = vis.parentElt.select("svg")
         .append("g")
+        .attr("class", "bubble-legend-group");
 
-    vis.bubbleLegendGroup.selectAll(".bubble-legend")
-        .data(valuesToShow)
-        .enter()
-        .append("circle")
-        .attr("class", "bubble-legend")
+    vis.legendCircles = vis.bubbleLegendGroup.selectAll(".bubble-legend-circle")
+        .data(valuesToShow);
+
+    vis.legendCircles.enter().append("circle")
+        .merge(vis.legendCircles)
+        .attr("class", "bubble-legend-circle bubble-legend")
         .attr("cx", xCircle)
         .attr("cy", function(d){ return yCircle - vis.radiusScale(d) } )
         .attr("r", function(d){ return vis.radiusScale(d) })
         .style("fill", "none")
         .attr("stroke", "black")
         .attr("opacity", 0.0)
-        .transition()
-        .duration(transitionDuration)
-        .attr("opacity", 1.0);
 
 // Add legend: segments
-    vis.bubbleLegendGroup
+    vis.bubbleLegendLine = vis.bubbleLegendGroup
         .selectAll(".bubble-legend-line")
-        .data(valuesToShow)
-        .enter()
+        .data(valuesToShow);
+
+    vis.bubbleLegendLine.enter()
         .append("line")
-        .attr("class", "bubble-legend-line")
+        .merge(vis.bubbleLegendLine)
+        .attr("class", "bubble-legend-line bubble-legend")
         .attr('x1', function(d){ return xCircle + vis.radiusScale(d) } )
         .attr('x2', xLabel)
         .attr('y1', function(d){ return yCircle - vis.radiusScale(d) } )
@@ -566,37 +565,30 @@ ChoroplethBubble.prototype.addLegend = function () {
         .attr('stroke', 'black')
         .style('stroke-dasharray', ('2,2'))
         .attr("opacity", 0.0)
-        .transition()
-        .duration(transitionDuration)
-        .attr("opacity", 1.0);
 
 // Add legend: labels
-    vis.bubbleLegendGroup
+    vis.bubbleLegendText = vis.bubbleLegendGroup
         .selectAll(".bubble-legend-text")
         .data(valuesToShow)
-        .enter()
+
+    vis.bubbleLegendText.enter()
         .append("text")
-        .attr("class", "bubble-legend-text")
+        .merge(vis.bubbleLegendText)
+        .attr("class", "bubble-legend-text bubble-legend")
         .attr('x', xLabel)
         .attr('y', function(d){ return yCircle - vis.radiusScale(d) } )
         .text( function(d){ return d * 1000 } )
         .style("font-size", 10)
         .attr('alignment-baseline', 'middle')
         .attr("opacity", 0.0)
-        .transition()
-        .duration(transitionDuration)
-        .attr("opacity", 1.0);
 
-    vis.parentElt.select("svg")
+    vis.bubbleLegendGroup
         .append("text")
-        .attr("class", "bubble-legend-population")
+        .attr("class", "bubble-legend-population bubble-legend")
         .style("font-size", 10)
         .attr('alignment-baseline', 'middle')
         .attr('x', xCircle - 35)
         .attr('y', yCircle + 15)
         .text("Population (2017)")
         .attr("opacity", 0.0)
-        .transition()
-        .duration(transitionDuration)
-        .attr("opacity", 1.0);
 };

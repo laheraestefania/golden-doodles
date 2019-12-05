@@ -130,14 +130,6 @@ BarChart.prototype.wrangleData = function(){
         .rollup(function(leaves) { return leaves.length; })
         .entries(vis.data);
 
-    // nestedData.forEach(function(d) {
-    //
-    //     d.key = parseDate(d.key);
-    //     d.value = +d.value;
-    // });
-
-    console.log(vis.nestedData);
-
     vis.y.domain([0, d3.max(vis.nestedData, function(d) {return d.value; })]);
 
 
@@ -153,10 +145,6 @@ BarChart.prototype.wrangleData = function(){
 
 BarChart.prototype.updateVis = function(){
     var vis = this;
-    // ---- DRAW BARS ----
-
-    console.log(vis.x.domain())
-    console.log(vis.y.domain())
 
     var bars = vis.svg.selectAll(".bar")
         .data(vis.nestedData);
@@ -172,8 +160,6 @@ BarChart.prototype.updateVis = function(){
         .attr("height", function(d){ return vis.height - vis.y(d.value); })
         .attr("width", vis.x.bandwidth())
         .attr("fill", function (d) {
-            console.log("fill");
-            console.log(d);
             switch (d.key) {
                 case "None":
                     return catColorScale[vis.key][1]
