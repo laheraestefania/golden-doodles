@@ -27,8 +27,6 @@ PieChart.prototype.initVis = function(){
 
     vis.radius = vis.height / 2;
 
-    // console.log(vis.radius);
-
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
         .attr("width", vis.width)
         .attr("height", vis.height)
@@ -75,19 +73,6 @@ PieChart.prototype.updateVis = function(){
         .domain(vis.displayData)
         .range(["#fee0d2", "#fc9272"]);
 
-
-    //I got help with implementing the legend with https://d3-legend.susielu.com/#color-ordinal
-
-    // svgChart.append("g")
-    //     .attr("class", "legendOrdinal")
-    //     .attr("transform", "translate(300,260)");
-    //
-    // var legendOrdinal = d3.legendColor()
-    //     .scale(vis.color);
-    //
-    // svgChart.select(".legendOrdinal")
-    //     .call(legendOrdinal);
-
     // Compute the position of each group on the pie:
     vis.pie = d3.pie()
         .value(function(d) {
@@ -117,62 +102,27 @@ PieChart.prototype.updateVis = function(){
         .style("stroke-width", "2px")
         .style("opacity", 1);
 
-        // vis.pies.append("text")
-        // .attr("transform", function(d) {
-        //     return "translate(" + vis.arc.centroid(d) + ")";
-        // })
-        // .attr("text-anchor", "middle")
-        // .text(function(d, i) {
-        //     // console.log(d);
-        //     if (i == 0) {
-        //         return "Yes";
-        //     } else if (i == 1) {
-        //         return "No";
-        //     }
-        // });
-
     vis.pies
         .exit()
         .remove();
 
+    //I got help with implementing the legend with https://d3-legend.susielu.com/#color-ordinal
+
+    // svgChart.append("g")
+    //     .attr("class", "legendOrdinal")
+    //     .attr("transform", "translate(100,160)");
+    //
+    // var legendOrdinal = d3.legendColor()
+    //     .scale(vis.color);
+    //
+    // svgChart.select(".legendOrdinal")
+    //     .call(legendOrdinal);
 
     function arcTween(a) {
         const i = d3.interpolate(this._current, a);
         this._current = i(1);
         return (t) => vis.arc(i(t));
     }
-
-    //Set up groups
-    // vis.arcs = vis.svg.selectAll("g.arc")
-    //     .data(vis.pieData)
-    //     .enter()
-    //     .append("g")
-    //     .attr("class", "arc")
-    //     .attr("transform", "translate(" + vis.outerRadius + ", " + vis.outerRadius + ")");
-    //
-    // //Draw arc paths
-    // vis.arcs.append("path")
-    //     .merge(vis.arcs)
-    //     .transition()
-    //     .duration(800)
-    //     .attr("fill", function(d, i) {
-    //         return vis.color(i);
-    //     })
-    //     .attr("d", vis.arc);
-    //
-    //
-//     vis.pies.append("text")
-//         .attr("transform", function(d) {
-//             return "translate(" + vis.pies.centroid(d) + ")";
-//         })
-//         .attr("text-anchor", "middle")
-//         .text(function(d, i) {
-//             if (i == 0) {
-//                 return "Yes";
-//             } else if (i == 1) {
-//                 return "No";
-//             }
-//         });
 };
 
 PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
@@ -184,8 +134,6 @@ PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
         return (d[vis.selectedValue] >= selectionStart && d[vis.selectedValue] <= selectionEnd);
 
     });
-
-    // console.log(vis.filteredData);
 
     vis.wrangleData();
 };

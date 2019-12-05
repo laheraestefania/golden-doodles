@@ -166,6 +166,41 @@ Histogram.prototype.updateVis = function(){
         .attr("x", -175)
         .attr("y", -30);
 
+    // rects for the legend
+    // vis.legendRects = vis.svg.selectAll(".legend")
+    //     .data([0,1])
+    //     .enter()
+    //     .append("rect")
+    //     .attr("class", "legend")
+    //     .attr("x", 10)
+    //     .attr("y", function(d, i) {
+    //         return (-100 + (i *30));
+    //     })
+    //     .attr("width", 100)
+    //     .attr("height", 100)
+    //     .style("fill", function(d) {
+    //         if (d == 0) {
+    //             return "#fee0d2";
+    //         } else if (d == 1) {
+    //             return "#fc9272";
+    //         }
+    //     });
+
+    //Legend for the pie charts
+    // vis.legendRects.append("text")
+    //     .attr("x", 20)
+    //     .attr("y", function(d,i) {
+    //         return (-100 + (i*30));
+    //     })
+    // .text(function(d, i) {
+    //     // console.log(d);
+    //     if (d == 0) {
+    //         return "Yes";
+    //     } else if (d == 1) {
+    //         return "No";
+    //     }
+    // });
+
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 
     /// Code from the example given in the instructions: http://bl.ocks.org/davegotz/bd54b56723c154d25eedde6504d30ad7
@@ -224,4 +259,5 @@ Histogram.prototype.updateVis = function(){
     // Call axis functions with the new domain
     vis.svg.select(".x-axis").call(vis.xAxis);
     vis.svg.select(".y-axis").call(vis.yAxis);
+
 };
