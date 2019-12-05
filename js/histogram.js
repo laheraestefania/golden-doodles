@@ -109,6 +109,8 @@ Histogram.prototype.updateVis = function(){
         .attr("y", -20)
         .attr("class", "histogram-title")
         .merge(vis.title)
+        .transition()
+        .duration(500)
         .text(function(d) {
             if (vis.selectedValue == "Sugar_sweetened_beverages_2016") {
                 return "Sugar Intake Via Sweetened Beverages";
@@ -139,6 +141,8 @@ Histogram.prototype.updateVis = function(){
         .attr("font-size", "10px")
         .attr("class", "histogramX-title")
         .merge(vis.xTitle)
+        .transition()
+        .duration(500)
         .text(function(d) {
             if (vis.selectedValue == "Sugar_sweetened_beverages_2016") {
                 return "Grams of Sugar";
@@ -165,76 +169,6 @@ Histogram.prototype.updateVis = function(){
         .attr("font-size", "10px")
         .attr("x", -175)
         .attr("y", -30);
-
-    // rects for the legend
-    // vis.legendRects = vis.svg.selectAll(".legend")
-    //     .data([0,1])
-    //     .enter()
-    //     .append("rect")
-    //     .attr("class", "legend")
-    //     .attr("x", 10)
-    //     .attr("y", function(d, i) {
-    //         return (-100 + (i *30));
-    //     })
-    //     .attr("width", 100)
-    //     .attr("height", 100)
-    //     .style("fill", function(d) {
-    //         if (d == 0) {
-    //             return "#fee0d2";
-    //         } else if (d == 1) {
-    //             return "#fc9272";
-    //         }
-    //     });
-
-    //Legend for the pie charts
-    // vis.legendRects.append("text")
-    //     .attr("x", 20)
-    //     .attr("y", function(d,i) {
-    //         return (-100 + (i*30));
-    //     })
-    // .text(function(d, i) {
-    //     // console.log(d);
-    //     if (d == 0) {
-    //         return "Yes";
-    //     } else if (d == 1) {
-    //         return "No";
-    //     }
-    // });
-
-    // vis.legendRects = vis.svg.selectAll(".histogram-legend")
-    //     .data([0,1])
-    //     .enter();
-    //
-    // vis.legendRects.append("rect")
-    //     .attr("class", "histogram-legend")
-    //     .attr("width", 20)
-    //     .attr("height", 30)
-    //     // .attr("y", function(d, i) {
-    //     //     return ((i * 10) + 10);
-    //     // })
-    //     .attr("y", -30)
-    //     .attr("x", 40)
-    //     .attr("fill", function(d) {
-    //            if (d == 0) {
-    //                 return "#fee0d2";
-    //            } else if (d == 1) {
-    //                return "#fc9272";
-    //            }
-    //      });
-    //
-    // vis.legendRects.append("text")
-    //     .text(function(d, i) {
-    //         if (d == 0) {
-    //             return "Yes";
-    //         } else if (d == 1) {
-    //             return "No";
-    //         }
-    //      })
-    //     .attr("class", "legend-label")
-    //     .attr("y", function(d, i) {
-    //         return ((i * 30) + 50);
-    //     })
-    //     .attr("x", 40);
 
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 
@@ -276,6 +210,7 @@ Histogram.prototype.updateVis = function(){
         .on('mouseout', tool_tip.hide)
         .merge(vis.bars)
         .transition()
+        .duration(1000)
         .attr("transform", function(d) { return "translate(" + vis.x(d.x0) + "," + vis.y(d.length) + ")"; })
         .attr("width", function(d) { return vis.x(d.x1) - vis.x(d.x0) -1 ; })
         .attr("height", function(d) {
