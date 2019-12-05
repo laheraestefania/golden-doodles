@@ -201,6 +201,41 @@ Histogram.prototype.updateVis = function(){
     //     }
     // });
 
+    // vis.legendRects = vis.svg.selectAll(".histogram-legend")
+    //     .data([0,1])
+    //     .enter();
+    //
+    // vis.legendRects.append("rect")
+    //     .attr("class", "histogram-legend")
+    //     .attr("width", 20)
+    //     .attr("height", 30)
+    //     // .attr("y", function(d, i) {
+    //     //     return ((i * 10) + 10);
+    //     // })
+    //     .attr("y", -30)
+    //     .attr("x", 40)
+    //     .attr("fill", function(d) {
+    //            if (d == 0) {
+    //                 return "#fee0d2";
+    //            } else if (d == 1) {
+    //                return "#fc9272";
+    //            }
+    //      });
+    //
+    // vis.legendRects.append("text")
+    //     .text(function(d, i) {
+    //         if (d == 0) {
+    //             return "Yes";
+    //         } else if (d == 1) {
+    //             return "No";
+    //         }
+    //      })
+    //     .attr("class", "legend-label")
+    //     .attr("y", function(d, i) {
+    //         return ((i * 30) + 50);
+    //     })
+    //     .attr("x", 40);
+
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
 
     /// Code from the example given in the instructions: http://bl.ocks.org/davegotz/bd54b56723c154d25eedde6504d30ad7
