@@ -214,7 +214,7 @@ ChoroplethGame.prototype.showResults = function () {
            }
            htmlText += "</li>"
         });
-        htmlText += "</ol> <br> The countries that consume the LEAST are: <ol>";
+        htmlText += "</ol> <p><br> The countries that consume the LEAST are: <ol>";
         vis.least.forEach(function (id) {
             htmlText += "<li> " + vis.data[id]["country"]
             if (vis.correct.has(id)) {

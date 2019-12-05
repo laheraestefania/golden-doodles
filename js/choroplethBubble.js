@@ -27,6 +27,12 @@ ChoroplethBubble = function(_parentElement, _data, topology, feature){
     vis.world = topojson.feature(topology, topology.objects.countries).features;
     vis.feature = feature;
     vis.mapMode = true;
+    $('#map-radio-button').prop('checked', true);
+    d3.selectAll(".bubble-legend").remove();
+    d3.selectAll(".bubble-legend-text").remove();
+    d3.selectAll(".bubble-legend-line").remove();
+    d3.selectAll(".bubble-legend-population").remove();
+    // $('#population-radio-button').attr('checked', '');
     vis.padding = 1.5; // separation between same-color circles
     vis.clusterPadding = 30; // separation between different-color circles
     vis.maxRadius = 40;
@@ -528,8 +534,10 @@ ChoroplethBubble.prototype.addLegend = function () {
     var xLabel = vis.width;
     var yCircle = vis.height; // - vis.margin.bottom
 
-    vis.parentElt.select("svg")
-        .selectAll("legend")
+    vis.bubbleLegendGroup = vis.parentElt.select("svg")
+        .append("g")
+
+    vis.bubbleLegendGroup.selectAll(".bubble-legend")
         .data(valuesToShow)
         .enter()
         .append("circle")
@@ -545,12 +553,12 @@ ChoroplethBubble.prototype.addLegend = function () {
         .attr("opacity", 1.0);
 
 // Add legend: segments
-    vis.parentElt.select("svg")
-        .selectAll("legend")
+    vis.bubbleLegendGroup
+        .selectAll(".bubble-legend-line")
         .data(valuesToShow)
         .enter()
         .append("line")
-        .attr("class", "bubble-legend")
+        .attr("class", "bubble-legend-line")
         .attr('x1', function(d){ return xCircle + vis.radiusScale(d) } )
         .attr('x2', xLabel)
         .attr('y1', function(d){ return yCircle - vis.radiusScale(d) } )
@@ -563,12 +571,12 @@ ChoroplethBubble.prototype.addLegend = function () {
         .attr("opacity", 1.0);
 
 // Add legend: labels
-    vis.parentElt.select("svg")
-        .selectAll("legend")
+    vis.bubbleLegendGroup
+        .selectAll(".bubble-legend-text")
         .data(valuesToShow)
         .enter()
         .append("text")
-        .attr("class", "bubble-legend")
+        .attr("class", "bubble-legend-text")
         .attr('x', xLabel)
         .attr('y', function(d){ return yCircle - vis.radiusScale(d) } )
         .text( function(d){ return d * 1000 } )
@@ -581,7 +589,7 @@ ChoroplethBubble.prototype.addLegend = function () {
 
     vis.parentElt.select("svg")
         .append("text")
-        .attr("class", "bubble-legend")
+        .attr("class", "bubble-legend-population")
         .style("font-size", 10)
         .attr('alignment-baseline', 'middle')
         .attr('x', xCircle - 35)

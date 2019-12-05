@@ -158,8 +158,8 @@ function createVis() {
     });
 
     $("#selected-feature").on("change", function () {
+        console.log("changed")
         var feature = $("#selected-feature").val();
-        $("#map-bubble-hybrid").html("");
         $("#map-bubble-hybrid").html("");
         $("#game").html("");
         var game = new ChoroplethGame("game", dataByCountry, topology, feature);

@@ -39,12 +39,13 @@ h1 {
     color: #28345d;
     text-align: center;
     font-size: 75px;
+    font-weight: bold;
     /* Hack for the text shadow: https://wpshout.com/quick-guides/create-text-outline-css/*/
-    text-shadow:
-            -1px -1px 0 #000,
-            1px -1px 0 #000,
-            -1px 1px 0 #000,
-            1px 1px 0 #000;
+    /*text-shadow:*/
+    /*        -1px -1px 0 #000,*/
+    /*        1px -1px 0 #000,*/
+    /*        -1px 1px 0 #000,*/
+    /*        1px 1px 0 #000;*/
 }
 
 /* Tree */
