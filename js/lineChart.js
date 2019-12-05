@@ -190,11 +190,8 @@ LineChart.prototype.wrangleData = function(){
     if (vis.value !== "country_class") {
         vis.displayData = vis.data;
         vis.title = "Adult (18+) " + gender + " " + condition + " Prevalence (%)";
-        instructions = " ";
     } else {
-        vis.displayData = { };
         vis.title = " ";
-        instructions = "Please select a diabetes or obesity track"
     }
 
     // Add title
@@ -204,21 +201,11 @@ LineChart.prototype.wrangleData = function(){
         .attr("text-anchor", "center")
         .attr("y", -20)
         .attr("font-size", 12)
+        .attr("opacity", 0.0)
         .transition()
         .duration(transitionDuration)
         .attr("opacity", 1.0)
         .text(vis.title);
-
-    // Instruction Box
-    vis.svg.append("text")
-        .attr("class", "instructionbox")
-        .attr("x", vis.width / 3)
-        .attr("y", 100)
-        .attr("font-size", 12)
-        .transition()
-        .duration(transitionDuration)
-        .attr("opacity", 1.0)
-        .text(instructions);
 
     // Update the visualization
     vis.updateVis();
