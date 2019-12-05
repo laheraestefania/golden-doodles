@@ -154,3 +154,7 @@ html {
     text-decoration: none;
     background-color: #28345d;
 }
+
+#myNavBar #selected-feature {
+    margin-top: 10px;
+}
