@@ -84,6 +84,9 @@ div.tooltip {
 #micronutrient-selection-button {
     margin: 20px;
 }
+#references, #global-resources, #local-resources {
+    margin-left: 40px;
+}
 
 p {
     font-family: 'Lato', sans-serif;
