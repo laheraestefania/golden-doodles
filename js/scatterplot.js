@@ -163,25 +163,25 @@ Scatterplot.prototype.wrangleData = function(){
     //     vis.wrangleData();
     //     document.getElementById('#scatterplot-play-button').style.visibility = "block";
     // });
-    // //slider version
-    // d3.selectAll("input").on("change", function() {
-    //     vis.my_param = this.value;
-    //     vis.x_param = "GDP_capita_PPP_" + vis.my_param;
-    //     vis.y_param = "u5mr_" + vis.my_param;
-    //     vis.svg.select('.title')
-    //         .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
-    //
-    //     vis.displayData.forEach(function(d){
-    //
-    //         if (isNaN(d[vis.x_param])){
-    //             d[vis.x_param] = 0;
-    //         }
-    //         if (isNaN(d[vis.y_param])){
-    //             d[vis.y_param] = 0;
-    //         }
-    //     });
-    //     vis.updateVis();
-    // });
+    //slider version
+    d3.selectAll("input").on("change", function() {
+        vis.my_param = this.value;
+        vis.x_param = "GDP_capita_PPP_" + vis.my_param;
+        vis.y_param = "u5mr_" + vis.my_param;
+        vis.svg.select('.title')
+            .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
+
+        vis.displayData.forEach(function(d){
+
+            if (isNaN(d[vis.x_param])){
+                d[vis.x_param] = 0;
+            }
+            if (isNaN(d[vis.y_param])){
+                d[vis.y_param] = 0;
+            }
+        });
+        vis.updateVis();
+    });
 
     vis.displayData.forEach(function(d){
 
@@ -285,6 +285,10 @@ Scatterplot.prototype.animateScatterplot = function(my_index){
                 d[vis.y_param] = 0;
             }
         });
+
+        // d3.selectAll("input").value(vis.my_param);
+        $('#slider').val(vis.my_param);
+        $('#slider').trigger('change');
 
         // setTimeout(vis.updateVis() , 50000);
         vis.updateVis();
