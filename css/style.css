@@ -84,7 +84,9 @@ div.tooltip {
 #micronutrient-selection-button {
     margin: 20px;
 }
-#references, #global-resources, #local-resources, #scatterplot-slider, #bubble-radio-div, #bubble-map-radio {
+
+#references, #global-resources, #local-resources,
+#scatterplot-slider, #bubble-radio-div, #bubble-map-radio, #first-avatar {
     margin-left: 40px;
 }
 
