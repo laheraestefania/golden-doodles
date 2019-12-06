@@ -30,7 +30,7 @@ We include the following standard files for Github repositories:
 ### Interface Features
 We hope that all features are sufficiently clear, but just in case, we provide 
 here an overview of the main features in our website.
-- 
+- ...
  
 ### Links
 - Our website can be found [here](https://laheraestefania.github.io/golden-doodles/).
