@@ -74,7 +74,7 @@ ChoroplethCategorical.prototype.initVis = function() {
         .html(function(d) {
             let id = d["id"];
             if (vis.data[id]) {
-                let s = vis.data[id]["country"] + "<br>Malnutrition status:";
+                let s = vis.data[id]["country"] + "<br>Malnutrition status: ";
                 if (vis.displayData[id]) {
                     s+= vis.displayData[id];
                 }

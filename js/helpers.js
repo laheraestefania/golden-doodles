@@ -1,8 +1,8 @@
 var transitionDuration = 1000;
 var noDataColor = "#999999";
 
-var mostColor = "#ced4ea";
-var leastColor = "#28345d";
+var mostColor = "#28345d";
+var leastColor = "#ced4ea";
 
 var categorical = new Set(["iso3", "country", "region", "subregion",
         "child_overweight_plan", "fbdg", "overweight_adults_adoles_plan", "sugar_tax",
@@ -18,7 +18,7 @@ var catColorDomain = {"country_class":[
         "experiencing three forms of malnutrition"]};
 
 // main color scheme: https://visme.co/blog/website-color-schemes/
-var sequentialInterpolator = d3.interpolateRgb("#ced4ea", "#28345d");
+var sequentialInterpolator = d3.interpolateRgb(leastColor, mostColor);
 var lightBlue = "#c5cbe3";
 var darkBlue = "#4056A1";
 var mainRed = "#f13c20";
