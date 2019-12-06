@@ -149,7 +149,28 @@ Scatterplot.prototype.wrangleData = function(){
     //     vis.updateVis();
     // });
 
-    d3.select('#scatterplot-play-button').on("click", function(d){ vis.animateScatterplot();});
+    // d3.select('#scatterplot-play-button').on("click", function(d){
+    //     vis.arrayIndex=0;
+    //     vis.animateScatterplot(vis.arrayIndex);});
+
+    d3.selectAll("input").on("change", function() {
+        vis.my_param = this.value;
+        vis.x_param = "GDP_capita_PPP_" + vis.my_param;
+        vis.y_param = "u5mr_" + vis.my_param;
+        vis.svg.select('.title')
+            .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
+
+        vis.displayData.forEach(function(d){
+
+            if (isNaN(d[vis.x_param])){
+                d[vis.x_param] = 0;
+            }
+            if (isNaN(d[vis.y_param])){
+                d[vis.y_param] = 0;
+            }
+        });
+        vis.updateVis();
+    });
 
     vis.displayData.forEach(function(d){
 
@@ -297,35 +318,46 @@ Scatterplot.prototype.addLegend = function () {
         .attr("opacity", 1.0);
 };
 
-Scatterplot.prototype.animateScatterplot = function(){
-    vis = this;
-    vis.years = ["2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009",
-                 "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"];
-
-    vis.years.forEach(function(year, index){
-    // for (var i = 0; i < vis.years.length; i++){
-        vis.my_param = year;
-        vis.x_param = "GDP_capita_PPP_" + vis.my_param;
-        vis.y_param = "u5mr_" + vis.my_param;
-        vis.svg.select('.title')
-            .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
-
-        vis.displayData.forEach(function(d){
-
-            if (isNaN(d[vis.x_param])){
-                d[vis.x_param] = 0;
-            }
-            if (isNaN(d[vis.y_param])){
-                d[vis.y_param] = 0;
-            }
-        });
-
-        // setTimeout(vis.updateVis() , 50000);
-        vis.updateVis();
-        // myVar = setTimeout(vis.animateScatterplot(), 5000 * index);
-        // clearTimeout(myVar);
-
-    })
-
-
-};
+// Scatterplot.prototype.animateScatterplot = function(my_index){
+// // Scatterplot.prototype.animateScatterplot = async function(){
+//     vis = this;
+//     vis.years = ["2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009",
+//                  "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"];
+//
+//     // vis.years.forEach(function(year, index){
+//     for (var i = 0; i < vis.years.length; i++){
+//         // await
+//         setTimeout(function(){
+//         // vis.my_param = vis.years[i];
+//         // vis.my_param = year;
+//         vis.my_param = vis.years[my_index];
+//         vis.x_param = "GDP_capita_PPP_" + vis.my_param;
+//         vis.y_param = "u5mr_" + vis.my_param;
+//         vis.svg.select('.title')
+//             .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
+//
+//         vis.displayData.forEach(function(d){
+//
+//             if (isNaN(d[vis.x_param])){
+//                 d[vis.x_param] = 0;
+//             }
+//             if (isNaN(d[vis.y_param])){
+//                 d[vis.y_param] = 0;
+//             }
+//         });
+//
+//         // setTimeout(vis.updateVis() , 50000);
+//         vis.updateVis();
+//         // myVar = setTimeout(vis.animateScatterplot(), 5000 * index);
+//
+//
+//         if (my_index < vis.years.length - 1){
+//             vis.animateScatterplot(my_index + 1);
+//         }
+//
+//     }, 1000 * i);
+//
+//     // clearTimeout(myVar);
+//
+// }
+// };
