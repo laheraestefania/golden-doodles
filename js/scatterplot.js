@@ -104,6 +104,16 @@ Scatterplot.prototype.initVis = function(){
     // add legend for population sizes
     vis.addLegend();
 
+    // create tooltip using d3 library
+    vis.tooltip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-8, 0])
+        .html(function(d){
+            return "Country: " + d.country +
+                "</br>  GDP Per Capita: " + d[vis.x_param] +
+                "</br>  Under 5 Mortality Rate: " + d[vis.y_param] ; });
+    vis.svg.call(vis.tooltip);
+
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 }
@@ -189,16 +199,6 @@ Scatterplot.prototype.updateVis = function(){
 
     vis.x.domain([0, d3.max(vis.displayData, function(d) {return d[vis.x_param]; })]);
     vis.y.domain([0, d3.max(vis.displayData, function(d) {return d[vis.y_param]; })]);
-
-    // create tooltip using d3 library
-    vis.tooltip = d3.tip()
-        .attr("class", "d3-tip")
-        .offset([-8, 0])
-        .html(function(d){
-            return "Country: " + d.country +
-                "</br>  GDP Per Capita: " + d[vis.x_param] +
-                "</br>  Under 5 Mortality Rate: " + d[vis.y_param] ; });
-    vis.svg.call(vis.tooltip);
 
     var temp = vis.svg.selectAll(".countries")
         .data(vis.displayData, function(d){return d.id;});
