@@ -164,4 +164,25 @@ html {
 
 #myNavBar #selected-feature {
     margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 1100px) {
+    #myNavBar li {
+        font-size: 10px;
+    }
+
+}
+
+@media (max-width: 950px) {
+    #myNavBar li {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 830px) {
+    #myNavBar #selected-feature {
+        margin-top: 2px;
+        margin-bottom: 10px;
+    }
 }
