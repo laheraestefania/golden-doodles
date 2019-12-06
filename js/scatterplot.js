@@ -130,29 +130,19 @@ Scatterplot.prototype.wrangleData = function(){
         return b.population_2017 - a.population_2017;
     });
 
-    // d3.select("#scatterplot-year").on("change", function() {
-    //     vis.my_param = d3.select("#scatterplot-year").property("value");
-    //     vis.x_param = "GDP_capita_PPP_" + vis.my_param;
-    //     vis.y_param = "u5mr_" + vis.my_param;
-    //     vis.svg.select('.title')
-    //         .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
-    //
-    //     vis.displayData.forEach(function(d){
-    //
-    //         if (isNaN(d[vis.x_param])){
-    //             d[vis.x_param] = 0;
-    //         }
-    //         if (isNaN(d[vis.y_param])){
-    //             d[vis.y_param] = 0;
-    //         }
-    //     });
-    //     vis.updateVis();
+    d3.select('#scatterplot-play-button').on("click", function(){
+        vis.arrayIndex = 0;
+        vis.animateScatterplot(vis.arrayIndex);
+        // this.disabled = true;
+        $('#scatterplot-play-button').prop("disabled", true);
+        setTimeout( function(){$('#scatterplot-play-button').removeAttr("disabled")}, 20000);
+        this.value = "Replay";
+    });
+
+    // d3.select('#scatterplot-reset-button').on("click", function(){
+    //     vis.wrangleData();
+    //     document.getElementById('#scatterplot-play-button').style.visibility = "block";
     // });
-
-    d3.select('#scatterplot-play-button').on("click", function(d){
-        vis.arrayIndex=0;
-        vis.animateScatterplot(vis.arrayIndex);});
-
     // //slider version
     // d3.selectAll("input").on("change", function() {
     //     vis.my_param = this.value;
@@ -233,8 +223,6 @@ Scatterplot.prototype.updateVis = function(){
 
     temp.exit().remove();
 
-    console.log("do i even get here", vis.my_param);
-
     // Call axis functions with the new domain
     vis.svg.select(".x-axis").transition(vis.transitionDuration).call(vis.xAxis);
     vis.svg.select(".y-axis").transition(vis.transitionDuration).call(vis.yAxis);
@@ -254,8 +242,7 @@ Scatterplot.prototype.addLegend = function () {
     var xLabel = vis.width + 60;
     var yCircle = vis.margin.bottom * 4;
 
-    vis.svg
-        .selectAll("legend")
+    vis.svg.selectAll("legend")
         .data(valuesToShow)
         .enter()
         .append("circle")
@@ -271,8 +258,7 @@ Scatterplot.prototype.addLegend = function () {
         .attr("opacity", 1.0);
 
 // Add legend: segments
-    vis.svg
-        .selectAll("legend")
+    vis.svg.selectAll("legend")
         .data(valuesToShow)
         .enter()
         .append("line")
@@ -289,8 +275,7 @@ Scatterplot.prototype.addLegend = function () {
         .attr("opacity", 1.0);
 
 // Add legend: labels
-    vis.svg
-        .selectAll("legend")
+    vis.svg.selectAll("legend")
         .data(valuesToShow)
         .enter()
         .append("text")
@@ -305,8 +290,7 @@ Scatterplot.prototype.addLegend = function () {
         .duration(vis.transitionDuration)
         .attr("opacity", 1.0);
 
-    vis.svg
-        .append("text")
+    vis.svg.append("text")
         .attr("class", "bubble-legend")
         .style("font-size", 10)
         .attr('alignment-baseline', 'middle')
@@ -322,7 +306,7 @@ Scatterplot.prototype.addLegend = function () {
 Scatterplot.prototype.animateScatterplot = function(my_index){
 // Scatterplot.prototype.animateScatterplot = async function(){
     vis = this;
-    vis.years = ["2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009",
+    vis.years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009",
                  "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"];
 
     // vis.years.forEach(function(year, index){
