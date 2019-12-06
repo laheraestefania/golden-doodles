@@ -137,7 +137,8 @@ function createVis() {
 
     var feature = $("#selected-feature").val();
     var choroplethBubble = new ChoroplethBubble("map-bubble-hybrid", dataByCountry, topology, feature);
-    var game = new ChoroplethGame("game", dataByCountry, topology, feature);
+    var game = new ChoroplethGame("map-game", dataByCountry, topology, feature);
+    addMapGameLegend();
     var scatterplot = new Scatterplot("scatterplot", dataByCountry);
     vis.histogram = new Histogram("histogram", allData, MyEventHandler);
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
@@ -160,8 +161,9 @@ function createVis() {
     $("#selected-feature").on("change", function () {
         var feature = $("#selected-feature").val();
         $("#map-bubble-hybrid").html("");
-        $("#game").html("");
-        var game = new ChoroplethGame("game", dataByCountry, topology, feature);
+        $("#map-game").html("");
+        $("#map-bubble-hybrid-legend").html("");
+        var game = new ChoroplethGame("map-game", dataByCountry, topology, feature);
         var choroplethBubble = new ChoroplethBubble("map-bubble-hybrid", dataByCountry, topology, feature);
 
     });
@@ -183,3 +185,25 @@ function updateHistogram()  {
 
     vis.histogram.updateVis();
 };
+
+function addMapGameLegend () {
+    let legendGroup = d3.select("#map-game-legend").append("svg")
+        .attr("class", "game-svg-legend")
+        .attr("width", d3.max([$("#map-game-legend").width(), 100]))
+        .attr("height", 200)
+        .append("g")
+        .attr("class", "legendSequential")
+        .attr("transform", "translate(0, 100)");
+
+    let legendSequential = d3.legendColor()
+        .shapeWidth(15)
+        .shapeHeight(15)
+        .cells(2)
+        .ascending(true)
+        .orient("vertical")
+        .scale(d3.scaleOrdinal()
+            .domain(["most", "least"])
+            .range([mostColor, leastColor]));
+
+    legendGroup.call(legendSequential);
+}

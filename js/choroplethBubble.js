@@ -77,7 +77,7 @@ ChoroplethBubble = function(_parentElement, _data, topology, feature){
 ChoroplethBubble.prototype.initVis = function() {
     var vis = this;
 
-    vis.margin = {top: 50, right: 50, bottom: 50, left: 50};
+    vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
         vis.height = 600 - vis.margin.top - vis.margin.bottom;
@@ -114,9 +114,13 @@ ChoroplethBubble.prototype.initVis = function() {
         d3.max(Object.values(vis.data), function (d) {return d[vis.feature]})
     ]);
 
-    vis.legendGroup = d3.select(".hybrid-svg").append("g")
+    vis.legendSvg = d3.select("#" + vis.parentElement + "-legend").append("svg")
+        .attr("width", d3.max([$("#" + vis.parentElement + "-legend").width(), 150]))
+        .attr("height", vis.height);
+
+    vis.legendGroup = vis.legendSvg.append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width) + ", 30)");
+        .attr("transform", "translate(0, 100)");
 
     vis.legendSequential = d3.legendColor()
         .shapeWidth(5)
@@ -528,12 +532,14 @@ ChoroplethBubble.prototype.addLegend = function () {
     // var xCircle = 230
     // var xLabel = 380
     // var yCircle = 330
-    var xCircle = vis.width - 50;
-    var xLabel = vis.width;
-    var yCircle = vis.height; // - vis.margin.bottom
+    // var xCircle = vis.width - 50;
+    // var xLabel = vis.width;
+    // var yCircle = vis.height;
+    var xCircle = 40;
+    var xLabel = 80;
+    var yCircle = vis.height - 100;
 
-    vis.bubbleLegendGroup = vis.parentElt.select("svg")
-        .append("g")
+    vis.bubbleLegendGroup = vis.legendSvg.append("g")
         .attr("class", "bubble-legend-group");
 
     vis.legendCircles = vis.bubbleLegendGroup.selectAll(".bubble-legend-circle")

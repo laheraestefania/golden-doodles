@@ -11,8 +11,8 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.feature = feature;
     this.mostCount = 0;
     this.leastCount = 0;
-    this.mostColor = "#28345d";
-    this.leastColor = "#ced4ea";
+    // this.mostColor = "#28345d";
+    // this.leastColor = "#ced4ea";
     this.state = "most";
     // store the "answers" -which consume the most and least
     this.most = new Set();
@@ -65,23 +65,6 @@ ChoroplethGame.prototype.initVis = function() {
         });
 
     vis.parentElt.select(".game-svg").call(vis.zoom);
-    // vis.svg.call(vis.zoom);
-
-    vis.legendGroup = vis.parentElt.select("svg").append("g")
-        .attr("class", "legendSequential")
-        .attr("transform", "translate(" + (vis.width - 80) + ", 10)");
-
-    vis.legendSequential = d3.legendColor()
-        .shapeWidth(15)
-        .shapeHeight(15)
-        .cells(2)
-        .ascending(true)
-        .orient("vertical")
-        .scale(d3.scaleOrdinal()
-            .domain(["most", "least"])
-            .range(["rgb(18,49,103)", "rgb(227,237,247)"]));
-
-    vis.legendGroup.call(vis.legendSequential);
 
 
     $("#map-game-feature").hide()
@@ -128,7 +111,7 @@ ChoroplethGame.prototype.initVis = function() {
         .on("click", function (d) {
             if (vis.state === "most") {
                 if (d3.select(this).attr("fill") === noDataColor && vis.mostCount < vis.guessLimit) {
-                    d3.select(this).attr("fill", vis.mostColor);
+                    d3.select(this).attr("fill", mostColor);
                     vis.mostCount += 1;
                     vis.guessedMost.add(d["id"]);
                     if (vis.mostCount === vis.guessLimit) {
@@ -137,7 +120,7 @@ ChoroplethGame.prototype.initVis = function() {
                             $(this).html("<p>Now click on the " + vis.guessLimit + " countries you think consume the least!</p>")
                         }).fadeIn(transitionDuration);
                     }
-                } else if (d3.select(this).attr("fill") === vis.mostColor) {
+                } else if (d3.select(this).attr("fill") === mostColor) {
                     vis.mostCount -= 1;
                     vis.guessedMost.delete(d["id"]);
                     d3.select(this).attr("fill", noDataColor);
@@ -145,7 +128,7 @@ ChoroplethGame.prototype.initVis = function() {
                 // Otherwise, do nothing
             } else if (vis.state === "least") { // mode === "least
                 if (d3.select(this).attr("fill") === noDataColor && vis.leastCount < vis.guessLimit) {
-                    d3.select(this).attr("fill", vis.leastColor);
+                    d3.select(this).attr("fill", leastColor);
                     vis.leastCount += 1;
                     vis.guessedLeast.add(d["id"]);
                     if (vis.leastCount === vis.guessLimit) {
@@ -155,7 +138,7 @@ ChoroplethGame.prototype.initVis = function() {
                             vis.wrangleData();
                         }, 1000);
                     }
-                } else if (d3.select(this).attr("fill") === vis.leastColor) {
+                } else if (d3.select(this).attr("fill") === leastColor) {
                     vis.leastCount -= 1;
                     vis.guessedLeast.delete(d["id"]);
                     d3.select(this).attr("fill", noDataColor);
@@ -195,9 +178,9 @@ ChoroplethGame.prototype.showResults = function () {
                     vis.correct.add(id);
                 }
                 if (vis.most.has(id)) {
-                    return vis.mostColor;
+                    return mostColor;
                 } else {
-                    return vis.leastColor;
+                    return leastColor;
                 }
             } else {
                 return noDataColor;

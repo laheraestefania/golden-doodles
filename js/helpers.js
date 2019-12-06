@@ -1,6 +1,9 @@
 var transitionDuration = 1000;
 var noDataColor = "#999999";
 
+var mostColor = "#ced4ea";
+var leastColor = "#28345d";
+
 var catColorScale = {"country_class": [noDataColor, "#a3cd61", "#f5bdbc", "#ed5f59", "#971c13"]};
 var catColorDomain = {"country_class":[
         "No data",
