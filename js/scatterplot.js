@@ -37,13 +37,16 @@ Scatterplot.prototype.initVis = function(){
 
     vis.transitionDuration = 800;
 
+    vis.determineAxis();
     // Scales and axes
     // x-axis == GDP
     vis.x = d3.scaleLinear()
+        .domain([0, vis.xUpper])
         .range([0, vis.width]);
 
     // y-axis == Under 5 Mortality RAte
     vis.y = d3.scaleLinear()
+        .domain([0, vis.yUpper])
         .range([vis.height, 0]);
 
     vis.xAxis = d3.axisBottom()
@@ -58,6 +61,10 @@ Scatterplot.prototype.initVis = function(){
 
     vis.svg.append("g")
         .attr("class", "y-axis axis");
+
+    // Call axis functions
+    vis.svg.select(".x-axis").call(vis.xAxis);
+    vis.svg.select(".y-axis").call(vis.yAxis);
 
     // graph title
     vis.svg.append("text").attr("class", "title")
@@ -74,7 +81,7 @@ Scatterplot.prototype.initVis = function(){
         .attr("fill", "black")
         .text('Gross Domestic Product');
 
-    // // y-axis label
+    // y-axis label
     vis.svg.append("text")
         .text("Under 5 Mortality Rate")
         .attr("fill", "black")
@@ -82,7 +89,7 @@ Scatterplot.prototype.initVis = function(){
         .attr("y", - vis.margin.left/2)
         .attr("transform", "rotate(-90)");
 
-
+    // Color Scheme and legend for regions of the world
     vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
     vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
 
@@ -96,6 +103,9 @@ Scatterplot.prototype.initVis = function(){
         .orient("vertical")
         .scale(vis.colorPalette);
 
+    // add legend
+    vis.legendGroup.call(vis.legendSequential);
+
     // scale function for population circles
     vis.populationScale = d3.scaleSqrt()
         .domain(d3.extent(vis.displayData, function(d) {return d.population_2017;}))
@@ -103,6 +113,16 @@ Scatterplot.prototype.initVis = function(){
 
     // add legend for population sizes
     vis.addLegend();
+
+    // create tooltip using d3 library
+    vis.tooltip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-8, 0])
+        .html(function(d){
+            return "Country: " + d.country +
+                "</br>  GDP Per Capita: " + d[vis.x_param] +
+                "</br>  Under 5 Mortality Rate: " + d[vis.y_param] ; });
+    vis.svg.call(vis.tooltip);
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
@@ -143,25 +163,25 @@ Scatterplot.prototype.wrangleData = function(){
     //     vis.wrangleData();
     //     document.getElementById('#scatterplot-play-button').style.visibility = "block";
     // });
-    // //slider version
-    // d3.selectAll("input").on("change", function() {
-    //     vis.my_param = this.value;
-    //     vis.x_param = "GDP_capita_PPP_" + vis.my_param;
-    //     vis.y_param = "u5mr_" + vis.my_param;
-    //     vis.svg.select('.title')
-    //         .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
-    //
-    //     vis.displayData.forEach(function(d){
-    //
-    //         if (isNaN(d[vis.x_param])){
-    //             d[vis.x_param] = 0;
-    //         }
-    //         if (isNaN(d[vis.y_param])){
-    //             d[vis.y_param] = 0;
-    //         }
-    //     });
-    //     vis.updateVis();
-    // });
+    //slider version
+    d3.selectAll("input").on("change", function() {
+        vis.my_param = this.value;
+        vis.x_param = "GDP_capita_PPP_" + vis.my_param;
+        vis.y_param = "u5mr_" + vis.my_param;
+        vis.svg.select('.title')
+            .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
+
+        vis.displayData.forEach(function(d){
+
+            if (isNaN(d[vis.x_param])){
+                d[vis.x_param] = 0;
+            }
+            if (isNaN(d[vis.y_param])){
+                d[vis.y_param] = 0;
+            }
+        });
+        vis.updateVis();
+    });
 
     vis.displayData.forEach(function(d){
 
@@ -182,23 +202,8 @@ Scatterplot.prototype.wrangleData = function(){
 /*
  * The drawing function - should use the D3 update sequence (enter, update, exit)
  */
-
 Scatterplot.prototype.updateVis = function(){
     var vis = this;
-
-
-    vis.x.domain([0, d3.max(vis.displayData, function(d) {return d[vis.x_param]; })]);
-    vis.y.domain([0, d3.max(vis.displayData, function(d) {return d[vis.y_param]; })]);
-
-    // create tooltip using d3 library
-    vis.tooltip = d3.tip()
-        .attr("class", "d3-tip")
-        .offset([-8, 0])
-        .html(function(d){
-            return "Country: " + d.country +
-                "</br>  GDP Per Capita: " + d[vis.x_param] +
-                "</br>  Under 5 Mortality Rate: " + d[vis.y_param] ; });
-    vis.svg.call(vis.tooltip);
 
     var temp = vis.svg.selectAll(".countries")
         .data(vis.displayData, function(d){return d.id;});
@@ -222,16 +227,83 @@ Scatterplot.prototype.updateVis = function(){
         .attr("cy", function(d){ return vis.y(d[vis.y_param]); });
 
     temp.exit().remove();
-
-    // Call axis functions with the new domain
-    vis.svg.select(".x-axis").transition(vis.transitionDuration).call(vis.xAxis);
-    vis.svg.select(".y-axis").transition(vis.transitionDuration).call(vis.yAxis);
-
-
-    vis.legendGroup.call(vis.legendSequential);
-
 }
 
+/*
+ * function for determining upper limits of x and y axis
+ */
+Scatterplot.prototype.determineAxis = function (){
+    var vis = this;
+
+    vis.years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009",
+        "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"];
+
+    // Max values for x and y axis
+    vis.xUpper = 0;
+    vis.yUpper = 0;
+
+    vis.years.forEach(function(year){
+        vis.my_param = year;
+        vis.x_param = "GDP_capita_PPP_" + vis.my_param;
+        vis.y_param = "u5mr_" + vis.my_param;
+
+        vis.xUpper = Math.max(vis.xUpper, d3.max(vis.displayData, function(d) {return d[vis.x_param]; }));
+        vis.yUpper = Math.max(vis.yUpper, d3.max(vis.displayData, function(d) {return d[vis.y_param]; }));
+    });
+
+
+};
+
+
+/*
+ * Function for determining animating scatterplot through the years
+ */
+Scatterplot.prototype.animateScatterplot = function(my_index){
+// Scatterplot.prototype.animateScatterplot = async function(){
+    var vis = this;
+    vis.years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009",
+        "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"];
+
+    // vis.years.forEach(function(year, index){
+    // for (var i = 0; i < vis.years.length; i++){
+    // await
+    setTimeout(function(){
+        // vis.my_param = vis.years[i];
+        // vis.my_param = year;
+        vis.my_param = vis.years[my_index];
+        vis.x_param = "GDP_capita_PPP_" + vis.my_param;
+        vis.y_param = "u5mr_" + vis.my_param;
+        vis.svg.select('.title')
+            .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
+
+        vis.displayData.forEach(function(d){
+
+            if (isNaN(d[vis.x_param])){
+                d[vis.x_param] = 0;
+            }
+            if (isNaN(d[vis.y_param])){
+                d[vis.y_param] = 0;
+            }
+        });
+
+        // d3.selectAll("input").value(vis.my_param);
+        $('#slider').val(vis.my_param);
+        $('#slider').trigger('change');
+
+        // setTimeout(vis.updateVis() , 50000);
+        vis.updateVis();
+        // myVar = setTimeout(vis.animateScatterplot(), 5000 * index);
+
+
+        if (my_index < vis.years.length - 1){
+            vis.animateScatterplot(my_index + 1);
+        }
+
+    }, 1000);
+
+    // clearTimeout(myVar);
+
+};
 
 // Source: https://www.d3-graph-gallery.com/graph/bubble_legend.html
 // Also used in choroplethBubble.js file as well
@@ -257,7 +329,7 @@ Scatterplot.prototype.addLegend = function () {
         .duration(vis.transitionDuration)
         .attr("opacity", 1.0);
 
-// Add legend: segments
+    // Add legend: segments
     vis.svg.selectAll("legend")
         .data(valuesToShow)
         .enter()
@@ -274,7 +346,7 @@ Scatterplot.prototype.addLegend = function () {
         .duration(vis.transitionDuration)
         .attr("opacity", 1.0);
 
-// Add legend: labels
+    // Add legend: labels
     vis.svg.selectAll("legend")
         .data(valuesToShow)
         .enter()
@@ -301,47 +373,4 @@ Scatterplot.prototype.addLegend = function () {
         .transition()
         .duration(vis.transitionDuration)
         .attr("opacity", 1.0);
-};
-
-Scatterplot.prototype.animateScatterplot = function(my_index){
-// Scatterplot.prototype.animateScatterplot = async function(){
-    vis = this;
-    vis.years = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009",
-                 "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"];
-
-    // vis.years.forEach(function(year, index){
-    // for (var i = 0; i < vis.years.length; i++){
-        // await
-        setTimeout(function(){
-        // vis.my_param = vis.years[i];
-        // vis.my_param = year;
-        vis.my_param = vis.years[my_index];
-        vis.x_param = "GDP_capita_PPP_" + vis.my_param;
-        vis.y_param = "u5mr_" + vis.my_param;
-        vis.svg.select('.title')
-            .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
-
-        vis.displayData.forEach(function(d){
-
-            if (isNaN(d[vis.x_param])){
-                d[vis.x_param] = 0;
-            }
-            if (isNaN(d[vis.y_param])){
-                d[vis.y_param] = 0;
-            }
-        });
-
-        // setTimeout(vis.updateVis() , 50000);
-        vis.updateVis();
-        // myVar = setTimeout(vis.animateScatterplot(), 5000 * index);
-
-
-        if (my_index < vis.years.length - 1){
-            vis.animateScatterplot(my_index + 1);
-        }
-
-    }, 1000);
-
-    // clearTimeout(myVar);
-
 };
