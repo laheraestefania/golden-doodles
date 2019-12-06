@@ -47,10 +47,27 @@ ChoroplethGame.prototype.initVis = function() {
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
 
+    let centerLong = 200;
+    let centerLat = 40;
+    let projectionScale = 80;
+    if (vis.width > 700) {
+        console.log("bigger than 700");
+        centerLong = 50;
+        projectionScale = 110;
+    } else if (vis.width > 600) {
+        centerLong = 100;
+        projectionScale = 95;
+    } else if (vis.width > 500) {
+        centerLong = 150;
+        projectionScale = 85;
+    }
+
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([180, 60])
-        .scale(Math.min(vis.width/ Math.PI / 2, vis.height/ Math.PI / 2) - 5)
+    // .center([180, 60])
+        .center([centerLong, centerLat])
+        // .scale(vis.width/ Math.PI / 2 - 5)
+        .scale(projectionScale)
         .rotate([0, 0]);
 
     // D3 geo path generator (maps geodata to SVG paths)
