@@ -35,7 +35,7 @@ ChoroplethGame.prototype.initVis = function() {
     vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-        vis.height = 600 - vis.margin.top - vis.margin.bottom;
+        vis.height = 500 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.parentElt = d3.select("#" + vis.parentElement);
@@ -49,9 +49,9 @@ ChoroplethGame.prototype.initVis = function() {
 
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([50, 60])                 // Where to center the map in degrees
-        .rotate([0, 0])                // Map-rotation
-        .scale((vis.width - 10) / 2 / Math.PI);
+        .center([180, 60])
+        .scale(Math.min(vis.width/ Math.PI / 2, vis.height/ Math.PI / 2) - 5)
+        .rotate([0, 0]);
 
     // D3 geo path generator (maps geodata to SVG paths)
     vis.path = d3.geoPath()

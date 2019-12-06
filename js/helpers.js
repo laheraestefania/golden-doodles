@@ -12,6 +12,7 @@ var catColorDomain = {"country_class":[
         "experiencing two forms of malnutrition",
         "experiencing three forms of malnutrition"]};
 
+// main color scheme: https://visme.co/blog/website-color-schemes/
 var sequentialInterpolator = d3.interpolateRgb("#ced4ea", "#28345d");
 var lightBlue = "#c5cbe3";
 var darkBlue = "#4056A1";

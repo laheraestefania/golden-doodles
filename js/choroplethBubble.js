@@ -80,7 +80,7 @@ ChoroplethBubble.prototype.initVis = function() {
     vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-        vis.height = 600 - vis.margin.top - vis.margin.bottom;
+        vis.height = 500 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -93,9 +93,9 @@ ChoroplethBubble.prototype.initVis = function() {
 
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([150, 0])                 // Where to center the map in degrees
-        .scale(80)                       // Zoom-level
-        .rotate([0, 0]);                   // Map-rotation
+        .center([180, 60])
+        .scale(Math.min(vis.width/ Math.PI / 2, vis.height/ Math.PI / 2) - 5)
+        .rotate([0, 0]);
 
     // D3 geo path generator (maps geodata to SVG paths)
     vis.path = d3.geoPath()
