@@ -4,6 +4,11 @@ var noDataColor = "#999999";
 var mostColor = "#ced4ea";
 var leastColor = "#28345d";
 
+var categorical = new Set(["iso3", "country", "region", "subregion",
+        "child_overweight_plan", "fbdg", "overweight_adults_adoles_plan", "sugar_tax",
+        "sodium_plan", "wasting_plan", "country_class", "adult_fem_diabetes_track", "adult_fem_obesity_track",
+        "adult_mal_diabetes_track", "adult_mal_obesity_track", "burden_text"]);
+
 var catColorScale = {"country_class": [noDataColor, "#a3cd61", "#f5bdbc", "#ed5f59", "#971c13"]};
 var catColorDomain = {"country_class":[
         "No data",
