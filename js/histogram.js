@@ -211,8 +211,6 @@ Histogram.prototype.updateVis = function(){
         vis.bars.enter()
         .append("rect")
         .attr("x", 1)
-        .on('mouseover', tool_tip.show )
-        .on('mouseout', tool_tip.hide)
         .merge(vis.bars)
         .transition()
         .duration(1000)
