@@ -30,12 +30,12 @@ Histogram.prototype.initVis = function(){
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
-        // .attr("width", vis.width + vis.margin.left + vis.margin.right)
-        // .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
-        .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", "0 0 " + (vis.width + vis.margin.left + vis.margin.right) + " "
-            + (vis.height + vis.margin.top + vis.margin.bottom))
-        .classed("svg-content", true)
+        .attr("width", vis.width + vis.margin.left + vis.margin.right)
+        .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+        // .attr("preserveAspectRatio", "xMinYMin meet")
+        // .attr("viewBox", "0 0 " + (vis.width + vis.margin.left + vis.margin.right) + " "
+        //     + (vis.height + vis.margin.top + vis.margin.bottom))
+        // .classed("svg-content", true)
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
