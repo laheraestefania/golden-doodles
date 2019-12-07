@@ -194,3 +194,28 @@ html {
         margin-bottom: 10px;
     }
 }
+
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 181px;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.svg-container-hist {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 200px;
+    vertical-align: top;
+    overflow: hidden;
+}

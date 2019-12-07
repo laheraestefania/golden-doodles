@@ -25,12 +25,17 @@ Histogram.prototype.initVis = function(){
     vis.margin = { top: 50, right: 50, bottom: 50, left: 100 };
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-    vis.height = $("#" + vis.parentElement).height() - vis.margin.top - vis.margin.bottom;
+    // vis.height = $("#" + vis.parentElement).height() - vis.margin.top - vis.margin.bottom;
+        vis.height = 180 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
-        .attr("width", vis.width + vis.margin.left + vis.margin.right)
-        .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+        // .attr("width", vis.width + vis.margin.left + vis.margin.right)
+        // .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 " + (vis.width + vis.margin.left + vis.margin.right) + " "
+            + (vis.height + vis.margin.top + vis.margin.bottom))
+        .classed("svg-content", true)
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
@@ -62,7 +67,7 @@ Histogram.prototype.updateVis = function(){
         .extent([[0,0],[vis.width, vis.height]])
         .on("brush", function(){
             // User just selected a specific region
-            // console.log("brushing");
+            console.log("brushing");
             vis.currentBrushRegion = d3.event.selection;
             vis.currentBrushRegion = vis.currentBrushRegion.map(vis.x.invert);
 

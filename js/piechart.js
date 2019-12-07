@@ -21,17 +21,23 @@ PieChart.prototype.initVis = function(){
     //
     // vis.radius = Math.min(vis.width, vis.height) / 2.5;
 
+    vis.margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
     // adjusting this so the pie charts are all the same size because right now they are all different
-    vis.width = $("#" + vis.parentElement).width();
-    vis.height = vis.width / 2;
+    vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
+        vis.height = 200 - vis.margin.top - vis.margin.bottom;
 
     vis.radius = vis.height / 2;
 
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
-        .attr("width", vis.width)
-        .attr("height", vis.height)
+        // .attr("width", vis.width)
+        // .attr("height", vis.height)
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 " + (vis.width + vis.margin.left + vis.margin.right) + " "
+            + (vis.height + vis.margin.top + vis.margin.bottom))
+        .classed("svg-content", true)
         .append("g")
-        .attr("transform", `translate(${vis.width / 2}, ${vis.height / 2})`);
+        .attr("transform", `translate(${vis.width / 2 + vis.margin.left}, ${vis.height / 2 + vis.margin.top})`);
 
     vis.filteredData = vis.data;
 
