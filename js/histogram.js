@@ -219,7 +219,6 @@ Histogram.prototype.updateVis = function(){
         .attr("transform", function(d) { return "translate(" + vis.x(d.x0) + "," + vis.y(d.length) + ")"; })
         .attr("width", function(d) { return vis.x(d.x1) - vis.x(d.x0) -1 ; })
         .attr("height", function(d) {
-            // console.log(d.length);
             return vis.height - vis.y(d.length);
         })
         // .style("fill", "#de2d26")

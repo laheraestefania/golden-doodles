@@ -136,7 +136,7 @@ function createVis() {
     var game = new ChoroplethGame("map-game", dataByCountry, topology, feature);
     addMapGameLegend();
     var scatterplot = new Scatterplot("scatterplot", dataByCountry);
-    vis.histogram = new Histogram("histogram", allData, MyEventHandler);
+    vis.histogram = new Histogram("histogram", allData, MyEventHandler); addHistogramLegend();
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
 
     //Pie charts
@@ -202,4 +202,30 @@ function addMapGameLegend () {
             .range([mostColor, leastColor]));
 
     legendGroup.call(legendSequential);
+}
+
+function addHistogramLegend () {
+
+    let yesColor = alternateLightBlue;
+    let noColor = alternateMedBlue;
+
+    let legendGroupPie = d3.select("#pie-legend").append("svg")
+        .attr("class", "pie-svg-legend")
+        .attr("width", 100)
+        .attr("height", 100)
+        .append("g")
+        .attr("class", "legendSequential")
+        .attr("transform", "translate(40, 40)");
+
+    let legendSequential = d3.legendColor()
+        .shapeWidth(15)
+        .shapeHeight(15)
+        .cells(2)
+        .ascending(true)
+        .orient("vertical")
+        .scale(d3.scaleOrdinal()
+            .domain(["No","Yes"])
+            .range([noColor, yesColor]));
+
+    legendGroupPie.call(legendSequential);
 }
