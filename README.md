@@ -42,6 +42,10 @@ here an overview of the main features in our website.
 - ...
 
 ##### Micronutrient Estimates
+- Select a food or micronutrient from the dropdown menu in the navigation bar at the top of the webpage.
+- Hover over the map to reveal the country name, the country's region and subregion, and the country's estimated per capita intake of the selected criterion.
+- Select population to reveal a force bubble chart, in which each bubble and its size represent a country and its population.
+- The country bubbles can be clustered by region or by subregion. 
 - ...
 
 ##### Money
