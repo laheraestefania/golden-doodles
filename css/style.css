@@ -94,7 +94,7 @@ div.tooltip {
     pointer-events: none;
 }
 
-#micronutrient-selection-button {
+#micronutrient-selection-button, #scatterplot-play-button {
     margin: 20px;
 }
 
@@ -103,6 +103,7 @@ div.tooltip {
     margin-left: 40px;
 }
 
+/*CSS code for Slider taken from https://www.w3schools.com/howto/howto_js_rangeslider.asp*/
 #slider {
     -webkit-appearance: none;
     width: 30%;
