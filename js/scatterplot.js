@@ -153,7 +153,7 @@ Scatterplot.prototype.wrangleData = function(){
     });
 
     //slider for exploring the years
-    d3.selectAll("input").on("change", function() {
+    d3.select("#slider").on("change", function() {
         vis.my_param = this.value;
         vis.x_param = "GDP_capita_PPP_" + vis.my_param;
         vis.y_param = "u5mr_" + vis.my_param;
