@@ -1,9 +1,6 @@
 var transitionDuration = 1000;
 var noDataColor = "#999999";
 
-var mostColor = "#35536b";
-var leastColor = "#e7f8fa";
-
 var categorical = new Set(["iso3", "country", "region", "subregion",
         "child_overweight_plan", "fbdg", "overweight_adults_adoles_plan", "sugar_tax",
         "sodium_plan", "wasting_plan", "country_class", "adult_fem_diabetes_track", "adult_fem_obesity_track",
@@ -18,7 +15,6 @@ var catColorDomain = {"country_class":[
         "experiencing three forms of malnutrition"]};
 
 // main color scheme: https://visme.co/blog/website-color-schemes/
-var sequentialInterpolator = d3.interpolateRgb(leastColor, mostColor);
 var lightBlue = "#abd1e2";
 var medBlue = "#64a8c7";
 var darkBlue = "#35536b";
@@ -35,6 +31,10 @@ var hoverColor = "#cd728e";
 
 alternateMedBlue = "#749fa8";
 alternateLightBlue = "#cfdbcc";
+
+var mostColor = "#162742";
+var leastColor = "#d4ebf1";
+var sequentialInterpolator = d3.interpolateRgb(leastColor, mostColor);
 
 const regionNumbers = {
         "Africa": 0,
