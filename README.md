@@ -30,6 +30,30 @@ We include the following standard files for Github repositories:
 ### Interface Features
 We hope that all features are sufficiently clear, but just in case, we provide 
 here an overview of the main features in our website.
+
+##### Tracking Progress
+- Click on the nodes of the tree to expand view into regional, subregional, and country levels.
+- Select a track from the dropdown menu, which updates the tree and the accompanying line or bar chart.
+- With a diabetes or obesity track selected, hovering over the country nodes of the tree will highlight the respective country's trend line in the line chart.
+- Hover over a trend line within the line chart to reveal the country name.
+- The colors of the regional and subregional nodes correspond to the condition of the majority of countries within that particular region or subregion given the selected criteria. 
+
+##### Game
+- ...
+
+##### Micronutrient Estimates
+- ...
+
+##### Money
+- Click play to activate the scatterplot animation (from 2000 to 2017).
+- Use the slider to update the scatterplot for a given year within the timeframe.
+- Hover over a bubble to reveal the country name and the country's GDP per Capita and Under 5 mortality rate.
+- ...
+
+##### Policy
+- Select a nutrient from the dropdown menu in the navigation bar at the top of the webpage.
+- Hover over each bar of the histogram to reveal the countries with similar consumption levels.
+- Brushing over the histogram will automatically update the pie chart for each policy.
 - ...
  
 ### Links
