@@ -26,7 +26,7 @@ Histogram.prototype.initVis = function(){
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
     // vis.height = $("#" + vis.parentElement).height() - vis.margin.top - vis.margin.bottom;
-        vis.height = 180 - vis.margin.top - vis.margin.bottom;
+        vis.height = 250 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -172,7 +172,7 @@ Histogram.prototype.updateVis = function(){
         .text("Number of Countries")
         .attr("transform", "rotate(270)")
         .attr("font-size", "10px")
-        .attr("x", -175)
+        .attr("x", -100)
         .attr("y", -30);
 
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html

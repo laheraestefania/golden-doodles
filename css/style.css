@@ -215,7 +215,16 @@ html {
     display: inline-block;
     position: relative;
     width: 100%;
-    padding-bottom: 200px;
+    padding-bottom: 250px;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.svg-container-line {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 500px;
     vertical-align: top;
     overflow: hidden;
 }
