@@ -1,11 +1,6 @@
-/* Scatterplot - Object constructor function
-* @param _parentElement 	-- the HTML element in which to draw the visualization
-* @param _data				-- the dataset
-* * @param _config		    -- variable from the dataset (e.g. 'food and vegetable availability') and title for each bar chart
 
+/* Scatterplot
 */
-
-
 Scatterplot = function(_parentElement, _data, _config){
     this.parentElement = _parentElement;
     this.data = _data;
@@ -13,13 +8,12 @@ Scatterplot = function(_parentElement, _data, _config){
     this.displayData = Object.values(_data);
 
     this.initVis();
-}
+};
 
 
 /*
  * Initialize visualization (static content; e.g. SVG area, axes)
  */
-
 Scatterplot.prototype.initVis = function(){
     var vis = this;
 
@@ -126,13 +120,12 @@ Scatterplot.prototype.initVis = function(){
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
-}
+};
 
 
 /*
  * Data wrangling
  */
-
 Scatterplot.prototype.wrangleData = function(){
     var vis = this;
 
@@ -192,7 +185,7 @@ Scatterplot.prototype.wrangleData = function(){
 
     // Update the visualization
     vis.updateVis();
-}
+};
 
 
 
@@ -224,7 +217,7 @@ Scatterplot.prototype.updateVis = function(){
         .attr("cy", function(d){ return vis.y(d[vis.y_param]); });
 
     temp.exit().remove();
-}
+};
 
 /*
  * function for determining upper limits of x and y axis

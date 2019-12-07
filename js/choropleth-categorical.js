@@ -1,9 +1,6 @@
 /*
- * Choropleth - Object constructor function
- * @param _parentElement 	-- the HTML element in which to draw the visualization
- * @param _data						-- the
+ * ChoroplethCategorical
  */
-
 ChoroplethCategorical = function(_parentElement, _data, topology, feature){
     this.parentElement = _parentElement;
     this.data = _data;
@@ -88,13 +85,6 @@ ChoroplethCategorical.prototype.initVis = function() {
         });
 
     vis.svg.call(vis.tool_tip);
-
-    // vis.parentElt.select(".choro-cat-svg").append("text")
-    //     .attr("class", "title-text")
-    //     .attr("transform", "translate(" + (vis.width / 3) + ", 15)")
-    //     .attr("fill", "#000000")
-    //     .attr("font-size", 20)
-    //     .text("An Overview of Malnutrition");
 
     vis.wrangleData();
 };

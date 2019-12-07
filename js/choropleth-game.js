@@ -1,9 +1,6 @@
 /*
- * ChoroplethGame - Object constructor function
- * @param _parentElement 	-- the HTML element in which to draw the visualization
- * @param _data						-- the
+ * ChoroplethGame
  */
-
 ChoroplethGame = function(_parentElement, _data, topology, feature){
     this.parentElement = _parentElement;
     this.data = _data;
@@ -28,7 +25,6 @@ ChoroplethGame = function(_parentElement, _data, topology, feature){
 /*
  * Initialize area chart with brushing component
  */
-
 ChoroplethGame.prototype.initVis = function() {
     var vis = this;
 
@@ -224,7 +220,5 @@ ChoroplethGame.prototype.showResults = function () {
         $(this).html(htmlText + "</ol></p>");
         $(this).fadeIn("slow");
     });
-
-
 
 };

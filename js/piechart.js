@@ -12,14 +12,8 @@ PieChart = function(_parentElement, _data, _eventHandler ){
 /*
  * Initialize visualization (static content, e.g. SVG area or axes)
  */
-
 PieChart.prototype.initVis = function(){
     var vis = this;
-
-    // vis.width = $("#" + vis.parentElement).width();
-    // vis.height = $("#" + vis.parentElement).height();
-    //
-    // vis.radius = Math.min(vis.width, vis.height) / 2.5;
 
     vis.margin = { top: 40, right: 20, bottom: 20, left: 20 };
 
@@ -30,8 +24,6 @@ PieChart.prototype.initVis = function(){
     vis.radius = d3.min([vis.height / 2, vis.width / 2]);
 
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
-        // .attr("width", vis.width)
-        // .attr("height", vis.height)
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", "0 0 " + (vis.width + vis.margin.left + vis.margin.right) + " "
             + (vis.height + vis.margin.top + vis.margin.bottom))
@@ -83,8 +75,6 @@ PieChart.prototype.wrangleData = function(){
 
     vis.displayData = organizedData;
 
-    // console.log(organizedData);
-
     // Update the visualization
     vis.updateVis();
 };
@@ -100,8 +90,6 @@ PieChart.prototype.updateVis = function(){
     vis.color = d3.scaleOrdinal()
         .domain(vis.displayData)
         .range([vis.noColor, vis.yesColor]);
-
-    // console.log(vis.color.domain())
 
     // Compute the position of each group on the pie:
     vis.pie = d3.pie()

@@ -1,22 +1,18 @@
 
 /*
- * CountVis - Object constructor function
- * @param _parentElement 	-- the HTML element in which to draw the visualization
- * @param _data						-- the actual data: perDayData
+ * Histogram
  */
-
 Histogram = function(_parentElement, _data, _eventHandler ){
     this.parentElement = _parentElement;
     this.data = _data;
     this.MyEventHandler = _eventHandler;
     this.initVis();
-}
+};
 
 
 /*
  * Initialize visualization (static content, e.g. SVG area or axes)
  */
-
 Histogram.prototype.initVis = function(){
     var vis = this;
 
@@ -82,7 +78,6 @@ Histogram.prototype.initVis = function(){
 
 
 /** Data wrangling */
-
 Histogram.prototype.wrangleData = function(){
     var vis = this;
 
@@ -222,12 +217,11 @@ Histogram.prototype.updateVis = function(){
 
     vis.bars.exit().remove();
 
-    // Call brush component here
+    // Call brush component
     vis.brushGroup.call(vis.brush, vis.currentBrushRegion);
 
 
     // Call axis functions with the new domain
     vis.svg.select(".x-axis").call(vis.xAxis.scale(vis.x));
     vis.svg.select(".y-axis").call(vis.yAxis);
-
 };

@@ -1,9 +1,6 @@
 /*
- * Choropleth Bubble hybrid
- * @param _parentElement 	-- the HTML element in which to draw the visualization
- * @param _data						-- the
+ * ChoroplethBubble hybrid visualization
  */
-
 function constructHtmlText(d) {
     let s = d["country"];
     s += "<br>Region: " + d["region"] + "<br>Subregion: " + d["subregion"];
@@ -26,7 +23,6 @@ ChoroplethBubble = function(_parentElement, _data, topology, feature){
     vis.mapMode = true;
     $('#map-radio-button').prop('checked', true);
     d3.selectAll(".bubble-legend-group").remove();
-    // $('#population-radio-button').attr('checked', '');
     vis.padding = 1.5; // separation between same-color circles
     vis.clusterPadding = 30; // separation between different-color circles
     vis.maxRadius = 40;

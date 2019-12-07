@@ -1,9 +1,6 @@
 /*
- * BarChart - Object constructor function
- * @param _parentElement 	-- the HTML element in which to draw the bar charts
- * @param _data						-- the dataset 'household characteristics'
+ * BarChart
  */
-
 BarChart = function(_parentElement, _data, _title, _key){
     var vis = this;
     vis.parentElement = _parentElement;
@@ -25,7 +22,6 @@ BarChart = function(_parentElement, _data, _title, _key){
 /*
  * Initialize visualization (static content; e.g. SVG area, axes)
  */
-
 BarChart.prototype.initVis = function(){
     var vis = this;
     vis.margin = { top: 50, right: 50, bottom: 50, left: 50 };
@@ -101,14 +97,6 @@ BarChart.prototype.initVis = function(){
         .attr("fill", "#000000")
         .text("Malnutrition Classification");
 
-    // Add title
-    // vis.svg.append("text")
-    //     .attr("class", "bar-title")
-    //     .attr("x", vis.width / 2 - 10)
-    //     .attr("text-anchor", "center")
-    //     .attr("y", - 30)
-    //     .text(vis.title);
-
     // (Filter, aggregate, modify data)
     vis.wrangleData();
 };
@@ -118,15 +106,8 @@ BarChart.prototype.initVis = function(){
 /*
  * Data wrangling
  */
-
 BarChart.prototype.wrangleData = function(){
     var vis = this;
-
-    // vis.displayData = vis.data.map(function (d) {
-    //     if (d[vis.key] === "") {
-    //         d
-    //     }
-    // });
 
     // Group data by 'country_class'
     vis.nestedData = d3.nest()
@@ -146,7 +127,6 @@ BarChart.prototype.wrangleData = function(){
 /*
  * The drawing function - should use the D3 update sequence (enter, update, exit)
  */
-
 BarChart.prototype.updateVis = function(){
     var vis = this;
 
@@ -182,10 +162,6 @@ BarChart.prototype.updateVis = function(){
         .on("mouseover", vis.tool_tip.show)
         .on("mouseout", vis.tool_tip.hide);
 
-
-    // ---- DRAW AXIS ----
-
-
     vis.xAxisGroup.call(vis.xAxis);
 
     vis.yAxisGroup.call(vis.yAxis);
@@ -201,8 +177,4 @@ BarChart.prototype.updateVis = function(){
         .style("text-anchor", "end")
         .text("Countries");
 
-    //
-    // // Update the y-axis, don't show the domain path
-    // vis.svg.select(".y-axis")
-    //     .call(vis.yAxis);
 };

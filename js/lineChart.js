@@ -1,10 +1,7 @@
 
 /*
- * LineChart - Object constructor function
- * @param _parentElement 	-- the HTML element in which to draw the area chart
- * @param _data						-- the dataset 'household characteristics'
+ * LineChart
  */
-
 LineChart = function(_parentElement, _data, _groupingData, gender="Female", condition="Obesity"){
     var vis = this;
 
@@ -28,7 +25,6 @@ LineChart = function(_parentElement, _data, _groupingData, gender="Female", cond
 /*
  * Initialize visualization (static content; e.g. SVG area, axes, brush component)
  */
-
 LineChart.prototype.initVis = function(){
     var vis = this;
     vis.margin = { top: 30, right: 10, bottom: 30, left: 30 };
@@ -68,11 +64,6 @@ LineChart.prototype.initVis = function(){
         .x(function(d) { return vis.x(vis.parseDate(d.key)); })
         .y(function(d) { return vis.y(d.value);});
 
-    // Create brush. -5 in order to force it above the top peak.
-    // vis.brush = d3.brushX()
-    //     .extent([[0, -5], [vis.width, vis.height]])
-    //     .on("brush", brushed);
-
     vis.svg.append("g")
         .attr("class", "y-axis axis")
         .call(vis.yAxis)
@@ -111,7 +102,6 @@ LineChart.prototype.initVis = function(){
 /*
  * Data wrangling
  */
-
 LineChart.prototype.wrangleData = function(){
     var vis = this;
 
@@ -203,7 +193,6 @@ LineChart.prototype.wrangleData = function(){
 /*
  * The drawing function
  */
-
 LineChart.prototype.updateVis = function(){
     var vis = this;
     vis.x.domain(d3.extent(vis.years));
@@ -234,5 +223,5 @@ LineChart.prototype.updateVis = function(){
             .attr("d", vis.linePath);
     })
 
-}
+};
 
