@@ -206,9 +206,10 @@ html {
     display: inline-block;
     position: relative;
     width: 100%;
-    padding-bottom: 181px;
+    padding-top: 181px;
     vertical-align: top;
-    overflow: hidden;
+    overflow: visible;
+    z-index: 1;
 }
 
 .svg-container-hist {
@@ -224,7 +225,15 @@ html {
     display: inline-block;
     position: relative;
     width: 100%;
-    padding-bottom: 500px;
+    padding-bottom: 100px;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-container-tree {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100px;
     vertical-align: top;
     overflow: hidden;
 }
