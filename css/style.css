@@ -94,7 +94,7 @@ div.tooltip {
     pointer-events: none;
 }
 
-#micronutrient-selection-button {
+#micronutrient-selection-button{
     margin: 20px;
 }
 
@@ -103,6 +103,40 @@ div.tooltip {
     margin-left: 40px;
 }
 
+#scatterplot-play-button{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+/*CSS code for Slider taken from https://www.w3schools.com/howto/howto_js_rangeslider.asp*/
+#slider {
+    -webkit-appearance: none;
+    width: 30%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+#slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #d79922;
+    cursor: pointer;
+}
+
+#slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #d79922;
+    cursor: pointer;
+}
 .avatar {
     vertical-align: middle;
     width: 100px;
@@ -199,6 +233,14 @@ html {
 @media (max-width: 960px) {
     #myNavBar li {
         font-size: 8px;
+    }
+
+    html {
+        font-size: 10px;
+    }
+
+    p {
+        font-size: 10px;
     }
 }
 
