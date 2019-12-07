@@ -62,4 +62,4 @@ here an overview of the main features in our website.
  
 ### Links
 - Our website can be found [here](https://laheraestefania.github.io/golden-doodles/).
-- Our video can be found [here](youtube.com).
+- Our video can be found [here](https://youtu.be/3iRLQF-L5kA).
