@@ -206,7 +206,7 @@
 			</div>
 		</div>
 	</div>
-	<div class = "section">
+	<div class = "section fp-auto-height-responsive">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">
@@ -232,7 +232,7 @@
 		</div>
 	</div>
 
-	<div class = "section">
+	<div class = "section fp-auto-height-responsive">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-3">
@@ -267,7 +267,7 @@
 	</div>
 
 	<!-- transition page -->
-	<div class = "section" style="background-image: url('img/WHO_photo.jpg'); opacity: 0.9;">
+	<div class = "section fp-auto-height-responsive" style="background-image: url('img/WHO_photo.jpg'); opacity: 0.9;">
 		<div class="container-fluid" style="height: 100%;">
 			<div class="row" style="height:100%;">
 				<div class="col-md-12" >
@@ -292,7 +292,7 @@
 	</div>
 
 <!--	Money -->
-	<div class = "section">
+	<div class = "section fp-auto-height-responsive">
 		<div class="container-fluid">
 			<div class = "row">
 				<div class = "col-md-12" id = "scatterplot">
@@ -320,7 +320,7 @@
 	</div>
 
 	<!-- policy -->
-	<div class = "section">
+	<div class = "section fp-auto-height-responsive">
 		<div class="container-fluid">
 			<!-- Heading -->
 			<div class = "row">
@@ -334,17 +334,10 @@
 			</div>
 			<div class="row">
 				<div class="col-12">
-					<p style="text-align: center">Many countries have policies in place to fight malnutrition. The pie charts below
-						show the percent of selected countries that have:</p>
-						<ol style="margin-left: 25%">
-							<li>a sugar sweetened beverage tax (Sugar Tax)</li>
-							<li>a sodium target included in national policies (Sodium Plan)</li>
-							<li>a child wasting target included in national policies (Wasting Plan)</li>
-							<li>a childhood overweight target included in national policies (Child Overweight plan)</li>
-
-						</ol>
-						<p style="text-align: center">Brush over the bar chart below to select
-							which countries to include in the pie charts. If no brushing is in effect, all are included.</p>
+						<p style="text-align: center">Another important determinant is government policy. Let's see if
+							there's any relationship between consumption level and policy. Brush over the histogram
+							below to select countries within a certain range of consumption.
+							If no brushing is in effect, all are included.</p>
 				</div>
 			</div>
 			<!-- Histogram -->
@@ -353,18 +346,25 @@
 					<div id="histogram"class="svg-container-hist"></div>
 				</div>
 			</div>
+			<!-- pie chart text -->
 			<div class="row">
-				<div class="col-1 offset-11">
-					<div class="justify-content-center">
-						<div class="align-self-center">
+				<div class="col-10">
+					<p style="text-align: center">The pie charts
+						show the percent of selected countries that have:</p>
+					<ol style="margin-left: 25%">
+						<li>a sugar sweetened beverage tax (Sugar Tax)</li>
+						<li>a sodium target included in national policies (Sodium Plan)</li>
+						<li>a child wasting target included in national policies (Wasting Plan)</li>
+						<li>a childhood overweight target included in national policies (Child Overweight plan)</li>
+					</ol>
+				</div>
+				<div class="col-2">
 					<div id="pie-legend"></div>
-						</div>
-					</div>
 				</div>
 			</div>
 
 			<!-- pies -->
-			<div class="row"style="height: 33%">
+			<div class="row">
 				<!-- pie one -->
 				<div class = "col-md-3">
 					<div class="svg-container" id = "pieChartSugarTax" ></div>
@@ -385,11 +385,12 @@
 					<div class="svg-container" id="pieChartChildOverweightPlan"></div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 
 	<!-- outreach section -->
-	<div class = "section" >
+	<div class = "section fp-auto-height-responsive" >
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">
@@ -457,7 +458,7 @@
 		</div>
 	</div>
 
-	<div class = "section" id="about">
+	<div class = "section fp-auto-height-responsive" id="about">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">
@@ -546,7 +547,7 @@
 <script>
 	new fullpage('#fullpage', {
 		//options here
-		scrollOverflow: true,
+		// scrollOverflow: true,
 		autoScrolling:true,
 		// original
 		// sectionsColor: ['#ffffff', '#f7f7f7', '#ececec', '#e9e9e9',
