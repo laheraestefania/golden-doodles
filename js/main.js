@@ -215,7 +215,7 @@ function addHistogramLegend () {
         .attr("height", 100)
         .append("g")
         .attr("class", "legendSequential")
-        .attr("transform", "translate(40, 40)");
+        .attr("transform", "translate(0, 40)");
 
     let legendSequential = d3.legendColor()
         .shapeWidth(15)

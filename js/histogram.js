@@ -26,7 +26,7 @@ Histogram.prototype.initVis = function(){
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
     // vis.height = $("#" + vis.parentElement).height() - vis.margin.top - vis.margin.bottom;
-        vis.height = 250 - vis.margin.top - vis.margin.bottom;
+        vis.height = 200 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
