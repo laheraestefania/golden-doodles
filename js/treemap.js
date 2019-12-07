@@ -151,9 +151,7 @@ for (let j = 0; j < nestdata.length; j++) {
     function update(source) {
         // Assigns the x and y position for the nodes
         var treeData = treemap(root);
-
-        // console.log(treeData);
-
+        
         // Compute the new tree layout.
         var nodes = treeData.descendants(),
             links = treeData.descendants().slice(1);

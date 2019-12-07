@@ -51,7 +51,6 @@ ChoroplethGame.prototype.initVis = function() {
     let centerLat = 40;
     let projectionScale = 80;
     if (vis.width > 700) {
-        console.log("bigger than 700");
         centerLong = 50;
         projectionScale = 110;
     } else if (vis.width > 600) {

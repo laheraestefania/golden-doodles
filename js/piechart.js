@@ -41,7 +41,6 @@ PieChart.prototype.initVis = function(){
 
     vis.title = getPieChartTitle(vis.parentElement);
 
-    // console.log(vis.title);
     let titleX = -35;
     if (vis.parentElement === "pieChartChildOverweightPlan") {
         titleX = -65;

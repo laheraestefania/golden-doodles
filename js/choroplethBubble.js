@@ -53,14 +53,12 @@ ChoroplethBubble = function(_parentElement, _data, topology, feature){
     $('input[type=radio][name=bubble-scope]').on('change', function() {
         switch ($(this).val()) {
             case 'region':
-                console.log("region");
                 vis.m = numRegions;
                 vis.clusters = new Array(vis.m);
                 vis.clusterCat = "region";
                 vis.wrangleData();
                 break;
             case 'subregion':
-                console.log("subregion");
                 vis.m = numSubRegions;
                 vis.clusters = new Array(vis.m);
                 vis.clusterCat = "subregion";
@@ -95,7 +93,6 @@ ChoroplethBubble.prototype.initVis = function() {
     let centerLat = 40;
     let projectionScale = 80;
     if (vis.width > 700) {
-        console.log("bigger than 700");
         centerLong = 50;
         projectionScale = 110;
     } else if (vis.width > 600) {
