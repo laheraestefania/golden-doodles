@@ -1,8 +1,8 @@
 var transitionDuration = 1000;
 var noDataColor = "#999999";
 
-var mostColor = "#28345d";
-var leastColor = "#ced4ea";
+var mostColor = "#35536b";
+var leastColor = "#e7f8fa";
 
 var categorical = new Set(["iso3", "country", "region", "subregion",
         "child_overweight_plan", "fbdg", "overweight_adults_adoles_plan", "sugar_tax",
@@ -19,11 +19,22 @@ var catColorDomain = {"country_class":[
 
 // main color scheme: https://visme.co/blog/website-color-schemes/
 var sequentialInterpolator = d3.interpolateRgb(leastColor, mostColor);
-var lightBlue = "#c5cbe3";
-var darkBlue = "#4056A1";
-var mainRed = "#f13c20";
-var backgroundColor = 'rgb(237,225,190)';
+var lightBlue = "#abd1e2";
+var medBlue = "#64a8c7";
+var darkBlue = "#35536b";
+var accent4 = "#f3cfd5";
+var backgroundColor = 'rgb(251,245,232)';
 var accentColor = "#d79922";
+var darkGreen = "#90893f";
+var accent2 = "#97677b";
+var accent3 = "#493e49";
+var mainRed = "#ab3c61";
+var darkestBlue = "#213342";
+var hoverColor = "#cd728e";
+var hoverColor = "#cd728e";
+
+alternateMedBlue = "#749fa8";
+alternateLightBlue = "#cfdbcc";
 
 const regionNumbers = {
         "Africa": 0,

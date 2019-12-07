@@ -21,17 +21,43 @@ PieChart.prototype.initVis = function(){
     //
     // vis.radius = Math.min(vis.width, vis.height) / 2.5;
 
-    // adjusting this so the pie charts are all the same size because right now they are all different
-    vis.width = $("#" + vis.parentElement).width();
-    vis.height = vis.width / 2;
+    vis.margin = { top: 40, right: 20, bottom: 20, left: 20 };
 
-    vis.radius = vis.height / 2;
+    // adjusting this so the pie charts are all the same size because right now they are all different
+    vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
+        vis.height = 200 - vis.margin.top - vis.margin.bottom;
+
+    vis.radius = d3.min([vis.height / 2, vis.width / 2]);
 
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
-        .attr("width", vis.width)
-        .attr("height", vis.height)
+        // .attr("width", vis.width)
+        // .attr("height", vis.height)
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 " + (vis.width + vis.margin.left + vis.margin.right) + " "
+            + (vis.height + vis.margin.top + vis.margin.bottom))
+        .classed("svg-content", true)
         .append("g")
-        .attr("transform", `translate(${vis.width / 2}, ${vis.height / 2})`);
+        .attr("transform", `translate(${vis.width / 2 + vis.margin.left}, ${vis.height / 2 + vis.margin.top})`);
+
+    vis.title = getPieChartTitle(vis.parentElement);
+
+    console.log(vis.title);
+    let titleX = -35;
+    if (vis.parentElement === "pieChartChildOverweightPlan") {
+        titleX = -65;
+    }
+
+    vis.svg.append("text")
+        .attr("class", "pie-title")
+        .attr("x", titleX)
+        .attr("text-anchor", "center")
+        .attr("y", -1 * vis.radius - 15)
+        .attr("font-size", 14)
+        .attr("opacity", 0.0)
+        .transition()
+        .duration(transitionDuration)
+        .attr("opacity", 1.0)
+        .text(vis.title);
 
     vis.filteredData = vis.data;
 
@@ -68,10 +94,15 @@ PieChart.prototype.wrangleData = function(){
 PieChart.prototype.updateVis = function(){
     var vis = this;
 
+    vis.yesColor = alternateLightBlue;
+    vis.noColor = alternateMedBlue;
+
     // set the color scale
     vis.color = d3.scaleOrdinal()
         .domain(vis.displayData)
-        .range(["#fee0d2", "#fc9272"]);
+        .range([vis.noColor, vis.yesColor]);
+
+    console.log(vis.color.domain())
 
     // Compute the position of each group on the pie:
     vis.pie = d3.pie()
@@ -118,7 +149,8 @@ PieChart.prototype.updateVis = function(){
     // set the color scale
     vis.colorLegend = d3.scaleOrdinal()
         .domain(["No","Yes"])
-        .range(["#fee0d2", "#fc9272"]);
+        // .range(["#fee0d2", "#fc9272"]);
+        .range([vis.noColor, vis.yesColor]);
 
     vis.svg.append("g")
         .attr("class", "legendOrdinal")
@@ -144,4 +176,18 @@ PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
     vis.wrangleData();
 };
 
+function getPieChartTitle(parentElement) {
+    switch (parentElement) {
+    case "pieChartSugarTax":
+        return "Sugar Taxes";
+    case "pieChartSodiumPlan":
+        return "Sodium Plan";
+    case "pieChartWastingPlan":
+        return "Wasting Plan";
+    case "pieChartChildOverweightPlan":
+         return "Child Overweight Plan";
+    default:
+         return "";
+    }
+}
 

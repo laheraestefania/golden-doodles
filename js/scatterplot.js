@@ -79,7 +79,7 @@ Scatterplot.prototype.initVis = function(){
         .attr('y', vis.height + vis.margin.bottom/1.5)
         .attr('text-anchor', 'middle')
         .attr("fill", "black")
-        .text('Gross Domestic Product');
+        .text('Per Capita Gross Domestic Product');
 
     // y-axis label
     vis.svg.append("text")
@@ -90,7 +90,7 @@ Scatterplot.prototype.initVis = function(){
         .attr("transform", "rotate(-90)");
 
     // Color Scheme and legend for regions of the world
-    vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
+    vis.colorPalette = d3.scaleOrdinal(d3.schemeTableau10);
     vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
 
     vis.legendGroup = vis.svg.append("g")
@@ -143,7 +143,7 @@ Scatterplot.prototype.wrangleData = function(){
     vis.y_param = "u5mr_" + vis.my_param;
 
     vis.svg.select('.title')
-        .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
+        .text("Under 5 Mortality Rate vs Per Capita GDP of Countries in " + vis.my_param);
 
     // sort by descending population so that all of the nodes show up and don't cover each other
     vis.displayData = vis.displayData.sort(function(a,b){

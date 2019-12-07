@@ -12,16 +12,6 @@ LineChart = function(_parentElement, _data, _groupingData, gender="Female", cond
     vis.parseDate = d3.timeParse("%Y");
     vis.parentElement = _parentElement;
     vis.alldata = _data;
-    // vis.data = {};
-    // _data.forEach(function (d) {
-    //     var countryName = d["country"];
-    //     delete d["country"];
-    //     let l = [];
-    //     Object.keys(d).forEach(function (key) {
-    //         l.push({"key": key, "value": d[key]})
-    //     });
-    //     vis.data[countryName] = l;
-    // });
 
     vis.groupingData = {};
     Object.keys(_groupingData).forEach(function (countryName) {
@@ -29,11 +19,6 @@ LineChart = function(_parentElement, _data, _groupingData, gender="Female", cond
         let subregion = _groupingData[countryName].subregion.replace(/ /g, "_");
         vis.groupingData[countryName] = {"region": region, "subregion": subregion}
     });
-
-    // vis.years = Object.keys(_data[0]).map(vis.parseDate);
-    //
-    // console.log(vis.years);
-    // console.log("years");
 
     vis.value = d3.select("#attribute").property("value");
 
@@ -53,11 +38,14 @@ LineChart.prototype.initVis = function(){
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
-        .attr("width", vis.width + vis.margin.left + vis.margin.right)
-        .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+        // .attr("width", vis.width + vis.margin.left + vis.margin.right)
+        // .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 " + (vis.width + vis.margin.left + vis.margin.right) + " "
+            + (vis.height + vis.margin.top + vis.margin.bottom))
+        .classed("svg-content", true)
         .append("g")
-        .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")")
-        .classed("svg-content", true);
+        .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
     // Scales and axes
     vis.x = d3.scaleTime()
@@ -239,7 +227,7 @@ LineChart.prototype.updateVis = function(){
             .attr("stroke", lightBlue)
             .attr("stroke-opacity", 0.3)
             .attr("stroke-width", 3)
-            .attr("fill", "rgba(255,255,255,0)")
+            .attr("fill", lightBlue)
             .attr("class", function (d) {
                 return key.replace(/ /g, "_") + " linepath";
             })

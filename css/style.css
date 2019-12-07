@@ -21,25 +21,38 @@ h3, h4, h5 {
     margin-top: 60px;
     margin-bottom: 10px;
     margin-left: 50px;
+    margin-right: 50px;
     font-family: 'Lato', sans-serif;
-    color: #4056A1;
+    color: #d79922;
+}
+
+h6 {
+    margin-left: 50px;
 }
 
 h1 {
     padding: 20px;
     font-family: 'Lato', sans-serif;
-    color: #4056A1;
+    /*color: #c02f62;*/
+    color: #0d1d33;
     text-align: center;
     font-size: 5vw;
     font-weight: bold;
+    /*text-shadow: 2px 2px 4px #64a8c7;*/
     /* Hack for the text shadow: https://wpshout.com/quick-guides/create-text-outline-css/*/
     /*text-shadow:*/
-    /*        -1px -1px 0 #000,*/
-    /*        1px -1px 0 #000,*/
-    /*        -1px 1px 0 #000,*/
+    /*        1px 1px 0 #000,*/
+    /*        1px 1px 0 #000,*/
+    /*        1px 1px 0 #000,*/
     /*        1px 1px 0 #000;*/
 }
 
+.h4-exception h4 {
+    margin-top: 0;
+    color: #0d1d33;
+    text-align: center;
+
+}
 /* Tree */
 
 .node circle {
@@ -85,7 +98,7 @@ div.tooltip {
     margin: 20px;
 }
 
-#references, #global-resources, #local-resources,
+#references, #global-resources, #local-resources, #learn-more,
 #scatterplot-slider, #bubble-radio-div, #bubble-map-radio, #first-avatar {
     margin-left: 40px;
 }
@@ -127,7 +140,9 @@ html {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #28345d;
+    /*background-color: #ab3c61;*/
+    /*background-color: #749fa8;*/
+    background-color: #0d1d33;
     position: fixed;
     top: 0;
     width: 100%;
@@ -149,7 +164,9 @@ html {
 
 /* Change the link color to #111 (black) on hover */
 #myNavBar li a:hover {
-    background-color: #191e37;
+    /*background-color: #cd728e;*/
+    /*background-color: #93b9bd;*/
+    background-color: #152f50;
     text-decoration: none;
     color: white;
 }
@@ -161,12 +178,15 @@ html {
     /*padding: 14px 16px;*/
     padding: 12px 12px;
     text-decoration: none;
-    background-color: #28345d;
+    /*background-color: #ab3c61;*/
+    /*background-color: #749fa8;*/
+    background-color: #0d1d33;
 }
 
 #myNavBar #selected-feature {
     margin-top: 10px;
     margin-bottom: 5px;
+    margin-left: 10px;
 }
 
 @media (max-width: 1100px) {
@@ -176,15 +196,66 @@ html {
 
 }
 
-@media (max-width: 950px) {
+@media (max-width: 960px) {
     #myNavBar li {
         font-size: 8px;
     }
 }
 
-@media (max-width: 830px) {
+@media (max-width: 840px) {
     #myNavBar #selected-feature {
-        margin-top: 2px;
+        /*margin-top: 2px;*/
         margin-bottom: 10px;
     }
+}
+
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-top: 181px;
+    vertical-align: top;
+    overflow: visible;
+    z-index: 1;
+}
+
+.svg-container-hist {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 250px;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.svg-container-line {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100px;
+    vertical-align: top;
+    overflow: visible;
+}
+.svg-container-tree {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100px;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+#resources a {
+    color: black;
+}
+
+#resources a:hover {
+    color: #35536b;
 }

@@ -80,7 +80,7 @@ ChoroplethBubble.prototype.initVis = function() {
     vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-        vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        vis.height = 550 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -90,11 +90,28 @@ ChoroplethBubble.prototype.initVis = function() {
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
+    // min of col-7 is 430 pixels
+    let centerLong = 200;
+    let centerLat = 40;
+    let projectionScale = 80;
+    if (vis.width > 700) {
+        console.log("bigger than 700");
+        centerLong = 50;
+        projectionScale = 110;
+    } else if (vis.width > 600) {
+        centerLong = 100;
+        projectionScale = 95;
+    } else if (vis.width > 500) {
+        centerLong = 150;
+        projectionScale = 85;
+    }
 
     // Projection-settings for mercator
     vis.projection = d3.geoMercator()
-        .center([180, 60])
-        .scale(Math.min(vis.width/ Math.PI / 2, vis.height/ Math.PI / 2) - 5)
+        // .center([180, 60])
+        .center([centerLong, centerLat])
+        // .scale(vis.width/ Math.PI / 2 - 5)
+        .scale(projectionScale)
         .rotate([0, 0]);
 
     // D3 geo path generator (maps geodata to SVG paths)
@@ -108,7 +125,7 @@ ChoroplethBubble.prototype.initVis = function() {
             vis.svg.attr('transform', d3.event.transform);
         });
 
-    vis.color = d3.scaleSequential(d3.interpolateBlues)
+    vis.color = d3.scaleSequential(sequentialInterpolator)
         .domain([
         0,
         d3.max(Object.values(vis.data), function (d) {return d[vis.feature]})
