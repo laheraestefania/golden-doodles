@@ -103,8 +103,8 @@ div.tooltip {
     margin-left: 40px;
 }
 
-#scatterplot-play-button{
-    margin-left: 20px;
+#scatterplot-play-button, #scatterplot-year{
+    margin-left: 10px;
     margin-right: 20px;
 }
 /*CSS code for Slider taken from https://www.w3schools.com/howto/howto_js_rangeslider.asp*/

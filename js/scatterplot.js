@@ -165,8 +165,9 @@ Scatterplot.prototype.wrangleData = function(){
         vis.x_param = "GDP_capita_PPP_" + vis.my_param;
         vis.y_param = "u5mr_" + vis.my_param;
         vis.svg.select('.title')
-            .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
+            .text("Under 5 Mortality Rate vs Per Capita GDP of Countries in " + vis.my_param);
 
+        document.getElementById('scatterplot-year').innerText = "Year: " + vis.my_param;
         vis.displayData.forEach(function(d){
 
             if (isNaN(d[vis.x_param])){
@@ -262,8 +263,8 @@ Scatterplot.prototype.animateScatterplot = function(my_index){
         vis.x_param = "GDP_capita_PPP_" + vis.my_param;
         vis.y_param = "u5mr_" + vis.my_param;
         vis.svg.select('.title')
-            .text("Under 5 Mortality Rate vs GDP of Countries in " + vis.my_param);
-
+            .text("Under 5 Mortality Rate vs Per Capita GDP of Countries in " + vis.my_param);
+        document.getElementById('scatterplot-year').innerText = "Year: " + vis.my_param;
         vis.displayData.forEach(function(d){
             if (isNaN(d[vis.x_param])){
                 d[vis.x_param] = 0;
@@ -278,7 +279,7 @@ Scatterplot.prototype.animateScatterplot = function(my_index){
         $('#slider').trigger('change');
 
         vis.updateVis();
-        
+
         if (my_index < vis.years.length - 1){
             vis.animateScatterplot(my_index + 1);
         }
