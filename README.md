@@ -9,11 +9,11 @@ All CSS files are in the css folder. The style.css file is written by us,
 and the remaining files are from libraries.
 #### Javascript files
 Javascript files are located in the js folder. Libraries are in the assets folder.
-All .js files in the js folder were written by us.
+All .js files in the js folder itself were written by us.
 #### Data
 Data was acquired from the Global Nutrition report 
 [website](https://globalnutritionreport.org/reports/global-nutrition-report-2018/dataset-and-metadata/)
-and cleaned. Various cross sections and derivatives of the data were saved in the data folder.
+and cleaned. Various cross sections and derivations of the data were saved in the data folder.
 #### Images
 All images are from Google Image search and the source websites are listed
  in the references section of the website.
@@ -32,14 +32,14 @@ We hope that all features are sufficiently clear, but just in case, we provide
 here an overview of the main features in our website.
 
 ##### Tracking Progress
-- Click on the nodes of the tree to expand view into regional, subregional, and country levels.
-- Select a track from the dropdown menu, which updates the tree and the accompanying line or bar chart.
+- Click on the nodes of the tree to expand and view regional, subregional, and country nodes. Regional and subregional nodes are colored according the classification of the majority of their constituent countries.
+- Select a track from the dropdown menu, which updates the tree and the accompanying line or bar chart to show progress or the distribution of that condition.
 - With a diabetes or obesity track selected, hovering over the country nodes of the tree will highlight the respective country's trend line in the line chart.
 - Hover over a trend line within the line chart to reveal the country name.
 - The colors of the regional and subregional nodes correspond to the condition of the majority of countries within that particular region or subregion given the selected criteria. 
 
 ##### Game
-- Select a food or micronutrient from the dropdown menu in the navigation bar at the top of the webpage.
+- Anytime, you can select a food or micronutrient from the dropdown menu in the navigation bar at the top of the webpage.
 - First choose the countries that consume the most of the selected micronutrient.
 - Next select the countries that consume the least of the selected micornutrient.
 - Finally you will see which countries you answered correctly and an answer key.
