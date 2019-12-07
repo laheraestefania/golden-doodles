@@ -103,6 +103,11 @@ div.tooltip {
     margin-left: 40px;
 }
 
+#first-avatar {
+    align-content: center;
+    align-self: center;
+}
+
 #scatterplot-play-button, #scatterplot-year{
     margin-left: 10px;
     margin-right: 20px;
@@ -142,10 +147,17 @@ div.tooltip {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .avatar-text{
     vertical-align: middle;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+
 }
 
 p {
