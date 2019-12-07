@@ -12,7 +12,7 @@ Javascript files are located in the js folder. Libraries are in the assets folde
 All .js files in the js folder were written by us.
 #### Data
 Data was acquired from the Global Nutrition report 
-[website](https://globalnutritionreport.org/reports/global-nutrition-report-2018/dataset-and-metadata/).
+[website](https://globalnutritionreport.org/reports/global-nutrition-report-2018/dataset-and-metadata/)
 and cleaned. Various cross sections and derivatives of the data were saved in the data folder.
 #### Images
 All images are from Google Image search and the source websites are listed
@@ -20,7 +20,7 @@ All images are from Google Image search and the source websites are listed
  #### node\_modules
 External libraries that require multiple files are in the node\_modules folder.
 #### HTML
-We wrote index.html.
+We wrote index.html, which is our main dashboard.
 #### Other
 We include the following standard files for Github repositories:
  - .gitignore: an automated file for git version control.
@@ -51,9 +51,9 @@ here an overview of the main features in our website.
 - The country bubbles can be clustered by region or by subregion. 
 
 ##### Money
-- Click play to activate the scatterplot animation (from 2000 to 2017).
-- Use the slider to update the scatterplot for a given year within the timeframe.
-- Hover over a bubble to reveal the country name and the country's GDP per Capita and Under 5 mortality rate.
+- Click play to activate the scatterplot animation (from 2000 to 2017), and the user can click "Replay" once the animation finishes to reanimate the image.
+- Use the slider to update the scatterplot for a given year within the timeframe and investigate data for individual years.
+- Hover over a bubble to reveal the country name and the country's GDP per Capita and Under 5 Mortality Rate for the particular year.
 
 ##### Policy
 - Select a nutrient from the dropdown menu in the navigation bar at the top of the webpage.
