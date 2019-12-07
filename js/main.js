@@ -58,8 +58,6 @@ function loadData() {
 
             allData = nutritionData;
 
-            // console.log(allData);
-
             sugarTaxData = allData.map(function(d) {
                 return {plan: d.sugar_tax,
                     Sugar_sweetened_beverages_2016: d.Sugar_sweetened_beverages_2016,
@@ -136,7 +134,8 @@ function createVis() {
     var game = new ChoroplethGame("map-game", dataByCountry, topology, feature);
     addMapGameLegend();
     var scatterplot = new Scatterplot("scatterplot", dataByCountry);
-    vis.histogram = new Histogram("histogram", allData, MyEventHandler); addHistogramLegend();
+    vis.histogram = new Histogram("histogram", allData, MyEventHandler);
+    addHistogramLegend();
     var malOverview = new ChoroplethCategorical("malnutrition-overview-map", dataByCountry, topology, "country_class")
 
     //Pie charts

@@ -9,8 +9,6 @@ Histogram = function(_parentElement, _data, _eventHandler ){
     this.parentElement = _parentElement;
     this.data = _data;
     this.MyEventHandler = _eventHandler;
-    // console.log("hist data");
-    // console.log(this.data);
     this.initVis();
 }
 
@@ -39,6 +37,44 @@ Histogram.prototype.initVis = function(){
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
+    vis.x = d3.scaleLinear()
+        .range([0, vis.width]);
+
+    vis.y = d3.scaleLinear()
+        .range([vis.height, 0])
+        .domain([0, 45]);
+
+    vis.xAxis = d3.axisBottom()
+        .scale(vis.x);
+
+    vis.svg.append("g")
+        .attr("class", "x-axis axis")
+        .attr("transform", "translate(0," + vis.height + ")");
+
+    vis.yAxis = d3.axisLeft()
+        .scale(vis.y);
+
+    vis.svg.append("g")
+        .attr("class", "y-axis axis");
+
+    /// Code from the example given in the instructions: http://bl.ocks.org/davegotz/bd54b56723c154d25eedde6504d30ad7
+    vis.tool_tip = d3.tip()
+        .attr("class", "d3-tip-histogram")
+        .offset([-8,0])
+        .html(function(d) {
+            return "Countries: " +
+                d.map(function(d) {
+                    return " " + d.country + " ";
+                });
+        });
+    vis.svg.call(vis.tool_tip);
+
+    vis.svg.append("text")
+        .text("Number of Countries")
+        .attr("transform", "rotate(270)")
+        .attr("font-size", "10px")
+        .attr("x", -100)
+        .attr("y", -30);
 
     // (Filter, aggregate, modify data)
     vis.wrangleData();
@@ -67,7 +103,6 @@ Histogram.prototype.updateVis = function(){
         .extent([[0,0],[vis.width, vis.height]])
         .on("brush", function(){
             // User just selected a specific region
-            console.log("brushing");
             vis.currentBrushRegion = d3.event.selection;
             vis.currentBrushRegion = vis.currentBrushRegion.map(vis.x.invert);
 
@@ -81,29 +116,11 @@ Histogram.prototype.updateVis = function(){
         // .call(vis.brush);
 
     // Scales and axes
-    vis.x = d3.scaleLinear()
-        .range([0, vis.width])
+
         // .domain([0, 350]);
-        .domain([0, d3.max(vis.data, function(d) {
+    vis.x.domain([0, d3.max(vis.data, function(d) {
             return d[vis.selectedValue];
         })]);
-
-    vis.y = d3.scaleLinear()
-        .range([vis.height, 0])
-        .domain([0, 45]);
-
-    vis.xAxis = d3.axisBottom()
-        .scale(vis.x);
-
-    vis.svg.append("g")
-        .attr("class", "x-axis axis")
-        .attr("transform", "translate(0," + vis.height + ")");
-
-    vis.yAxis = d3.axisLeft()
-        .scale(vis.y);
-
-    vis.svg.append("g")
-        .attr("class", "y-axis axis");
 
     // Axis title
     vis.title = vis.svg.selectAll(".histogram-title")
@@ -168,27 +185,7 @@ Histogram.prototype.updateVis = function(){
 
     vis.xTitle.exit().remove();
 
-    vis.svg.append("text")
-        .text("Number of Countries")
-        .attr("transform", "rotate(270)")
-        .attr("font-size", "10px")
-        .attr("x", -100)
-        .attr("y", -30);
-
     //Code from: https://www.d3-graph-gallery.com/graph/pie_basic.html
-
-    /// Code from the example given in the instructions: http://bl.ocks.org/davegotz/bd54b56723c154d25eedde6504d30ad7
-    var tool_tip = d3.tip()
-        .attr("class", "d3-tip-histogram")
-        .offset([-8,0])
-        .html(function(d) {
-            return "Countries: " +
-            d.map(function(d) {
-                return " " + d.country + " ";
-            });
-        });
-    vis.svg.call(tool_tip);
-
     //I got help with d3.histogram on this website :  https://www.d3-graph-gallery.com/graph/histogram_basic.html
 
     // set the parameters for the histogram
@@ -215,7 +212,8 @@ Histogram.prototype.updateVis = function(){
         .transition()
         .duration(1000)
         .attr("transform", function(d) { return "translate(" + vis.x(d.x0) + "," + vis.y(d.length) + ")"; })
-        .attr("width", function(d) { return vis.x(d.x1) - vis.x(d.x0) -1 ; })
+        .attr("width", function(d) { return vis.x(d.x1) - vis.x(d.x0); })
+            // .attr("width", 10)
         .attr("height", function(d) {
             return vis.height - vis.y(d.length);
         })
@@ -229,7 +227,7 @@ Histogram.prototype.updateVis = function(){
 
 
     // Call axis functions with the new domain
-    vis.svg.select(".x-axis").call(vis.xAxis);
+    vis.svg.select(".x-axis").call(vis.xAxis.scale(vis.x));
     vis.svg.select(".y-axis").call(vis.yAxis);
 
 };
