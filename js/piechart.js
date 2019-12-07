@@ -41,7 +41,7 @@ PieChart.prototype.initVis = function(){
 
     vis.title = getPieChartTitle(vis.parentElement);
 
-    console.log(vis.title);
+    // console.log(vis.title);
     let titleX = -35;
     if (vis.parentElement === "pieChartChildOverweightPlan") {
         titleX = -65;
@@ -102,7 +102,7 @@ PieChart.prototype.updateVis = function(){
         .domain(vis.displayData)
         .range([vis.noColor, vis.yesColor]);
 
-    console.log(vis.color.domain())
+    // console.log(vis.color.domain())
 
     // Compute the position of each group on the pie:
     vis.pie = d3.pie()
@@ -147,20 +147,45 @@ PieChart.prototype.updateVis = function(){
     //I got help with implementing the legend with https://d3-legend.susielu.com/#color-ordinal
 
     // set the color scale
-    vis.colorLegend = d3.scaleOrdinal()
-        .domain(["No","Yes"])
-        // .range(["#fee0d2", "#fc9272"]);
-        .range([vis.noColor, vis.yesColor]);
+    // vis.color = d3.scaleOrdinal()
+    //     .domain(vis.displayData)
+    //     .range([vis.noColor, vis.yesColor]);
+    //
+    // let legendGroupPie = d3.select("#pie-legend").append("svg")
+    //     .attr("class", "pie-svg-legend")
+    //     .attr("width", d3.max([$("#map-game-legend").width(), 100]))
+    //     .attr("height", 200)
+    //     .append("g")
+    //     .attr("class", "legendSequential")
+    //     .attr("transform", "translate(0, 100)");
+    //
+    // let legendSequential = d3.legendColor()
+    //     .shapeWidth(15)
+    //     .shapeHeight(15)
+    //     .cells(2)
+    //     .ascending(true)
+    //     .orient("vertical")
+    //     .scale(d3.scaleOrdinal()
+    //         .domain(["No","Yes"])
+    //         .range([vis.noColor, vis.yesColor]));
+    //
+    // legendGroupPie.call(legendSequential);
 
-    vis.svg.append("g")
-        .attr("class", "legendOrdinal")
-        .attr("transform", "translate(90,-100)");
-
-    var legendOrdinal = d3.legendColor()
-        .scale(vis.colorLegend);
-
-    vis.svg.select(".legendOrdinal")
-        .call(legendOrdinal);
+    // // set the color scale
+    // vis.colorLegend = d3.scaleOrdinal()
+    //     .domain(["No","Yes"])
+    //     // .range(["#fee0d2", "#fc9272"]);
+    //     .range([vis.noColor, vis.yesColor]);
+    //
+    // vis.svg.append("g")
+    //     .attr("class", "legendOrdinal")
+    //     .attr("transform", "translate(90,-100)");
+    //
+    // var legendOrdinal = d3.legendColor()
+    //     .scale(vis.colorLegend);
+    //
+    // vis.svg.select(".legendOrdinal")
+    //     .call(legendOrdinal);
 };
 
 PieChart.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
