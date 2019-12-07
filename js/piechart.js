@@ -94,10 +94,15 @@ PieChart.prototype.wrangleData = function(){
 PieChart.prototype.updateVis = function(){
     var vis = this;
 
+    vis.yesColor = alternateLightBlue;
+    vis.noColor = alternateMedBlue;
+
     // set the color scale
     vis.color = d3.scaleOrdinal()
         .domain(vis.displayData)
-        .range(["#fee0d2", "#fc9272"]);
+        .range([vis.noColor, vis.yesColor]);
+
+    console.log(vis.color.domain())
 
     // Compute the position of each group on the pie:
     vis.pie = d3.pie()
@@ -144,7 +149,8 @@ PieChart.prototype.updateVis = function(){
     // set the color scale
     vis.colorLegend = d3.scaleOrdinal()
         .domain(["No","Yes"])
-        .range(["#fee0d2", "#fc9272"]);
+        // .range(["#fee0d2", "#fc9272"]);
+        .range([vis.noColor, vis.yesColor]);
 
     vis.svg.append("g")
         .attr("class", "legendOrdinal")

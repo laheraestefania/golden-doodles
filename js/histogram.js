@@ -223,7 +223,7 @@ Histogram.prototype.updateVis = function(){
             return vis.height - vis.y(d.length);
         })
         // .style("fill", "#de2d26")
-        .style("fill", mainRed);
+        .style("fill", accentColor);
 
     vis.bars.exit().remove();
 

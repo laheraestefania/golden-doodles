@@ -90,7 +90,7 @@ Scatterplot.prototype.initVis = function(){
         .attr("transform", "rotate(-90)");
 
     // Color Scheme and legend for regions of the world
-    vis.colorPalette = d3.scaleOrdinal(d3.schemeCategory10);
+    vis.colorPalette = d3.scaleOrdinal(d3.schemeTableau10);
     vis.colorPalette.domain(["Europe", "Asia", "Latin America and the Caribbean","N. America", "Africa", "Oceania" ]);
 
     vis.legendGroup = vis.svg.append("g")

@@ -31,7 +31,7 @@
 		<li><a href="#section9">Policy</a></li>
 		<li><a href="#section10">Resources</a></li>
 		<li><a href="#section11">Team</a></li>
-		<li><select id="selected-feature" onchange="updateHistogram()">
+		<li><select id="selected-feature" class="select-picker" onchange="updateHistogram()">
 			<option value="Sugar_sweetened_beverages_2016">Sugar-sweetened Beverage</option>
 			<option value="Red_meat_2016">Red Meat</option>
 			<option value="Salt_2016">Salt</option>
@@ -209,9 +209,13 @@
 	<div class = "section">
 		<div class="container-fluid">
 			<div class="row">
+				<div class="col-12">
+					<div id="map-game-title"><h3>Can you guess which countries consume the most and least of your
+						chosen food or nutrient?</h3></div>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-md-3">
-					<div id="map-game-title"><h4>Can you guess which countries consume the most and least of your
-						chosen food or nutrient?</h4></div>
 					<br>
 					<div id="map-game-feature">
 					</div>
@@ -232,7 +236,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-3">
-					<a id="per-country"><h4 id="choro-bubble-title"></h4></a>
+					<a id="per-country"><h3 id="choro-bubble-title"></h3></a>
 					<p> We just saw the countries that consume the most and least, but
 					what about everything in between? </p>
 					<br>
@@ -271,13 +275,13 @@
 						<div class="col">
 							<div class="row justify-content-center" style="height: 50%">
 								<div class="align-self-center">
-									<h1>Possible Determinants</h1>
+									<h1>Possible Underlying Determinants</h1>
 								</div>
 							</div>
 							<div class="row justify-content-center">
-								<div class="align-self-center">
-									<h4 style="margin-top: 0;">Now that we've seen a couple trends in obesity and micronutrient consumption,
-										let's explore possible causes of these phenomena.</h4>
+								<div class="align-self-center h4-exception">
+									<h4>Now that we've seen a couple trends in obesity and micronutrient consumption,
+										let's explore possible underlying determinants of these phenomena.</h4>
 								</div>
 							</div>
 						</div>
@@ -371,7 +375,7 @@
 	</div>
 
 	<!-- outreach section -->
-	<div class = "section">
+	<div class = "section" >
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">
@@ -382,7 +386,7 @@
 
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" id="resources">
 				<div class="col-9">
 					<div class="container-fluid">
 						<div class="row">

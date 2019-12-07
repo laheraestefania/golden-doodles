@@ -227,7 +227,7 @@ LineChart.prototype.updateVis = function(){
             .attr("stroke", lightBlue)
             .attr("stroke-opacity", 0.3)
             .attr("stroke-width", 3)
-            .attr("fill", "rgba(255,255,255,0)")
+            .attr("fill", lightBlue)
             .attr("class", function (d) {
                 return key.replace(/ /g, "_") + " linepath";
             })

@@ -80,7 +80,7 @@ ChoroplethBubble.prototype.initVis = function() {
     vis.margin = {top: 0, right: 0, bottom: 0, left: 0};
 
     vis.width = $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right,
-        vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        vis.height = 550 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -125,7 +125,7 @@ ChoroplethBubble.prototype.initVis = function() {
             vis.svg.attr('transform', d3.event.transform);
         });
 
-    vis.color = d3.scaleSequential(d3.interpolateBlues)
+    vis.color = d3.scaleSequential(sequentialInterpolator)
         .domain([
         0,
         d3.max(Object.values(vis.data), function (d) {return d[vis.feature]})
