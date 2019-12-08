@@ -32,11 +32,10 @@ We hope that all features are sufficiently clear, but just in case, we provide
 here an overview of the main features in our website.
 
 ##### Tracking Progress
-- Click on the nodes of the tree to expand and view regional, subregional, and country nodes. Regional and subregional nodes are colored according the classification of the majority of their constituent countries.
+- Click on the nodes of the tree to expand and view regional, subregional, and country nodes. Regional and subregional nodes are colored according to the classification of the majority of their constituent countries.
 - Select a track from the dropdown menu, which updates the tree and the accompanying line or bar chart to show progress or the distribution of that condition.
 - With a diabetes or obesity track selected, hovering over the country nodes of the tree will highlight the respective country's trend line in the line chart.
 - Hover over a trend line within the line chart to reveal the country name.
-- The colors of the regional and subregional nodes correspond to the condition of the majority of countries within that particular region or subregion given the selected criteria. 
 
 ##### Game
 - Anytime, you can select a food or micronutrient from the dropdown menu in the navigation bar at the top of the webpage.
